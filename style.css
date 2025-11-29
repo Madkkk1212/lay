@@ -1,0 +1,511 @@
+        /* Reset dan variabel CSS */
+        :root {
+            --gold: #D4AF37;
+            --dark-gold: #B8860B;
+            --pink: #FF69B4;
+            --dark-pink: #DB7093;
+            --light-pink: #FFB6C1;
+            --cream: #FFF8E7;
+            --text-color: #333;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, var(--cream) 0%, #f9f3e9 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Halaman Utama dengan Tombol */
+        .main-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--pink) 0%, var(--dark-pink) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-page::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="%23ffffff" fill-opacity="0.1" d="M0,0 L100,0 L100,100 L0,100 Z M50,50 C60,40 70,30 80,20 C90,10 100,0 100,0 L100,100 L0,100 L0,0 C10,10 20,20 30,30 C40,40 50,50 50,50 Z"></path></svg>');
+            background-size: cover;
+        }
+
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 20px;
+            animation: float-heart 8s linear infinite;
+        }
+
+        .main-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .crown-icon {
+            font-size: 4rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .main-title {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-family: 'Times New Roman', serif;
+        }
+
+        .main-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 50px;
+            color: black;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .main-btn {
+            background: linear-gradient(45deg, var(--gold), var(--dark-gold));
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.2rem;
+            min-width: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .main-btn:hover::before {
+            left: 100%;
+        }
+
+        .main-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-icon {
+            font-size: 2.5rem;
+        }
+
+        /* Halaman Ucapan */
+        .ucapan-page {
+            display: none;
+            min-height: 100vh;
+            padding: 40px;
+            background: linear-gradient(135deg, var(--pink) 0%, var(--dark-pink) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ucapan-page::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="%23ffffff" fill-opacity="0.1" d="M0,0 L100,0 L100,100 L0,100 Z M50,50 C60,40 70,30 80,20 C90,10 100,0 100,0 L100,100 L0,100 L0,0 C10,10 20,20 30,30 C40,40 50,50 50,50 Z"></path></svg>');
+            background-size: cover;
+        }
+
+        .ucapan-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(5px);
+            z-index: 10;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .ucapan-text {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: var(--shadow);
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ucapan-text::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        .ucapan-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        .signature {
+            text-align: right;
+            font-style: italic;
+            margin-top: 30px;
+            font-size: 1.2rem;
+            color: black;
+            position: relative;
+            z-index: 1;
+        }
+
+        .heart-pulse {
+            color: #ff6b6b;
+            animation: pulse 1.5s infinite;
+            display: inline-block;
+        }
+
+        /* Halaman Galeri */
+        .galeri-page {
+            display: none;
+            min-height: 100vh;
+            padding: 40px;
+            background: linear-gradient(135deg, var(--light-pink) 0%, var(--pink) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .galeri-page::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="%23ffffff" fill-opacity="0.1" d="M0,0 L100,0 L100,100 L0,100 Z M50,50 C60,40 70,30 80,20 C90,10 100,0 100,0 L100,100 L0,100 L0,0 C10,10 20,20 30,30 C40,40 50,50 50,50 Z"></path></svg>');
+            background-size: cover;
+        }
+
+        .galeri-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            color: var(--text-color);
+        }
+
+        .galeri-title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: 'Times New Roman', serif;
+            color: var(--dark-pink);
+        }
+
+        .galeri-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .galeri-item {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            aspect-ratio: 3/4;
+            border: 3px solid var(--gold);
+            background: white;
+        }
+
+        .galeri-item:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .galeri-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .galeri-item:hover .galeri-img {
+            transform: scale(1.1);
+        }
+
+        .galeri-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 15px;
+            font-size: 1rem;
+            transform: translateY(100%);
+            transition: var(--transition);
+        }
+
+        .galeri-item:hover .galeri-caption {
+            transform: translateY(0);
+        }
+
+        .royal-frame {
+            position: relative;
+            padding: 10px;
+            background: linear-gradient(45deg, var(--gold), var(--dark-gold));
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .royal-frame:hover {
+            transform: rotate(2deg);
+        }
+
+        .royal-frame::before {
+            content: "";
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, var(--pink), var(--dark-pink));
+            border-radius: 25px;
+            z-index: -1;
+        }
+
+        /* Modal untuk gambar galeri */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            border: 5px solid var(--gold);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+            animation: zoomIn 0.3s ease;
+        }
+
+        .modal-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            background: rgba(0, 0, 0, 0.7);
+            transform: scale(1.1);
+        }
+
+        /* Animasi */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes float-heart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Responsif */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.2rem;
+            }
+            
+            .main-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .main-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .ucapan-page, .galeri-page {
+                padding: 20px;
+            }
+            
+            .ucapan-text {
+                padding: 20px;
+            }
+            
+            .galeri-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 1.8rem;
+            }
+            
+            .main-subtitle {
+                font-size: 1rem;
+            }
+            
+            .crown-icon {
+                font-size: 3rem;
+            }
+            
+            .galeri-title {
+                font-size: 2rem;
+            }
+        }
+    
