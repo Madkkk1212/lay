@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎪 Photobooth Sang Ratu - Semprotulation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="photobox.css">
+    <link rel="icon" type="image/png" href="galeri/logo.png">
+    <style>
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b6b, #d62976, #9c27b0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            color: white;
+            animation: gradientShift 3s infinite alternate;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .loading-logo {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-20px);
+            }
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: white;
+            animation: loadProgress 2s ease-in-out forwards;
+        }
+
+        @keyframes loadProgress {
+            to {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">
+            <i class="fas fa-camera-retro"></i>
+        </div>
+        <h2>🎪 Photobooth Sang Ratu</h2>
+        <p>Memuat pengalaman fotografi terbaik...</p>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="photobooth-container">
+        <!-- Header -->
+        <header class="photobooth-header">
+            <div class="header-content">
+                <a href="index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Kembali</span>
+                </a>
+                <div class="header-title">
+                    <h1><i class="fas fa-crown"></i> Photobooth Sang Ratu</h1>
+                    <p>Foto otomatis dengan timer • Pilih jumlah foto • Tambah stiker lucu • Bingkai eksklusif</p>
+                </div>
+                <div class="header-stats">
+                    <div class="stat">
+                        <i class="fas fa-clock"></i>
+                        <span id="sessionTimer">00:00</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-camera"></i>
+                        <span id="photosTaken">0</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="photobooth-main">
+            <div class="photobooth-layout">
+                <!-- Left Panel - Camera & Controls -->
+                <section class="camera-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-video"></i> Area Pemotretan</h2>
+                        <div class="camera-status">
+                            <span class="status-dot"></span>
+                            <span id="cameraStatus">Kamera Siap</span>
+                        </div>
+                    </div>
+
+                    <!-- Camera Preview with Frame -->
+                    <div class="camera-frame-container">
+                        <div class="camera-overlay-frame" id="cameraOverlayFrame">
+                            <!-- Frame overlay akan muncul di sini -->
+                        </div>
+                        <div class="camera-preview-container">
+                            <video id="cameraStream" class="camera-preview" autoplay playsinline></video>
+                            <div class="camera-placeholder" id="cameraPlaceholder">
+                                <div class="placeholder-content">
+                                    <i class="fas fa-camera"></i>
+                                    <h3>🎪 Photobooth Siap!</h3>
+                                    <p>Klik "HIDUPKAN KAMERA" untuk memulai sesi fotomu</p>
+                                </div>
+                            </div>
+
+                            <!-- Timer Display -->
+                            <div class="timer-display" id="timerDisplay">
+                                <div class="timer-circle">
+                                    <div class="timer-text" id="timerText">3</div>
+                                    <div class="timer-progress"></div>
+                                </div>
+                                <div class="timer-message">Siap... Senyum!</div>
+                            </div>
+
+                            <!-- Countdown Overlay -->
+                            <div class="countdown-overlay" id="countdownOverlay">
+                                <div class="countdown-number" id="countdownNumber">3</div>
+                                <div class="countdown-text">Foto dalam</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Camera Controls -->
+                    <div class="camera-controls">
+                        <button id="toggleCameraBtn" class="control-btn primary-btn">
+                            <i class="fas fa-power-off"></i>
+                            <span>HIDUPKAN KAMERA</span>
+                        </button>
+
+                        <button id="startSessionBtn" class="control-btn success-btn" disabled>
+                            <i class="fas fa-play-circle"></i>
+                            <span>MULAI SESI FOTO</span>
+                        </button>
+
+                        <div class="camera-settings">
+                            <button id="flipCameraBtn" class="setting-btn" title="Ganti Kamera">
+                                <i class="fas fa-sync-alt"></i>
+                                <span class="tooltip">Ganti Kamera</span>
+                            </button>
+
+                            <button id="toggleMirrorBtn" class="setting-btn active" title="Toggle Mirror">
+                                <i class="fas fa-expand-alt"></i>
+                                <span class="tooltip">Mirror: Auto</span>
+                            </button>
+
+                            <button id="flashBtn" class="setting-btn" title="Flash">
+                                <i class="fas fa-bolt"></i>
+                                <span class="tooltip">Flash</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Photo Session Settings -->
+                    <div class="session-settings">
+                        <h3><i class="fas fa-sliders-h"></i> Pengaturan Sesi Foto</h3>
+
+                        <!-- Photo Count Selector -->
+                        <div class="setting-group">
+                            <label><i class="fas fa-layer-group"></i> Jumlah Foto:</label>
+                            <div class="photo-count-selector">
+                                <button class="count-option active" data-count="1"
+                                    onclick="selectPhotoCount(1)">1</button>
+                                <button class="count-option" data-count="2" onclick="selectPhotoCount(2)">2</button>
+                                <button class="count-option" data-count="4" onclick="selectPhotoCount(4)">4</button>
+                                <button class="count-option" data-count="6" onclick="selectPhotoCount(6)">6</button>
+                                <button class="count-option" data-count="8" onclick="selectPhotoCount(8)">8</button>
+                                <button class="count-option" data-count="12" onclick="selectPhotoCount(12)">12</button>
+                                <button class="count-option" data-count="16" onclick="selectPhotoCount(16)">16</button>
+                            </div>
+                        </div>
+
+                        <!-- Timer Settings -->
+                        <div class="setting-group">
+                            <label><i class="fas fa-clock"></i> Timer (detik):</label>
+                            <div class="timer-slider-container">
+                                <input type="range" id="timerSlider" min="1" max="10" value="3" class="timer-slider">
+                                <div class="timer-value">
+                                    <span id="timerValue">3</span> detik
+                                </div>
+                            </div>
+                            <div class="timer-presets">
+                                <button class="timer-preset active" data-time="3" onclick="setTimer(3)">3s</button>
+                                <button class="timer-preset" data-time="5" onclick="setTimer(5)">5s</button>
+                                <button class="timer-preset" data-time="7" onclick="setTimer(7)">7s</button>
+                                <button class="timer-preset" data-time="10" onclick="setTimer(10)">10s</button>
+                            </div>
+                        </div>
+
+                        <!-- Grid Layout -->
+                        <div class="setting-group">
+                            <label><i class="fas fa-th"></i> Layout Grid:</label>
+                            <div class="grid-layout-selector">
+                                <button class="layout-option active" data-layout="single"
+                                    onclick="selectLayout('single')">
+                                    <i class="fas fa-square"></i>
+                                    <span>Single</span>
+                                </button>
+                                <button class="layout-option" data-layout="2x2" onclick="selectLayout('2x2')">
+                                    <i class="fas fa-th-large"></i>
+                                    <span>2x2</span>
+                                </button>
+                                <button class="layout-option" data-layout="3x3" onclick="selectLayout('3x3')">
+                                    <i class="fas fa-border-all"></i>
+                                    <span>3x3</span>
+                                </button>
+                                <button class="layout-option" data-layout="4x4" onclick="selectLayout('4x4')">
+                                    <i class="fas fa-grip"></i>
+                                    <span>4x4</span>
+                                </button>
+                                <button class="layout-option" data-layout="collage" onclick="selectLayout('collage')">
+                                    <i class="fas fa-puzzle-piece"></i>
+                                    <span>Collage</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Middle Panel - Results & Editing -->
+                <section class="results-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-edit"></i> Editor Foto</h2>
+                        <div class="edit-controls">
+                            <button id="resetEditBtn" class="edit-btn" disabled>
+                                <i class="fas fa-undo"></i> Reset
+                            </button>
+                            <button id="autoEnhanceBtn" class="edit-btn">
+                                <i class="fas fa-magic"></i> Auto Enhance
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Photo Results Grid -->
+                    <div class="results-container">
+                        <div class="results-header">
+                            <h3><i class="fas fa-images"></i> Hasil Foto Sesi Ini</h3>
+                            <div class="results-info">
+                                <span id="currentPhotoCount">0 foto</span>
+                                <span class="divider">•</span>
+                                <span id="selectedLayout">Single</span>
+                            </div>
+                        </div>
+
+                        <!-- Photos Grid -->
+                        <div class="photos-grid" id="photosGrid">
+                            <div class="empty-results">
+                                <i class="fas fa-camera-retro"></i>
+                                <h4>Belum ada foto</h4>
+                                <p>Mulai sesi foto untuk melihat hasil di sini</p>
+                            </div>
+                        </div>
+
+                        <!-- Selected Photo Editor -->
+                        <div class="photo-editor" id="photoEditor">
+                            <div class="editor-header">
+                                <h4><i class="fas fa-sliders-h"></i> Edit Foto Terpilih</h4>
+                                <button class="close-editor" onclick="closeEditor()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="editor-content">
+                                <div class="selected-photo-preview" id="selectedPhotoPreview">
+                                    <img id="editingPhoto" src="" alt="Photo being edited">
+                                </div>
+
+                                <!-- Stickers Section -->
+                                <div class="stickers-section">
+                                    <h5><i class="fas fa-sticky-note"></i> Stiker Lucu</h5>
+                                    <div class="stickers-container">
+                                        <div class="sticker-category">
+                                            <h6><i class="fas fa-heart"></i> Love & Hearts</h6>
+                                            <div class="sticker-list">
+                                                <div class="sticker" data-sticker="❤️" onclick="addSticker('❤️')">❤️
+                                                </div>
+                                                <div class="sticker" data-sticker="💖" onclick="addSticker('💖')">💖
+                                                </div>
+                                                <div class="sticker" data-sticker="💕" onclick="addSticker('💕')">💕
+                                                </div>
+                                                <div class="sticker" data-sticker="😍" onclick="addSticker('😍')">😍
+                                                </div>
+                                                <div class="sticker" data-sticker="🥰" onclick="addSticker('🥰')">🥰
+                                                </div>
+                                                <div class="sticker" data-sticker="💘" onclick="addSticker('💘')">💘
+                                                </div>
+                                                <div class="sticker" data-sticker="💝" onclick="addSticker('💝')">💝
+                                                </div>
+                                                <div class="sticker" data-sticker="💓" onclick="addSticker('💓')">💓
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="sticker-category">
+                                            <h6><i class="fas fa-laugh"></i> Emoji Lucu</h6>
+                                            <div class="sticker-list">
+                                                <div class="sticker" data-sticker="😊" onclick="addSticker('😊')">😊
+                                                </div>
+                                                <div class="sticker" data-sticker="😘" onclick="addSticker('😘')">😘
+                                                </div>
+                                                <div class="sticker" data-sticker="🤩" onclick="addSticker('🤩')">🤩
+                                                </div>
+                                                <div class="sticker" data-sticker="😎" onclick="addSticker('😎')">😎
+                                                </div>
+                                                <div class="sticker" data-sticker="🤗" onclick="addSticker('🤗')">🤗
+                                                </div>
+                                                <div class="sticker" data-sticker="😇" onclick="addSticker('😇')">😇
+                                                </div>
+                                                <div class="sticker" data-sticker="🤭" onclick="addSticker('🤭')">🤭
+                                                </div>
+                                                <div class="sticker" data-sticker="🥳" onclick="addSticker('🥳')">🥳
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="sticker-category">
+                                            <h6><i class="fas fa-crown"></i> Royal & Elegant</h6>
+                                            <div class="sticker-list">
+                                                <div class="sticker" data-sticker="👑" onclick="addSticker('👑')">👑
+                                                </div>
+                                                <div class="sticker" data-sticker="✨" onclick="addSticker('✨')">✨</div>
+                                                <div class="sticker" data-sticker="🌟" onclick="addSticker('🌟')">🌟
+                                                </div>
+                                                <div class="sticker" data-sticker="💎" onclick="addSticker('💎')">💎
+                                                </div>
+                                                <div class="sticker" data-sticker="🥇" onclick="addSticker('🥇')">🥇
+                                                </div>
+                                                <div class="sticker" data-sticker="🎖️" onclick="addSticker('🎖️')">🎖️
+                                                </div>
+                                                <div class="sticker" data-sticker="🏆" onclick="addSticker('🏆')">🏆
+                                                </div>
+                                                <div class="sticker" data-sticker="🎗️" onclick="addSticker('🎗️')">🎗️
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="sticker-category">
+                                            <h6><i class="fas fa-grin-stars"></i> Sparkle & Fun</h6>
+                                            <div class="sticker-list">
+                                                <div class="sticker" data-sticker="🎉" onclick="addSticker('🎉')">🎉
+                                                </div>
+                                                <div class="sticker" data-sticker="🎊" onclick="addSticker('🎊')">🎊
+                                                </div>
+                                                <div class="sticker" data-sticker="🦄" onclick="addSticker('🦄')">🦄
+                                                </div>
+                                                <div class="sticker" data-sticker="🌈" onclick="addSticker('🌈')">🌈
+                                                </div>
+                                                <div class="sticker" data-sticker="🎀" onclick="addSticker('🎀')">🎀
+                                                </div>
+                                                <div class="sticker" data-sticker="🎁" onclick="addSticker('🎁')">🎁
+                                                </div>
+                                                <div class="sticker" data-sticker="💐" onclick="addSticker('💐')">💐
+                                                </div>
+                                                <div class="sticker" data-sticker="🌸" onclick="addSticker('🌸')">🌸
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Frame Color Picker -->
+                                <div class="frame-color-picker">
+                                    <h5><i class="fas fa-palette"></i> Warna Bingkai</h5>
+                                    <div class="color-grid">
+                                        <div class="color-option gold active" data-color="#FFD700"
+                                            onclick="selectFrameColor('#FFD700')">
+                                            <div class="color-sample" style="background: #FFD700;"></div>
+                                            <span>Gold</span>
+                                        </div>
+                                        <div class="color-option" data-color="#FF6B9D"
+                                            onclick="selectFrameColor('#FF6B9D')">
+                                            <div class="color-sample" style="background: #FF6B9D;"></div>
+                                            <span>Pink</span>
+                                        </div>
+                                        <div class="color-option" data-color="#9C27B0"
+                                            onclick="selectFrameColor('#9C27B0')">
+                                            <div class="color-sample" style="background: #9C27B0;"></div>
+                                            <span>Purple</span>
+                                        </div>
+                                        <div class="color-option" data-color="#2196F3"
+                                            onclick="selectFrameColor('#2196F3')">
+                                            <div class="color-sample" style="background: #2196F3;"></div>
+                                            <span>Blue</span>
+                                        </div>
+                                        <div class="color-option" data-color="#4CAF50"
+                                            onclick="selectFrameColor('#4CAF50')">
+                                            <div class="color-sample" style="background: #4CAF50;"></div>
+                                            <span>Green</span>
+                                        </div>
+                                        <div class="color-option" data-color="#FF9800"
+                                            onclick="selectFrameColor('#FF9800')">
+                                            <div class="color-sample" style="background: #FF9800;"></div>
+                                            <span>Orange</span>
+                                        </div>
+                                        <div class="color-option" data-color="#F44336"
+                                            onclick="selectFrameColor('#F44336')">
+                                            <div class="color-sample" style="background: #F44336;"></div>
+                                            <span>Red</span>
+                                        </div>
+                                        <div class="color-option" data-color="#795548"
+                                            onclick="selectFrameColor('#795548')">
+                                            <div class="color-sample" style="background: #795548;"></div>
+                                            <span>Brown</span>
+                                        </div>
+                                        <div class="color-option" data-color="#607D8B"
+                                            onclick="selectFrameColor('#607D8B')">
+                                            <div class="color-sample" style="background: #607D8B;"></div>
+                                            <span>Gray</span>
+                                        </div>
+                                        <div class="color-option" data-color="#000000"
+                                            onclick="selectFrameColor('#000000')">
+                                            <div class="color-sample" style="background: #000000;"></div>
+                                            <span>Black</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Editor Actions -->
+                                <div class="editor-actions">
+                                    <button class="editor-btn save-edit-btn" onclick="saveEditedPhoto()">
+                                        <i class="fas fa-save"></i> Simpan Edit
+                                    </button>
+                                    <button class="editor-btn apply-all-btn" onclick="applyToAllPhotos()">
+                                        <i class="fas fa-clone"></i> Terapkan ke Semua
+                                    </button>
+                                    <button class="editor-btn download-btn" onclick="downloadEditedPhoto()">
+                                        <i class="fas fa-download"></i> Unduh Foto Ini
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Right Panel - Frames & Output -->
+                <section class="frames-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-border-style"></i> Bingkai & Output</h2>
+                        <div class="output-controls">
+                            <button id="saveAllBtn" class="output-btn" disabled>
+                                <i class="fas fa-save"></i> Simpan Semua
+                            </button>
+                            <button id="downloadAllBtn" class="output-btn" disabled>
+                                <i class="fas fa-download"></i> Unduh Semua
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Frame Selection -->
+                    <div class="frame-selection">
+                        <h3><i class="fas fa-palette"></i> Pilih Bingkai</h3>
+                        <div class="frames-grid">
+                            <div class="frame-option active" data-frame="classic" onclick="selectFrame('classic')">
+                                <div class="frame-preview classic-frame">
+                                    <div class="frame-icon">🎨</div>
+                                </div>
+                                <div class="frame-info">
+                                    <h4>Classic</h4>
+                                    <p>Bingkai klasik elegan</p>
+                                </div>
+                            </div>
+
+                            <div class="frame-option" data-frame="royal" onclick="selectFrame('royal')">
+                                <div class="frame-preview royal-frame">
+                                    <div class="frame-icon">👑</div>
+                                </div>
+                                <div class="frame-info">
+                                    <h4>Royal Gold</h4>
+                                    <p>Emas kerajaan mewah</p>
+                                </div>
+                            </div>
+
+                            <div class="frame-option" data-frame="heart" onclick="selectFrame('heart')">
+                                <div class="frame-preview heart-frame">
+                                    <div class="frame-icon">❤️</div>
+                                </div>
+                                <div class="frame-info">
+                                    <h4>Heart Frame</h4>
+                                    <p>Bingkai hati romantis</p>
+                                </div>
+                            </div>
+
+                            <div class="frame-option" data-frame="floral" onclick="selectFrame('floral')">
+                                <div class="frame-preview floral-frame">
+                                    <div class="frame-icon">🌹</div>
+                                </div>
+                                <div class="frame-info">
+                                    <h4>Floral</h4>
+                                    <p>Bingkai bunga mekar</p>
+                                </div>
+                            </div>
+
+                            <div class="frame-option" data-frame="diamond" onclick="selectFrame('diamond')">
+                                <div class="frame-preview diamond-frame">
+                                    <div class="frame-icon">💎</div>
+                                </div>
+                                <div class="frame-info">
+                                    <h4>Diamond</h4>
+                                    <p>Bingkai berlian berkilau</p>
+                                </div>
+                            </div>
+
+                            <div class="frame-option" data-frame="vintage" onclick="selectFrame('vintage')">
+                                <div class="frame-preview vintage-frame">
+                                    <div class="frame-icon">📜</div>
+                                </div>
+                                <div class="frame-info">
+                                    <h4>Vintage</h4>
+                                    <p>Bingkai vintage klasik</p>
+                                </div>
+                            </div>
+
+                            <div class="frame-option" data-frame="modern" onclick="selectFrame('modern')">
+                                <div class="frame-preview modern-frame">
+                                    <div class="frame-icon">⬜</div>
+                                </div>
+                                <div class="frame-info">
+                                    <h4>Modern</h4>
+                                    <p>Bingkai modern minimalis</p>
+                                </div>
+                            </div>
+
+                            <div class="frame-option" data-frame="sparkle" onclick="selectFrame('sparkle')">
+                                <div class="frame-preview sparkle-frame">
+                                    <div class="frame-icon">✨</div>
+                                </div>
+                                <div class="frame-info">
+                                    <h4>Sparkle</h4>
+                                    <p>Bingkai berkilau ajaib</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Frame Style Settings -->
+                        <div class="frame-style-settings">
+                            <h4><i class="fas fa-sliders-h"></i> Pengaturan Bingkai</h4>
+                            <div class="style-controls">
+                                <div class="style-control">
+                                    <label>Ketebalan:</label>
+                                    <input type="range" id="frameThickness" min="5" max="30" value="15">
+                                    <span id="thicknessValue">15px</span>
+                                </div>
+                                <div class="style-control">
+                                    <label>Opacity:</label>
+                                    <input type="range" id="frameOpacity" min="30" max="100" value="100">
+                                    <span id="opacityValue">100%</span>
+                                </div>
+                                <div class="style-control">
+                                    <label>Style:</label>
+                                    <select id="frameStyle">
+                                        <option value="solid">Solid</option>
+                                        <option value="dashed">Dashed</option>
+                                        <option value="dotted">Dotted</option>
+                                        <option value="double">Double</option>
+                                        <option value="groove">Groove</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="apply-frame-btn" onclick="applyFrameToAll()">
+                                <i class="fas fa-check"></i> Terapkan ke Semua Foto
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mirror Settings -->
+                    <div class="mirror-settings">
+                        <h3><i class="fas fa-expand-alt"></i> Pengaturan Mirror</h3>
+                        <div class="mirror-options">
+                            <label class="mirror-option active">
+                                <input type="radio" name="mirrorMode" value="auto" checked>
+                                <span class="option-label">
+                                    <i class="fas fa-camera"></i>
+                                    <div>
+                                        <strong>Auto</strong>
+                                        <small>Depan: Mirror, Belakang: Normal</small>
+                                    </div>
+                                </span>
+                            </label>
+
+                            <label class="mirror-option">
+                                <input type="radio" name="mirrorMode" value="mirror">
+                                <span class="option-label">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    <div>
+                                        <strong>Selalu Mirror</strong>
+                                        <small>Mirror untuk semua kamera</small>
+                                    </div>
+                                </span>
+                            </label>
+
+                            <label class="mirror-option">
+                                <input type="radio" name="mirrorMode" value="no-mirror">
+                                <span class="option-label">
+                                    <i class="fas fa-ban"></i>
+                                    <div>
+                                        <strong>No Mirror</strong>
+                                        <small>Tidak ada mirror effect</small>
+                                    </div>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Final Output Preview -->
+                    <div class="output-preview">
+                        <h3><i class="fas fa-image"></i> Preview Hasil Akhir</h3>
+                        <div class="preview-container" id="finalPreview">
+                            <div class="empty-preview">
+                                <i class="fas fa-images"></i>
+                                <p>Preview akan muncul di sini</p>
+                            </div>
+                        </div>
+                        <div class="output-actions">
+                            <button class="output-action-btn primary" onclick="createFinalCollage()" disabled
+                                id="createCollageBtn">
+                                <i class="fas fa-layer-group"></i> Buat Collage
+                            </button>
+                            <button class="output-action-btn success" onclick="downloadAllPhotos()" disabled
+                                id="downloadAllBtn">
+                                <i class="fas fa-file-archive"></i> Unduh ZIP
+                            </button>
+                            <button class="output-action-btn" onclick="sharePhotos()">
+                                <i class="fas fa-share-alt"></i> Bagikan
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Session Progress Bar -->
+        <div class="session-progress" id="sessionProgress">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <div class="progress-info">
+                <span id="progressText">Sesi belum dimulai</span>
+                <span id="progressCount">0/0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Session Complete Modal -->
+    <div class="modal" id="sessionCompleteModal">
+        <div class="modal-content session-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-party-horn"></i> Sesi Foto Selesai!</h2>
+                <button class="close-modal" onclick="closeSessionModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="session-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-camera"></i>
+                        <div class="stat-content">
+                            <h3 id="totalPhotosTaken">0</h3>
+                            <p>Foto Diambil</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-clock"></i>
+                        <div class="stat-content">
+                            <h3 id="sessionDuration">0s</h3>
+                            <p>Durasi Sesi</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-star"></i>
+                        <div class="stat-content">
+                            <h3 id="photoQuality">Excellent</h3>
+                            <p>Kualitas</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="session-message">
+                    <p>🎉 Selamat! Sesi fotomu telah selesai. Sekarang kamu bisa:</p>
+                    <ul>
+                        <li>✅ Tambahkan stiker lucu ke fotomu</li>
+                        <li>🎨 Pilih warna bingkai favorit</li>
+                        <li>💾 Simpan atau unduh hasilnya</li>
+                        <li>📱 Bagikan dengan teman-teman</li>
+                    </ul>
+                </div>
+                <div class="session-actions">
+                    <button class="session-action-btn primary" onclick="startEditingSession()">
+                        <i class="fas fa-edit"></i> Mulai Edit Foto
+                    </button>
+                    <button class="session-action-btn" onclick="startNewSession()">
+                        <i class="fas fa-redo"></i> Sesi Baru
+                    </button>
+                    <button class="session-action-btn" onclick="closeSessionModal()">
+                        <i class="fas fa-check"></i> Lanjutkan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <!-- JavaScript -->
+    <script src="photobox.js"></script>
+    <script>
+        // Hide loading screen
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                const loadingScreen = document.getElementById('loadingScreen');
+                loadingScreen.style.opacity = '0';
+                loadingScreen.style.transition = 'opacity 0.5s ease';
+
+                setTimeout(function () {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+    </script>
+</body>
+
+</html>

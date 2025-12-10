@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Semprotulation - Untuk Sang Ratu Hatiku</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="/galeri/logo.png">
-
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
+    <!-- Musik latar -->
+    <audio id="bgm" autoplay loop style="display:none;">
+        <source src="123456.mp3" type="audio/mpeg">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+
+    <!-- Paksa audio play setelah klik pertama -->
+    <script>
+        document.addEventListener("click", function () {
+            const audio = document.getElementById("bgm");
+            if (audio) audio.play().catch(() => { });
+        }, { once: true });
+    </script>
+
     <!-- Halaman Utama -->
     <section class="main-page fade-in" id="mainPage">
         <div class="floating-hearts" id="floatingHearts"></div>
@@ -19,13 +35,13 @@
             </div>
             <h1 class="main-title">Semprotulation</h1>
             <p class="main-subtitle">Untuk Sang Ratu Hatiku</p>
-            
+
             <div class="button-container">
                 <button class="main-btn" onclick="showUcapan()">
                     <i class="fas fa-heart btn-icon"></i>
                     <span>Baca Ucapan</span>
                 </button>
-                
+
                 <button class="main-btn" onclick="showGaleri()">
                     <i class="fas fa-images btn-icon"></i>
                     <span>Lihat Galeri</span>
@@ -33,140 +49,131 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Halaman Ucapan -->
-    <section class="ucapan-page" id="ucapanPage">
+    <section class="ucapan-page" id="ucapanPage" style="display:none;">
         <button class="back-btn" onclick="showMain()">
             <i class="fas fa-arrow-left"></i> Kembali
         </button>
-        
+
         <div class="ucapan-content">
             <div class="crown-icon">
                 <i class="fas fa-crown"></i>
             </div>
             <h1 class="main-title">Untuk <span>Ratu</span> Hatiku</h1>
-            
+
             <div class="ucapan-text">
                 <p>Sayangku yang cantik,</p>
-                
+
                 <p>SELAMAT SEMPRO! 🎉</p>
-                
-               
-                <p class="signature">Dengan cinta yang tak terhingga,<br>Pangeranmu <span class="heart-pulse">❤️</span></p>
+
+                <p class="signature">Dengan cinta yang tak terhingga,<br>Pangeranmu <span class="heart-pulse">❤️</span>
+                </p>
             </div>
         </div>
     </section>
-    
+
     <!-- Halaman Galeri -->
-    <section class="galeri-page" id="galeriPage">
+    <section class="galeri-page" id="galeriPage" style="display:none;">
         <button class="back-btn" onclick="showMain()">
             <i class="fas fa-arrow-left"></i> Kembali
         </button>
-        
+
         <div class="galeri-content">
             <h2 class="galeri-title">Galeri Sang Ratu</h2>
-            
+
             <div class="galeri-container">
-                <!-- Item Galeri 1 -->
                 <div class="royal-frame">
                     <div class="galeri-item">
-                        <img src="galeri/1.jpg" alt="Momen Spesial 1" class="galeri-img" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
+                        <img src="galeri/1.jpg" class="galeri-img" alt="Momen Spesial 1"
+                            onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80'">
                         <div class="galeri-caption">bunga</div>
                     </div>
                 </div>
-                
-                <!-- Item Galeri 2 -->
+
                 <div class="royal-frame">
                     <div class="galeri-item">
-                        <img src="galeri/2.jpg" alt="Momen Spesial 2" class="galeri-img" onerror="this.src='https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
+                        <img src="galeri/2.jpg" class="galeri-img" alt="Momen Spesial 2"
+                            onerror="this.src='https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=500&q=80'">
                         <div class="galeri-caption">rame</div>
                     </div>
                 </div>
-                
-                <!-- Item Galeri 3 -->
+
                 <div class="royal-frame">
                     <div class="galeri-item">
-                        <img src="galeri/3.jpg" alt="Momen Spesial 3" class="galeri-img" onerror="this.src='https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
+                        <img src="galeri/3.jpg" class="galeri-img" alt="Momen Spesial 3"
+                            onerror="this.src='https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=80'">
                         <div class="galeri-caption">Senyuman yang Menawan</div>
                     </div>
                 </div>
-                
-                <!-- Item Galeri 4 -->
+
                 <div class="royal-frame">
                     <div class="galeri-item">
-                        <img src="galeri/4.jpg" alt="Momen Spesial 4" class="galeri-img" onerror="this.src='https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
+                        <img src="galeri/4.jpg" class="galeri-img" alt="Momen Spesial 4"
+                            onerror="this.src='https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=500&q=80'">
                         <div class="galeri-caption">Ucapan Cakep</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- Modal untuk gambar galeri -->
-    <div class="modal" id="imageModal">
+
+    <!-- Modal -->
+    <div class="modal" id="imageModal" style="display:none;">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            <img src="" alt="" class="modal-img">
+            <img src="" class="modal-img" alt="">
         </div>
     </div>
 
+    <!-- SCRIPT -->
     <script>
-        // Fungsi navigasi antar halaman
         function showMain() {
             document.getElementById('mainPage').style.display = 'flex';
             document.getElementById('ucapanPage').style.display = 'none';
             document.getElementById('galeriPage').style.display = 'none';
         }
-        
+
         function showUcapan() {
             document.getElementById('mainPage').style.display = 'none';
             document.getElementById('ucapanPage').style.display = 'block';
             document.getElementById('galeriPage').style.display = 'none';
         }
-        
+
         function showGaleri() {
             document.getElementById('mainPage').style.display = 'none';
             document.getElementById('ucapanPage').style.display = 'none';
             document.getElementById('galeriPage').style.display = 'block';
-            
-            // Inisialisasi event listener untuk galeri setelah ditampilkan
             initGaleri();
         }
-        
-        // Modal untuk gambar galeri
+
         function initGaleri() {
             const modal = document.getElementById('imageModal');
             const modalImg = document.querySelector('.modal-img');
-            const galeriItems = document.querySelectorAll('.galeri-item');
-            
-            galeriItems.forEach(item => {
-                const img = item.querySelector('.galeri-img');
-                img.addEventListener('click', () => {
+            const items = document.querySelectorAll('.galeri-item img');
+
+            items.forEach(img => {
+                img.onclick = () => {
                     modal.style.display = 'flex';
                     modalImg.src = img.src;
-                    modalImg.alt = img.alt;
-                });
+                };
             });
         }
-        
+
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
         }
-        
-        // Tutup modal saat klik di luar gambar
-        window.addEventListener('click', (e) => {
+
+        window.addEventListener('click', e => {
             const modal = document.getElementById('imageModal');
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
+            if (e.target === modal) modal.style.display = 'none';
         });
-        
-        // Membuat hati yang mengambang
+
         function createHearts() {
             const container = document.getElementById('floatingHearts');
-            const heartCount = 15;
-            
-            for (let i = 0; i < heartCount; i++) {
+            const total = 15;
+
+            for (let i = 0; i < total; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'heart';
                 heart.innerHTML = '❤';
@@ -176,12 +183,13 @@
                 container.appendChild(heart);
             }
         }
-        
-        // Inisialisasi saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', function() {
+
+        document.addEventListener('DOMContentLoaded', function () {
             showMain();
             createHearts();
         });
     </script>
+
 </body>
+
 </html>
