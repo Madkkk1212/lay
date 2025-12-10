@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Semprotulation - Untuk Sang Ratu Hatiku</title>
+    <title>Laysa</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/png" href="/galeri/logo.png">
     <link rel="stylesheet" href="style.css">
@@ -33,8 +33,9 @@
             <div class="crown-icon">
                 <i class="fas fa-crown"></i>
             </div>
-            <h1 class="main-title">Semprotulation</h1>
-            <p class="main-subtitle">Untuk Sang Ratu Hatiku</p>
+            <h1 class="main-title">laysa zuyyina putri pradana</h1>
+            <p class="main-subtitle">Hadiah kecil untukmu</p>
+            
 
             <div class="button-container">
                 <button class="main-btn" onclick="showUcapan()">
@@ -44,7 +45,11 @@
 
                 <button class="main-btn" onclick="showGaleri()">
                     <i class="fas fa-images btn-icon"></i>
-                    <span>Lihat Galeri</span>
+                    <span>Memory</span>
+                </button>
+                <button class="main-btn" onclick="Permainan()">
+                    <i class="fas fa-gamepad btn-icon"></i>
+                    <span>Mini Games</span>
                 </button>
             </div>
         </div>
@@ -64,12 +69,22 @@
 
             <div class="ucapan-text">
                 <p>Sayangku yang cantik,</p>
-
-                <p>SELAMAT SEMPRO! 🎉</p>
-
-                <p class="signature">Dengan cinta yang tak terhingga,<br>Pangeranmu <span class="heart-pulse">❤️</span>
+            
+                <p>
+                    Terima kasih sudah tetap berusaha dan berjalan sejauh ini.
+                    Kamu orang yang kuat dan aku menghargai setiap langkahmu.
+                    Semoga apa yang kamu kerjakan ke depan bisa lancar dan membawa kebaikan.
+                </p>
+            
+                <p class="signature">
+                    madk <span class="heart-pulse">❤️</span>
+                </p>
+            
+                <p style="font-size: 12px; opacity: 0.6; margin-top: -10px;">
+                    *maaf jika tidak suka*
                 </p>
             </div>
+
         </div>
     </section>
 
@@ -118,6 +133,87 @@
         </div>
     </section>
 
+    <!-- Halaman Permainan -->
+    <section class="game-page" id="gamePage" style="display:none;">
+        <button class="back-btn" onclick="showMain()">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </button>
+
+        <div class="game-content">
+            <div class="crown-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h1 class="main-title">Mini Games</h1>
+            <p class="game-subtitle">Tebak Gambar untuk Melihat Hadiahmu!</p>
+
+            <div class="game-container">
+                <div class="game-info">
+                    <div class="score-board">
+                        <div class="score-item">
+                            <i class="fas fa-star"></i>
+                            <span>Level: <span id="level">1</span>/3</span>
+                        </div>
+                        <div class="score-item">
+                            <i class="fas fa-heart"></i>
+                            <span>Nyawa: <span id="lives">3</span></span>
+                        </div>
+                        <div class="score-item">
+                            <i class="fas fa-trophy"></i>
+                            <span>Skor: <span id="score">0</span></span>
+                        </div>
+                    </div>
+
+                    <div class="game-instruction">
+                        <p><i class="fas fa-lightbulb"></i> <strong>Petunjuk:</strong> Tebak gambar yang sesuai dengan
+                            petunjuk di bawah!</p>
+                        <div class="hint-box" id="hintText">Memuat petunjuk...</div>
+                    </div>
+
+                    <div class="game-grid" id="gameGrid">
+                        <!-- Gambar akan dimuat di sini secara dinamis -->
+                    </div>
+
+                    <div class="game-message" id="gameMessage">
+                        <p>Pilih satu gambar yang menurutmu benar!</p>
+                    </div>
+
+                    <button class="next-btn" id="nextBtn" onclick="nextLevel()" style="display:none;">
+                        <i class="fas fa-arrow-right"></i> Level Berikutnya
+                    </button>
+
+                    <button class="restart-btn" id="restartBtn" onclick="restartGame()" style="display:none;">
+                        <i class="fas fa-redo"></i> Main Lagi
+                    </button>
+                </div>
+
+                <div class="result-container" id="resultContainer" style="display:none;">
+                    <div class="result-content">
+                        <div class="crown-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h2 class="result-title">Selamat! 🎉</h2>
+                        <p class="result-text">Kamu berhasil menyelesaikan semua level!</p>
+                        <p class="result-subtext">Ini hadiah spesial untukmu:</p>
+
+                        <div class="special-gift">
+                            <div class="gift-frame">
+                                <img src="galeri/1.jpg" class="gift-img" alt="Hadiah Spesial"
+                                    onerror="this.src='https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=500&q=80'">
+                                <div class="gift-caption">Untuk Ratu Tercantik ❤️</div>
+                            </div>
+                        </div>
+
+                        <p class="final-message">Terima kasih telah bermain! Semoga suka dengan hadiah kecil ini.</p>
+
+                        <button class="back-btn" onclick="showMain()">
+                            <i class="fas fa-home"></i> Kembali ke Menu Utama
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Modal -->
     <div class="modal" id="imageModal" style="display:none;">
         <div class="modal-content">
@@ -128,16 +224,65 @@
 
     <!-- SCRIPT -->
     <script>
+        // Game Data - Setiap level memiliki petunjuk dan gambar yang benar
+        const gameData = [
+            {
+                hint: "Cari gambar bunga yang paling indah",
+                correctImage: "galeri/1.jpg",
+                images: [
+                    "galeri/1.jpg",
+                    "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=300&q=80",
+                    "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?auto=format&fit=crop&w=300&q=80",
+                    "https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=300&q=80"
+                ]
+            },
+            {
+                hint: "Temukan gambar yang penuh kebersamaan",
+                correctImage: "galeri/2.jpg",
+                images: [
+                    "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=300&q=80",
+                    "galeri/2.jpg",
+                    "https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?auto=format&fit=crop&w=300&q=80",
+                    "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=300&q=80"
+                ]
+            },
+            {
+                hint: "Cari senyuman yang paling menawan",
+                correctImage: "galeri/3.jpg",
+                images: [
+                    "https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=300&q=60",
+                    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+                    "galeri/3.jpg",
+                    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80"
+                ]
+            }
+        ];
+
+        let currentLevel = 0;
+        let score = 0;
+        let lives = 3;
+        let gameCompleted = false;
+
+        function Permainan() {
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('ucapanPage').style.display = 'none';
+            document.getElementById('galeriPage').style.display = 'none';
+            document.getElementById('gamePage').style.display = 'block';
+            initGame();
+        }
+
         function showMain() {
             document.getElementById('mainPage').style.display = 'flex';
             document.getElementById('ucapanPage').style.display = 'none';
             document.getElementById('galeriPage').style.display = 'none';
+            document.getElementById('gamePage').style.display = 'none';
         }
 
         function showUcapan() {
             document.getElementById('mainPage').style.display = 'none';
             document.getElementById('ucapanPage').style.display = 'block';
             document.getElementById('galeriPage').style.display = 'none';
+            document.getElementById('gamePage').style.display = 'none';
         }
 
         function showGaleri() {
@@ -147,6 +292,149 @@
             initGaleri();
         }
 
+        function initGame() {
+            currentLevel = 0;
+            score = 0;
+            lives = 3;
+            gameCompleted = false;
+            updateGameInfo();
+            loadLevel(currentLevel);
+        }
+
+        function loadLevel(level) {
+            if (level >= gameData.length) {
+                showResult();
+                return;
+            }
+
+            const gameDataLevel = gameData[level];
+            const gameGrid = document.getElementById('gameGrid');
+            const hintText = document.getElementById('hintText');
+            const gameMessage = document.getElementById('gameMessage');
+            const nextBtn = document.getElementById('nextBtn');
+            const restartBtn = document.getElementById('restartBtn');
+
+            // Reset tampilan
+            gameGrid.innerHTML = '';
+            nextBtn.style.display = 'none';
+            restartBtn.style.display = 'none';
+            gameMessage.innerHTML = '<p>Pilih satu gambar yang menurutmu benar!</p>';
+            gameMessage.style.color = 'var(--text-color)';
+
+            // Set petunjuk
+            hintText.textContent = gameDataLevel.hint;
+
+            // Update level
+            document.getElementById('level').textContent = level + 1;
+
+            // Acak urutan gambar
+            const shuffledImages = [...gameDataLevel.images].sort(() => Math.random() - 0.5);
+
+            // Buat elemen gambar
+            shuffledImages.forEach((imageSrc, index) => {
+                const imgContainer = document.createElement('div');
+                imgContainer.className = 'game-img-container';
+                imgContainer.onclick = () => checkAnswer(imageSrc, gameDataLevel.correctImage);
+
+                const img = document.createElement('img');
+                img.src = imageSrc;
+                img.alt = `Pilihan ${index + 1}`;
+                img.className = 'game-img';
+                img.onerror = function () {
+                    this.src = 'https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=300&q=80';
+                };
+
+                imgContainer.appendChild(img);
+                gameGrid.appendChild(imgContainer);
+            });
+        }
+
+        function checkAnswer(selectedImage, correctImage) {
+            const gameMessage = document.getElementById('gameMessage');
+            const nextBtn = document.getElementById('nextBtn');
+            const gameGrid = document.querySelectorAll('.game-img-container');
+
+            // Nonaktifkan semua gambar setelah memilih
+            gameGrid.forEach(container => {
+                container.style.pointerEvents = 'none';
+            });
+
+            if (selectedImage === correctImage) {
+                // Jawaban benar
+                score += 100;
+                gameMessage.innerHTML = '<p><i class="fas fa-check-circle"></i> Benar! Kamu hebat! 🎉</p>';
+                gameMessage.style.color = '#2ecc71';
+
+                // Highlight gambar yang benar
+                gameGrid.forEach(container => {
+                    if (container.querySelector('img').src.includes(correctImage.split('/').pop())) {
+                        container.classList.add('correct');
+                    }
+                });
+
+                // Lanjut ke level berikutnya
+                setTimeout(() => {
+                    currentLevel++;
+                    if (currentLevel < gameData.length) {
+                        loadLevel(currentLevel);
+                    } else {
+                        showResult();
+                    }
+                }, 1500);
+
+            } else {
+                // Jawaban salah
+                lives--;
+                gameMessage.innerHTML = `<p><i class="fas fa-times-circle"></i> Salah! Coba lagi di kesempatan berikutnya.</p>`;
+                gameMessage.style.color = '#e74c3c';
+
+                // Highlight gambar yang salah dan yang benar
+                gameGrid.forEach(container => {
+                    const imgSrc = container.querySelector('img').src;
+                    if (imgSrc.includes(selectedImage.split('/').pop())) {
+                        container.classList.add('wrong');
+                    }
+                    if (imgSrc.includes(correctImage.split('/').pop())) {
+                        container.classList.add('correct');
+                    }
+                });
+
+                if (lives <= 0) {
+                    gameMessage.innerHTML += '<p>Nyawa habis! Game over.</p>';
+                    document.getElementById('restartBtn').style.display = 'block';
+                } else {
+                    setTimeout(() => {
+                        loadLevel(currentLevel);
+                    }, 2000);
+                }
+            }
+
+            updateGameInfo();
+        }
+
+        function nextLevel() {
+            if (currentLevel < gameData.length) {
+                loadLevel(currentLevel);
+            }
+        }
+
+        function restartGame() {
+            initGame();
+        }
+
+        function updateGameInfo() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('lives').textContent = lives;
+            document.getElementById('level').textContent = currentLevel + 1;
+        }
+
+        function showResult() {
+            gameCompleted = true;
+            document.querySelector('.game-info').style.display = 'none';
+            document.getElementById('resultContainer').style.display = 'block';
+        }
+
+        // Fungsi-fungsi lain yang sudah ada
         function initGaleri() {
             const modal = document.getElementById('imageModal');
             const modalImg = document.querySelector('.modal-img');
@@ -163,11 +451,6 @@
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
         }
-
-        window.addEventListener('click', e => {
-            const modal = document.getElementById('imageModal');
-            if (e.target === modal) modal.style.display = 'none';
-        });
 
         function createHearts() {
             const container = document.getElementById('floatingHearts');
@@ -188,7 +471,274 @@
             showMain();
             createHearts();
         });
+
+        window.addEventListener('click', e => {
+            const modal = document.getElementById('imageModal');
+            if (e.target === modal) modal.style.display = 'none';
+        });
     </script>
+
+    <style>
+        /* CSS Tambahan untuk Game Page */
+        .game-page {
+            display: none;
+            min-height: 100vh;
+            padding: 40px;
+            background: linear-gradient(135deg, var(--light-pink) 0%, var(--pink) 100%);
+            position: relative;
+            overflow: hidden;
+            color: var(--text-color);
+        }
+
+        .game-page::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="%23ffffff" fill-opacity="0.1" d="M0,0 L100,0 L100,100 L0,100 Z M50,50 C60,40 70,30 80,20 C90,10 100,0 100,0 L100,100 L0,100 L0,0 C10,10 20,20 30,30 C40,40 50,50 50,50 Z"></path></svg>');
+            background-size: cover;
+        }
+
+        .game-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .game-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            color: var(--dark-pink);
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: var(--shadow);
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .score-item {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 25px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            justify-content: center;
+        }
+
+        .score-item i {
+            color: var(--gold);
+            font-size: 1.3rem;
+        }
+
+        .game-instruction {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .game-instruction p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .game-instruction i {
+            color: var(--gold);
+        }
+
+        .hint-box {
+            background: linear-gradient(45deg, var(--gold), var(--dark-gold));
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        @media (min-width: 768px) {
+            .game-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .game-img-container {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            aspect-ratio: 1;
+        }
+
+        .game-img-container:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .game-img-container.correct {
+            border-color: #2ecc71;
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.5);
+        }
+
+        .game-img-container.wrong {
+            border-color: #e74c3c;
+            box-shadow: 0 0 20px rgba(231, 76, 60, 0.5);
+        }
+
+        .game-message {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .game-message i {
+            margin-right: 10px;
+        }
+
+        .next-btn,
+        .restart-btn {
+            background: linear-gradient(45deg, var(--gold), var(--dark-gold));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .next-btn:hover,
+        .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .result-container {
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-content {
+            padding: 30px;
+        }
+
+        .result-title {
+            font-size: 2.5rem;
+            margin: 20px 0;
+            color: var(--dark-pink);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-text {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .result-subtext {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: var(--dark-pink);
+        }
+
+        .special-gift {
+            margin: 30px 0;
+        }
+
+        .gift-frame {
+            position: relative;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--gold), var(--dark-gold));
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .gift-img {
+            width: 100%;
+            border-radius: 10px;
+            display: block;
+        }
+
+        .gift-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 15px;
+            font-size: 1.2rem;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .final-message {
+            font-size: 1.1rem;
+            margin: 30px 0;
+            color: var(--text-color);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 
 </body>
 
