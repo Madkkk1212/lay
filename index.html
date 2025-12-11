@@ -6,11 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laysa</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@600&display=swap"
+        rel="stylesheet">
     <link rel="icon" type="image/png" href="/galeri/logo.png">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="loader"></div>
+    </div>
 
     <!-- Musik latar -->
     <audio id="bgm" autoplay loop style="display:none;">
@@ -35,7 +44,7 @@
             </div>
             <h1 class="main-title">laysa zuyyina putri pradana</h1>
             <p class="main-subtitle">Hadiah kecil untukmu</p>
-            
+
 
             <div class="button-container">
                 <button class="main-btn" onclick="showUcapan()">
@@ -47,7 +56,7 @@
                     <i class="fas fa-images btn-icon"></i>
                     <span>Memory</span>
                 </button>
-                <button class="main-btn" onclick="Permainan()">
+                <button class="main-btn" onclick="showGameMenu()">
                     <i class="fas fa-gamepad btn-icon"></i>
                     <span>Mini Games</span>
                 </button>
@@ -69,17 +78,17 @@
 
             <div class="ucapan-text">
                 <p>Sayangku yang cantik,</p>
-            
+
                 <p>
                     Terima kasih sudah tetap berusaha dan berjalan sejauh ini.
                     Kamu orang yang kuat dan aku menghargai setiap langkahmu.
                     Semoga apa yang kamu kerjakan ke depan bisa lancar dan membawa kebaikan.
                 </p>
-            
+
                 <p class="signature">
                     madk <span class="heart-pulse">❤️</span>
                 </p>
-            
+
                 <p style="font-size: 12px; opacity: 0.6; margin-top: -10px;">
                     *maaf jika tidak suka*
                 </p>
@@ -100,113 +109,196 @@
             <div class="galeri-container">
                 <div class="royal-frame">
                     <div class="galeri-item">
-                        <img src="galeri/1.jpg" class="galeri-img" alt="Momen Spesial 1"
-                            onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80'">
-                        <div class="galeri-caption">bunga</div>
+                        <img src="galeri/1.jpg" class="galeri-img" alt="Bunga"
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=500&q=80'">
+                        <div class="galeri-caption">Bunga</div>
                     </div>
                 </div>
 
                 <div class="royal-frame">
                     <div class="galeri-item">
-                        <img src="galeri/2.jpg" class="galeri-img" alt="Momen Spesial 2"
-                            onerror="this.src='https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=500&q=80'">
-                        <div class="galeri-caption">rame</div>
+                        <img src="galeri/2.jpg" class="galeri-img" alt="Kebersamaan"
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=500&q=80'">
+                        <div class="galeri-caption">Kebersamaan</div>
                     </div>
                 </div>
 
                 <div class="royal-frame">
                     <div class="galeri-item">
-                        <img src="galeri/3.jpg" class="galeri-img" alt="Momen Spesial 3"
-                            onerror="this.src='https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=80'">
+                        <img src="galeri/3.jpg" class="galeri-img" alt="Senyuman"
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=80'">
                         <div class="galeri-caption">Senyuman yang Menawan</div>
                     </div>
                 </div>
 
                 <div class="royal-frame">
                     <div class="galeri-item">
-                        <img src="galeri/4.jpg" class="galeri-img" alt="Momen Spesial 4"
-                            onerror="this.src='https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=500&q=80'">
-                        <div class="galeri-caption">Ucapan Cakep</div>
+                        <img src="galeri/4.jpg" class="galeri-img" alt="Momen Spesial"
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=500&q=80'">
+                        <div class="galeri-caption">Momen Spesial</div>
                     </div>
                 </div>
+
                 <div class="royal-frame">
                     <div class="galeri-item">
-                        <img src="galeri/8.jpg" class="galeri-img" alt="Momen Spesial 4"
-                            onerror="this.src='https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=500&q=80'">
-                        <div class="galeri-caption">Ucapan Cakep</div>
+                        <img src="galeri/8.jpg" class="galeri-img" alt="Kenangan"
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=500&q=80'">
+                        <div class="galeri-caption">Kenangan Indah</div>
                     </div>
                 </div>
+
                 <div class="royal-frame">
                     <div class="galeri-item">
-                        <img src="galeri/9.jpg" class="galeri-img" alt="Momen Spesial 4"
-                            onerror="this.src='https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=500&q=80'">
-                        <div class="galeri-caption">Ucapan Cakep</div>
+                        <img src="galeri/9.jpg" class="galeri-img" alt="Cantik"
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80'">
+                        <div class="galeri-caption">Cantik</div>
                     </div>
                 </div>
+
                 <div class="royal-frame">
                     <div class="galeri-item">
-                        <img src="galeri/10.jpg" class="galeri-img" alt="Momen Spesial 4"
-                            onerror="this.src='https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=500&q=80'">
-                        <div class="galeri-caption">Ucapan Cakep</div>
+                        <img src="galeri/10.jpg" class="galeri-img" alt="Momen Bahagia"
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?auto=format&fit=crop&w=500&q=80'">
+                        <div class="galeri-caption">Momen Bahagia</div>
                     </div>
                 </div>
-                                <div class="royal-frame">
-                    <div class="galeri-item">
-                        <img src="galeri/11.mp4" class="galeri-img" alt="Momen Spesial 4"
-                            onerror="this.src='https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=500&q=80'">
-                        <div class="galeri-caption">Ucapan Cakep</div>
-                    </div>
-                </div>
+
                 <div class="royal-frame">
                     <div class="galeri-item">
-                        <img src="galeri/12.jpg" class="galeri-img" alt="Momen Spesial 4"
-                            onerror="this.src='https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=500&q=80'">
-                        <div class="galeri-caption">Ucapan Cakep</div>
+                        <video src="galeri/11.mp4" class="galeri-img" alt="Video Spesial" controls
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=500&q=80'">
+                            Browser Anda tidak mendukung video.
+                        </video>
+                        <div class="galeri-caption">Video Spesial</div>
                     </div>
                 </div>
+
                 <div class="royal-frame">
                     <div class="galeri-item">
-                        <img src="galeri/13.mp4" class="galeri-img" alt="Momen Spesial 4"
-                            onerror="this.src='https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=500&q=80'">
-                        <div class="galeri-caption">Ucapan Cakep</div>
+                        <img src="galeri/12.jpg" class="galeri-img" alt="Potret Cantik"
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80'">
+                        <div class="galeri-caption">Potret Cantik</div>
                     </div>
                 </div>
+
                 <div class="royal-frame">
                     <div class="galeri-item">
-                        <img src="galeri/14.jpg" class="galeri-img" alt="Momen Spesial 4"
-                            onerror="this.src='https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=500&q=80'">
-                        <div class="galeri-caption">Ucapan Cakep</div>
+                        <video src="galeri/13.mp4" class="galeri-img" alt="Momen Berharga" controls
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=500&q=80'">
+                            Browser Anda tidak mendukung video.
+                        </video>
+                        <div class="galeri-caption">Momen Berharga</div>
                     </div>
                 </div>
+
                 <div class="royal-frame">
                     <div class="galeri-item">
-                        <img src="galeri/16.jpg" class="galeri-img" alt="Momen Spesial 4"
-                            onerror="this.src='https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=500&q=80'">
-                        <div class="galeri-caption">Ucapan Cakep</div>
+                        <img src="galeri/14.jpg" class="galeri-img" alt="Senyum Manis"
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?auto=format&fit=crop&w=500&q=80'">
+                        <div class="galeri-caption">Senyum Manis</div>
                     </div>
                 </div>
+
                 <div class="royal-frame">
                     <div class="galeri-item">
-                        <img src="galeri/17.jpg" class="galeri-img" alt="Momen Spesial 4"
-                            onerror="this.src='https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=500&q=80'">
-                        <div class="galeri-caption">Ucapan Cakep</div>
+                        <img src="galeri/16.jpg" class="galeri-img" alt="Pose Cantik"
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=500&q=80'">
+                        <div class="galeri-caption">Pose Cantik</div>
                     </div>
+                </div>
+
+                <div class="royal-frame">
+                    <div class="galeri-item">
+                        <img src="galeri/17.jpg" class="galeri-img" alt="Kenangan Terindah"
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?auto=format&fit=crop&w=500&q=80'">
+                        <div class="galeri-caption">Kenangan Terindah</div>
+                    </div>
+                </div>
+
+                <div class="royal-frame">
+                    <div class="galeri-item">
+                        <img src="galeri/5.png" class="galeri-img" alt="Hadiah Spesial"
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=500&q=80'">
+                        <div class="galeri-caption">Hadiah Spesial ❤️</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Halaman Menu Games -->
+    <section class="game-menu-page" id="gameMenuPage" style="display:none;">
+        <button class="back-btn" onclick="showMain()">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </button>
+
+        <div class="game-menu-content">
+            <div class="crown-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h1 class="main-title">Mini Games</h1>
+            <p class="game-subtitle">Pilih salah satu game untuk bermain!</p>
+
+            <div class="games-menu-container">
+                <div class="game-card" onclick="startGame('tebakGambar')">
+                    <div class="game-card-icon">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    <h3>Game 1: Tebak Gambar</h3>
+                    <p>Tebak gambar yang sesuai dengan petunjuk</p>
+                    <div class="game-card-footer">
+                        <span class="difficulty easy"><i class="fas fa-star"></i> Mudah</span>
+                    </div>
+                </div>
+
+                <div class="game-card" onclick="startGame('tebakKata')">
+                    <div class="game-card-icon">
+                        <i class="fas fa-font"></i>
+                    </div>
+                    <h3>Game 2: Tebak Kata</h3>
+                    <p>Tebak kata rahasia dari petunjuk yang diberikan</p>
+                    <div class="game-card-footer">
+                        <span class="difficulty medium"><i class="fas fa-star"></i> Sedang</span>
+                    </div>
+                </div>
+
+                <div class="game-card" onclick="startGame('tebakAngka')">
+                    <div class="game-card-icon">
+                        <i class="fas fa-hashtag"></i>
+                    </div>
+                    <h3>Game 3: Tebak Angka</h3>
+                    <p>Tebak angka rahasia antara 1-100</p>
+                    <div class="game-card-footer">
+                        <span class="difficulty hard"><i class="fas fa-star"></i> Sulit</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-stats">
+                <div class="stat-item">
+                    <i class="fas fa-trophy"></i>
+                    <span>Total Skor: <span id="totalScore">0</span></span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Game Dimainkan: <span id="gamesPlayed">0</span></span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Halaman Permainan -->
-    <section class="game-page" id="gamePage" style="display:none;">
-        <button class="back-btn" onclick="showMain()">
-            <i class="fas fa-arrow-left"></i> Kembali
+    <!-- Halaman Game Tebak Gambar -->
+    <section class="game-page" id="tebakGambarPage" style="display:none;">
+        <button class="back-btn" onclick="showGameMenu()">
+            <i class="fas fa-arrow-left"></i> Kembali ke Menu Games
         </button>
 
         <div class="game-content">
             <div class="crown-icon">
                 <i class="fas fa-crown"></i>
             </div>
-            <h1 class="main-title">Mini Games</h1>
+            <h1 class="main-title">Game 1: Tebak Gambar</h1>
             <p class="game-subtitle">Tebak Gambar untuk Melihat Hadiahmu!</p>
 
             <div class="game-container">
@@ -255,22 +347,222 @@
                             <i class="fas fa-crown"></i>
                         </div>
                         <h2 class="result-title">Selamat! 🎉</h2>
-                        <p class="result-text">Kamu berhasil menyelesaikan semua level!</p>
-                        <p class="result-subtext">Ini hadiah spesial untukmu:</p>
+                        <p class="result-text">Kamu berhasil menyelesaikan game ini!</p>
+                        <p class="result-subtext">Skor akhir: <span id="finalScore">0</span></p>
 
                         <div class="special-gift">
                             <div class="gift-frame">
                                 <img src="galeri/5.png" class="gift-img" alt="Hadiah Spesial"
-                                    onerror="this.src='https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=500&q=80'">
+                                    onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=500&q=80'">
                                 <div class="gift-caption">Untuk Wanita Tercantik ❤️</div>
                             </div>
                         </div>
 
-                        <p class="final-message">Terima kasih telah bermain! Semoga suka dengan hadiah kecil ini.</p>
+                        <p class="final-message">Terima kasih telah bermain!</p>
 
-                        <button class="back-btn" onclick="showMain()">
-                            <i class="fas fa-home"></i> Kembali ke Menu Utama
+                        <div class="game-action-buttons">
+                            <button class="back-btn" onclick="showGameMenu()">
+                                <i class="fas fa-gamepad"></i> Menu Games
+                            </button>
+                            <button class="next-btn" onclick="restartGame()">
+                                <i class="fas fa-redo"></i> Main Lagi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Halaman Game Tebak Kata -->
+    <section class="game-page" id="tebakKataPage" style="display:none;">
+        <button class="back-btn" onclick="showGameMenu()">
+            <i class="fas fa-arrow-left"></i> Kembali ke Menu Games
+        </button>
+
+        <div class="game-content">
+            <div class="crown-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h1 class="main-title">Game 2: Tebak Kata</h1>
+            <p class="game-subtitle">Tebak kata rahasia dari petunjuk!</p>
+
+            <div class="game-container">
+                <div class="game-info">
+                    <div class="score-board">
+                        <div class="score-item">
+                            <i class="fas fa-star"></i>
+                            <span>Level: <span id="kataLevel">1</span>/5</span>
+                        </div>
+                        <div class="score-item">
+                            <i class="fas fa-heart"></i>
+                            <span>Kesempatan: <span id="kataChances">5</span></span>
+                        </div>
+                        <div class="score-item">
+                            <i class="fas fa-trophy"></i>
+                            <span>Skor: <span id="kataScore">0</span></span>
+                        </div>
+                    </div>
+
+                    <div class="game-instruction">
+                        <p><i class="fas fa-lightbulb"></i> <strong>Petunjuk:</strong> Tebak kata berdasarkan deskripsi!
+                        </p>
+                        <div class="hint-box" id="kataHint">Memuat petunjuk...</div>
+                    </div>
+
+                    <div class="word-container">
+                        <div class="word-display" id="wordDisplay">
+                            <!-- Huruf-huruf akan muncul di sini -->
+                        </div>
+                    </div>
+
+                    <div class="keyboard-container">
+                        <div class="keyboard" id="keyboard">
+                            <!-- Keyboard akan dimuat di sini -->
+                        </div>
+                    </div>
+
+                    <div class="game-message" id="kataMessage">
+                        <p>Pilih huruf untuk menebak kata!</p>
+                    </div>
+
+                    <div class="used-letters">
+                        <p>Huruf yang sudah digunakan: <span id="usedLetters"></span></p>
+                    </div>
+
+                    <button class="next-btn" id="kataNextBtn" onclick="nextKataLevel()" style="display:none;">
+                        <i class="fas fa-arrow-right"></i> Level Berikutnya
+                    </button>
+
+                    <button class="restart-btn" id="kataRestartBtn" onclick="restartKataGame()" style="display:none;">
+                        <i class="fas fa-redo"></i> Main Lagi
+                    </button>
+                </div>
+
+                <div class="result-container" id="kataResultContainer" style="display:none;">
+                    <div class="result-content">
+                        <div class="crown-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h2 class="result-title" id="kataResultTitle">Game Selesai!</h2>
+                        <p class="result-text" id="kataResultText"></p>
+                        <p class="result-subtext">Skor akhir: <span id="kataFinalScore">0</span></p>
+
+                        <div class="special-gift">
+                            <div class="gift-frame">
+                                <img src="galeri/18.jpg" class="gift-img" alt="Hadiah Spesial">
+                                <div class="gift-caption">Kamu Hebat! ❤️</div>
+                            </div>
+                        </div>
+
+                        <div class="game-action-buttons">
+                            <button class="back-btn" onclick="showGameMenu()">
+                                <i class="fas fa-gamepad"></i> Menu Games
+                            </button>
+                            <button class="next-btn" onclick="restartKataGame()">
+                                <i class="fas fa-redo"></i> Main Lagi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Halaman Game Tebak Angka -->
+    <section class="game-page" id="tebakAngkaPage" style="display:none;">
+        <button class="back-btn" onclick="showGameMenu()">
+            <i class="fas fa-arrow-left"></i> Kembali ke Menu Games
+        </button>
+
+        <div class="game-content">
+            <div class="crown-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h1 class="main-title">Game 3: Tebak Angka</h1>
+            <p class="game-subtitle">Tebak angka antara 1-100!</p>
+
+            <div class="game-container">
+                <div class="game-info">
+                    <div class="score-board">
+                        <div class="score-item">
+                            <i class="fas fa-heart"></i>
+                            <span>Percobaan: <span id="attempts">0</span>/10</span>
+                        </div>
+                        <div class="score-item">
+                            <i class="fas fa-trophy"></i>
+                            <span>Skor: <span id="angkaScore">0</span></span>
+                        </div>
+                        <div class="score-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Tebakan: <span id="angkaStatus">-</span></span>
+                        </div>
+                    </div>
+
+                    <div class="game-instruction">
+                        <p><i class="fas fa-lightbulb"></i> <strong>Petunjuk:</strong> Saya memikirkan angka antara
+                            1-100. Coba tebak!</p>
+                        <div class="hint-box">Kamu punya 10 kesempatan untuk menebak</div>
+                    </div>
+
+                    <div class="guess-container">
+                        <input type="number" id="guessInput" min="1" max="100" placeholder="Masukkan tebakan (1-100)">
+                        <button class="guess-btn" onclick="checkGuess()">
+                            <i class="fas fa-check"></i> Tebak!
                         </button>
+                    </div>
+
+                    <div class="range-container">
+                        <div class="range-slider">
+                            <div class="range-min">1</div>
+                            <div class="range-track">
+                                <div class="range-progress" id="rangeProgress"></div>
+                            </div>
+                            <div class="range-max">100</div>
+                        </div>
+                        <div class="range-hint" id="rangeHint">Rentang: 1 - 100</div>
+                    </div>
+
+                    <div class="guesses-history">
+                        <h3>Riwayat Tebakan:</h3>
+                        <div class="guesses-list" id="guessesList">
+                            <!-- Riwayat tebakan akan muncul di sini -->
+                        </div>
+                    </div>
+
+                    <div class="game-message" id="angkaMessage">
+                        <p>Masukkan angka pertama kamu!</p>
+                    </div>
+
+                    <button class="restart-btn" id="angkaRestartBtn" onclick="restartAngkaGame()" style="display:none;">
+                        <i class="fas fa-redo"></i> Main Lagi
+                    </button>
+                </div>
+
+                <div class="result-container" id="angkaResultContainer" style="display:none;">
+                    <div class="result-content">
+                        <div class="crown-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h2 class="result-title" id="angkaResultTitle"></h2>
+                        <p class="result-text" id="angkaResultText"></p>
+                        <p class="result-subtext">Angka rahasia: <span id="secretNumber">0</span></p>
+
+                        <div class="special-gift">
+                            <div class="gift-frame">
+                                <img src="galeri/19.jpg" class="gift-img" alt="Hadiah Spesial">
+                                <div class="gift-caption">Selamat! ❤️</div>
+                            </div>
+                        </div>
+
+                        <div class="game-action-buttons">
+                            <button class="back-btn" onclick="showGameMenu()">
+                                <i class="fas fa-gamepad"></i> Menu Games
+                            </button>
+                            <button class="next-btn" onclick="restartAngkaGame()">
+                                <i class="fas fa-redo"></i> Main Lagi
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -287,7 +579,17 @@
 
     <!-- SCRIPT -->
     <script>
-        // Game Data - Setiap level memiliki petunjuk dan gambar yang benar
+        // Loading Screen
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                document.getElementById('loading').classList.add('hidden');
+                setTimeout(function () {
+                    document.getElementById('loading').style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
+
+        // Game Data untuk Tebak Gambar
         const gameData = [
             {
                 hint: "Cari gambar bunga yang paling indah",
@@ -321,52 +623,141 @@
             }
         ];
 
+        // Game Data untuk Tebak Kata
+        const kataData = [
+            {
+                hint: "Nama panggilan sayang",
+                word: "LAYSA",
+                category: "Nama"
+            },
+            {
+                hint: "Sesuatu yang diberikan dengan penuh kasih sayang",
+                word: "HADIAH",
+                category: "Objek"
+            },
+            {
+                hint: "Perasaan yang indah",
+                word: "CINTA",
+                category: "Perasaan"
+            },
+            {
+                hint: "Momen yang terekam",
+                word: "MEMORI",
+                category: "Konsep"
+            },
+            {
+                hint: "Simbol kasih sayang",
+                word: "HATI",
+                category: "Simbol"
+            }
+        ];
+
+        // Variabel global untuk semua games
+        let totalScore = localStorage.getItem('totalScore') ? parseInt(localStorage.getItem('totalScore')) : 0;
+        let gamesPlayed = localStorage.getItem('gamesPlayed') ? parseInt(localStorage.getItem('gamesPlayed')) : 0;
+
+        // Variabel untuk game tebak gambar
         let currentLevel = 0;
         let score = 0;
         let lives = 3;
-        let gameCompleted = false;
 
-        function Permainan() {
-            document.getElementById('mainPage').style.display = 'none';
-            document.getElementById('ucapanPage').style.display = 'none';
-            document.getElementById('galeriPage').style.display = 'none';
-            document.getElementById('gamePage').style.display = 'block';
-            initGame();
-        }
+        // Variabel untuk game tebak kata
+        let kataLevel = 0;
+        let kataScore = 0;
+        let kataChances = 5;
+        let currentWord = "";
+        let guessedLetters = [];
+        let wrongLetters = [];
 
+        // Variabel untuk game tebak angka
+        let secretNumber = 0;
+        let attempts = 0;
+        let maxAttempts = 10;
+        let minRange = 1;
+        let maxRange = 100;
+        let angkaScore = 0;
+
+        // Fungsi navigasi
         function showMain() {
             document.getElementById('mainPage').style.display = 'flex';
             document.getElementById('ucapanPage').style.display = 'none';
             document.getElementById('galeriPage').style.display = 'none';
-            document.getElementById('gamePage').style.display = 'none';
+            document.getElementById('gameMenuPage').style.display = 'none';
+            document.getElementById('tebakGambarPage').style.display = 'none';
+            document.getElementById('tebakKataPage').style.display = 'none';
+            document.getElementById('tebakAngkaPage').style.display = 'none';
         }
 
         function showUcapan() {
             document.getElementById('mainPage').style.display = 'none';
             document.getElementById('ucapanPage').style.display = 'block';
             document.getElementById('galeriPage').style.display = 'none';
-            document.getElementById('gamePage').style.display = 'none';
+            document.getElementById('gameMenuPage').style.display = 'none';
+            document.getElementById('tebakGambarPage').style.display = 'none';
+            document.getElementById('tebakKataPage').style.display = 'none';
+            document.getElementById('tebakAngkaPage').style.display = 'none';
         }
 
         function showGaleri() {
             document.getElementById('mainPage').style.display = 'none';
             document.getElementById('ucapanPage').style.display = 'none';
             document.getElementById('galeriPage').style.display = 'block';
+            document.getElementById('gameMenuPage').style.display = 'none';
+            document.getElementById('tebakGambarPage').style.display = 'none';
+            document.getElementById('tebakKataPage').style.display = 'none';
+            document.getElementById('tebakAngkaPage').style.display = 'none';
             initGaleri();
         }
 
-        function initGame() {
+        function showGameMenu() {
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('ucapanPage').style.display = 'none';
+            document.getElementById('galeriPage').style.display = 'none';
+            document.getElementById('gameMenuPage').style.display = 'block';
+            document.getElementById('tebakGambarPage').style.display = 'none';
+            document.getElementById('tebakKataPage').style.display = 'none';
+            document.getElementById('tebakAngkaPage').style.display = 'none';
+            updateGameStats();
+        }
+
+        function startGame(gameType) {
+            gamesPlayed++;
+            localStorage.setItem('gamesPlayed', gamesPlayed);
+            updateGameStats();
+
+            switch (gameType) {
+                case 'tebakGambar':
+                    initTebakGambar();
+                    break;
+                case 'tebakKata':
+                    initTebakKata();
+                    break;
+                case 'tebakAngka':
+                    initTebakAngka();
+                    break;
+            }
+        }
+
+        function updateGameStats() {
+            document.getElementById('totalScore').textContent = totalScore;
+            document.getElementById('gamesPlayed').textContent = gamesPlayed;
+        }
+
+        // ============= GAME 1: TEBAK GAMBAR =============
+        function initTebakGambar() {
+            document.getElementById('gameMenuPage').style.display = 'none';
+            document.getElementById('tebakGambarPage').style.display = 'block';
+
             currentLevel = 0;
             score = 0;
             lives = 3;
-            gameCompleted = false;
-            updateGameInfo();
+            updateTebakGambarInfo();
             loadLevel(currentLevel);
         }
 
         function loadLevel(level) {
             if (level >= gameData.length) {
-                showResult();
+                showTebakGambarResult();
                 return;
             }
 
@@ -376,8 +767,10 @@
             const gameMessage = document.getElementById('gameMessage');
             const nextBtn = document.getElementById('nextBtn');
             const restartBtn = document.getElementById('restartBtn');
+            const resultContainer = document.getElementById('resultContainer');
 
             // Reset tampilan
+            resultContainer.style.display = 'none';
             gameGrid.innerHTML = '';
             nextBtn.style.display = 'none';
             restartBtn.style.display = 'none';
@@ -425,6 +818,8 @@
             if (selectedImage === correctImage) {
                 // Jawaban benar
                 score += 100;
+                totalScore += 100;
+                localStorage.setItem('totalScore', totalScore);
                 gameMessage.innerHTML = '<p><i class="fas fa-check-circle"></i> Benar! Kamu hebat! 🎉</p>';
                 gameMessage.style.color = '#2ecc71';
 
@@ -441,7 +836,7 @@
                     if (currentLevel < gameData.length) {
                         loadLevel(currentLevel);
                     } else {
-                        showResult();
+                        showTebakGambarResult();
                     }
                 }, 1500);
 
@@ -472,7 +867,7 @@
                 }
             }
 
-            updateGameInfo();
+            updateTebakGambarInfo();
         }
 
         function nextLevel() {
@@ -482,31 +877,326 @@
         }
 
         function restartGame() {
-            initGame();
+            initTebakGambar();
         }
 
-        function updateGameInfo() {
+        function updateTebakGambarInfo() {
             document.getElementById('score').textContent = score;
             document.getElementById('lives').textContent = lives;
             document.getElementById('level').textContent = currentLevel + 1;
         }
 
-        function showResult() {
-            gameCompleted = true;
+        function showTebakGambarResult() {
+            document.getElementById('finalScore').textContent = score;
             document.querySelector('.game-info').style.display = 'none';
             document.getElementById('resultContainer').style.display = 'block';
         }
 
-        // Fungsi-fungsi lain yang sudah ada
+        // ============= GAME 2: TEBAK KATA =============
+        function initTebakKata() {
+            document.getElementById('gameMenuPage').style.display = 'none';
+            document.getElementById('tebakKataPage').style.display = 'block';
+
+            kataLevel = 0;
+            kataScore = 0;
+            kataChances = 5;
+            loadKataLevel(kataLevel);
+        }
+
+        function loadKataLevel(level) {
+            if (level >= kataData.length) {
+                showKataResult(true);
+                return;
+            }
+
+            const kataDataLevel = kataData[level];
+            currentWord = kataDataLevel.word;
+            guessedLetters = [];
+            wrongLetters = [];
+
+            // Reset tampilan
+            document.getElementById('kataResultContainer').style.display = 'none';
+            document.querySelector('.game-info').style.display = 'block';
+            document.getElementById('kataNextBtn').style.display = 'none';
+            document.getElementById('kataRestartBtn').style.display = 'none';
+            document.getElementById('kataMessage').innerHTML = '<p>Pilih huruf untuk menebak kata!</p>';
+            document.getElementById('kataMessage').style.color = 'var(--text-color)';
+
+            // Update info
+            document.getElementById('kataLevel').textContent = level + 1;
+            document.getElementById('kataScore').textContent = kataScore;
+            document.getElementById('kataChances').textContent = kataChances;
+            document.getElementById('kataHint').textContent = `${kataDataLevel.hint} (Kategori: ${kataDataLevel.category})`;
+            document.getElementById('usedLetters').textContent = '';
+
+            // Tampilkan kata dengan garis bawah
+            displayWord();
+
+            // Buat keyboard
+            createKeyboard();
+        }
+
+        function displayWord() {
+            const wordDisplay = document.getElementById('wordDisplay');
+            wordDisplay.innerHTML = '';
+
+            for (let letter of currentWord) {
+                const letterSpan = document.createElement('span');
+                letterSpan.className = 'word-letter';
+
+                if (guessedLetters.includes(letter)) {
+                    letterSpan.textContent = letter;
+                    letterSpan.classList.add('revealed');
+                } else {
+                    letterSpan.textContent = '_';
+                }
+
+                wordDisplay.appendChild(letterSpan);
+            }
+        }
+
+        function createKeyboard() {
+            const keyboard = document.getElementById('keyboard');
+            keyboard.innerHTML = '';
+
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+            for (let letter of alphabet) {
+                const key = document.createElement('div');
+                key.className = 'keyboard-key';
+                key.textContent = letter;
+                key.onclick = () => guessLetter(letter);
+
+                if (guessedLetters.includes(letter)) {
+                    key.classList.add('correct');
+                    key.onclick = null;
+                } else if (wrongLetters.includes(letter)) {
+                    key.classList.add('wrong');
+                    key.onclick = null;
+                }
+
+                keyboard.appendChild(key);
+            }
+        }
+
+        function guessLetter(letter) {
+            const usedLetters = document.getElementById('usedLetters');
+
+            if (guessedLetters.includes(letter) || wrongLetters.includes(letter)) {
+                return;
+            }
+
+            if (currentWord.includes(letter)) {
+                guessedLetters.push(letter);
+                document.getElementById('kataMessage').innerHTML = `<p><i class="fas fa-check-circle"></i> Benar! Huruf ${letter} ada dalam kata!</p>`;
+                document.getElementById('kataMessage').style.color = '#2ecc71';
+            } else {
+                wrongLetters.push(letter);
+                kataChances--;
+                document.getElementById('kataMessage').innerHTML = `<p><i class="fas fa-times-circle"></i> Salah! Huruf ${letter} tidak ada dalam kata.</p>`;
+                document.getElementById('kataMessage').style.color = '#e74c3c';
+
+                if (kataChances <= 0) {
+                    endKataLevel(false);
+                    return;
+                }
+            }
+
+            // Update used letters
+            usedLetters.textContent = [...guessedLetters, ...wrongLetters].join(', ');
+
+            // Update display
+            displayWord();
+            createKeyboard();
+            document.getElementById('kataChances').textContent = kataChances;
+
+            // Check if word is complete
+            if (currentWord.split('').every(l => guessedLetters.includes(l))) {
+                endKataLevel(true);
+            }
+        }
+
+        function endKataLevel(isWin) {
+            if (isWin) {
+                kataScore += 150;
+                totalScore += 150;
+                localStorage.setItem('totalScore', totalScore);
+                document.getElementById('kataMessage').innerHTML = '<p><i class="fas fa-trophy"></i> Selamat! Kamu berhasil menebak kata!</p>';
+                document.getElementById('kataMessage').style.color = '#f1c40f';
+                document.getElementById('kataNextBtn').style.display = 'block';
+            } else {
+                document.getElementById('kataMessage').innerHTML = '<p><i class="fas fa-times-circle"></i> Kesempatan habis! Kata yang benar adalah: ' + currentWord + '</p>';
+                document.getElementById('kataMessage').style.color = '#e74c3c';
+                document.getElementById('kataRestartBtn').style.display = 'block';
+            }
+
+            document.getElementById('kataScore').textContent = kataScore;
+
+            // Reveal all letters
+            const keys = document.querySelectorAll('.keyboard-key');
+            keys.forEach(key => key.onclick = null);
+        }
+
+        function nextKataLevel() {
+            kataLevel++;
+            kataChances = 5;
+            loadKataLevel(kataLevel);
+        }
+
+        function restartKataGame() {
+            initTebakKata();
+        }
+
+        function showKataResult(isWin) {
+            document.getElementById('kataFinalScore').textContent = kataScore;
+            document.getElementById('kataResultTitle').textContent = isWin ? 'Selamat! 🎉' : 'Game Selesai!';
+            document.getElementById('kataResultText').textContent = isWin ?
+                'Kamu berhasil menyelesaikan semua level tebak kata!' :
+                'Terima kasih telah bermain!';
+
+            document.querySelector('.game-info').style.display = 'none';
+            document.getElementById('kataResultContainer').style.display = 'block';
+        }
+
+        // ============= GAME 3: TEBAK ANGKA =============
+        function initTebakAngka() {
+            document.getElementById('gameMenuPage').style.display = 'none';
+            document.getElementById('tebakAngkaPage').style.display = 'block';
+
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            minRange = 1;
+            maxRange = 100;
+            angkaScore = 1000;
+
+            // Reset tampilan
+            document.getElementById('angkaResultContainer').style.display = 'none';
+            document.querySelector('.game-info').style.display = 'block';
+            document.getElementById('angkaRestartBtn').style.display = 'none';
+            document.getElementById('angkaMessage').innerHTML = '<p>Masukkan angka pertama kamu!</p>';
+            document.getElementById('angkaMessage').style.color = 'var(--text-color)';
+            document.getElementById('guessInput').value = '';
+            document.getElementById('guessInput').disabled = false;
+            document.getElementById('guessesList').innerHTML = '';
+            document.getElementById('attempts').textContent = `0/${maxAttempts}`;
+            document.getElementById('angkaScore').textContent = angkaScore;
+            document.getElementById('angkaStatus').textContent = '-';
+            updateRange();
+        }
+
+        function checkGuess() {
+            const guessInput = document.getElementById('guessInput');
+            const guess = parseInt(guessInput.value);
+
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                document.getElementById('angkaMessage').innerHTML = '<p><i class="fas fa-exclamation-circle"></i> Masukkan angka antara 1-100!</p>';
+                document.getElementById('angkaMessage').style.color = '#e74c3c';
+                return;
+            }
+
+            attempts++;
+            document.getElementById('attempts').textContent = `${attempts}/${maxAttempts}`;
+
+            // Kurangi skor berdasarkan percobaan
+            angkaScore = Math.max(0, 1000 - (attempts * 50));
+            document.getElementById('angkaScore').textContent = angkaScore;
+
+            const guessesList = document.getElementById('guessesList');
+            const guessItem = document.createElement('div');
+            guessItem.className = 'guess-item';
+
+            if (guess === secretNumber) {
+                // Tebakan benar
+                guessItem.innerHTML = `<span class="guess-number">${guess}</span> <span class="guess-result correct">✓ TEPAT!</span>`;
+                document.getElementById('angkaMessage').innerHTML = `<p><i class="fas fa-trophy"></i> SELAMAT! Kamu berhasil menebak angka ${secretNumber}!</p>`;
+                document.getElementById('angkaMessage').style.color = '#2ecc71';
+                endAngkaGame(true);
+            } else {
+                // Update range
+                if (guess < secretNumber) {
+                    minRange = Math.max(minRange, guess + 1);
+                    guessItem.innerHTML = `<span class="guess-number">${guess}</span> <span class="guess-result">TERLALU RENDAH</span>`;
+                    document.getElementById('angkaStatus').textContent = '↑ Lebih Tinggi';
+                } else {
+                    maxRange = Math.min(maxRange, guess - 1);
+                    guessItem.innerHTML = `<span class="guess-number">${guess}</span> <span class="guess-result">TERLALU TINGGI</span>`;
+                    document.getElementById('angkaStatus').textContent = '↓ Lebih Rendah';
+                }
+
+                updateRange();
+
+                if (attempts >= maxAttempts) {
+                    document.getElementById('angkaMessage').innerHTML = `<p><i class="fas fa-times-circle"></i> Kesempatan habis! Angka rahasia adalah ${secretNumber}</p>`;
+                    document.getElementById('angkaMessage').style.color = '#e74c3c';
+                    endAngkaGame(false);
+                } else {
+                    document.getElementById('angkaMessage').innerHTML = `<p>Coba lagi! Angka antara ${minRange} - ${maxRange}</p>`;
+                    document.getElementById('angkaMessage').style.color = '#3498db';
+                }
+            }
+
+            guessesList.prepend(guessItem);
+            guessInput.value = '';
+            guessInput.focus();
+        }
+
+        function updateRange() {
+            const progress = document.getElementById('rangeProgress');
+            const rangeHint = document.getElementById('rangeHint');
+
+            // Hitung progress bar
+            const percentage = ((minRange - 1) + (100 - maxRange)) / 100 * 100;
+            progress.style.width = `${percentage}%`;
+
+            rangeHint.textContent = `Rentang: ${minRange} - ${maxRange}`;
+        }
+
+        function endAngkaGame(isWin) {
+            document.getElementById('guessInput').disabled = true;
+
+            if (isWin) {
+                totalScore += angkaScore;
+                localStorage.setItem('totalScore', totalScore);
+                document.getElementById('angkaRestartBtn').style.display = 'block';
+
+                setTimeout(() => {
+                    document.getElementById('secretNumber').textContent = secretNumber;
+                    document.getElementById('angkaResultTitle').textContent = 'Selamat! 🎉';
+                    document.getElementById('angkaResultText').textContent = `Kamu menebak angka ${secretNumber} dalam ${attempts} percobaan!`;
+                    document.querySelector('.game-info').style.display = 'none';
+                    document.getElementById('angkaResultContainer').style.display = 'block';
+                }, 2000);
+            } else {
+                document.getElementById('angkaRestartBtn').style.display = 'block';
+
+                setTimeout(() => {
+                    document.getElementById('secretNumber').textContent = secretNumber;
+                    document.getElementById('angkaResultTitle').textContent = 'Game Over';
+                    document.getElementById('angkaResultText').textContent = `Angka rahasia adalah ${secretNumber}. Coba lagi ya!`;
+                    document.querySelector('.game-info').style.display = 'none';
+                    document.getElementById('angkaResultContainer').style.display = 'block';
+                }, 2000);
+            }
+        }
+
+        function restartAngkaGame() {
+            initTebakAngka();
+        }
+
+        // ============= FUNGSI UMUM =============
         function initGaleri() {
             const modal = document.getElementById('imageModal');
             const modalImg = document.querySelector('.modal-img');
-            const items = document.querySelectorAll('.galeri-item img');
+            const items = document.querySelectorAll('.galeri-item img, .galeri-item video');
 
-            items.forEach(img => {
-                img.onclick = () => {
+            items.forEach(item => {
+                item.onclick = () => {
                     modal.style.display = 'flex';
-                    modalImg.src = img.src;
+                    if (item.tagName === 'VIDEO') {
+                        modalImg.src = item.poster || item.src;
+                    } else {
+                        modalImg.src = item.src;
+                    }
                 };
             });
         }
@@ -533,276 +1223,21 @@
         document.addEventListener('DOMContentLoaded', function () {
             showMain();
             createHearts();
+            updateGameStats();
         });
 
         window.addEventListener('click', e => {
             const modal = document.getElementById('imageModal');
             if (e.target === modal) modal.style.display = 'none';
         });
+
+        // Event listener untuk input tebak angka
+        document.getElementById('guessInput')?.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkGuess();
+            }
+        });
     </script>
-
-    <style>
-        /* CSS Tambahan untuk Game Page */
-        .game-page {
-            display: none;
-            min-height: 100vh;
-            padding: 40px;
-            background: linear-gradient(135deg, var(--light-pink) 0%, var(--pink) 100%);
-            position: relative;
-            overflow: hidden;
-            color: var(--text-color);
-        }
-
-        .game-page::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="%23ffffff" fill-opacity="0.1" d="M0,0 L100,0 L100,100 L0,100 Z M50,50 C60,40 70,30 80,20 C90,10 100,0 100,0 L100,100 L0,100 L0,0 C10,10 20,20 30,30 C40,40 50,50 50,50 Z"></path></svg>');
-            background-size: cover;
-        }
-
-        .game-content {
-            position: relative;
-            z-index: 1;
-            max-width: 1000px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .game-subtitle {
-            font-size: 1.3rem;
-            margin-bottom: 30px;
-            color: var(--dark-pink);
-        }
-
-        .game-container {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: var(--shadow);
-        }
-
-        .score-board {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .score-item {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px 25px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            min-width: 150px;
-            justify-content: center;
-        }
-
-        .score-item i {
-            color: var(--gold);
-            font-size: 1.3rem;
-        }
-
-        .game-instruction {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            text-align: left;
-        }
-
-        .game-instruction p {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .game-instruction i {
-            color: var(--gold);
-        }
-
-        .hint-box {
-            background: linear-gradient(45deg, var(--gold), var(--dark-gold));
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        @media (min-width: 768px) {
-            .game-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        .game-img-container {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 3px solid transparent;
-            aspect-ratio: 1;
-        }
-
-        .game-img-container:hover {
-            transform: translateY(-5px);
-            border-color: var(--gold);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .game-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .game-img-container.correct {
-            border-color: #2ecc71;
-            box-shadow: 0 0 20px rgba(46, 204, 113, 0.5);
-        }
-
-        .game-img-container.wrong {
-            border-color: #e74c3c;
-            box-shadow: 0 0 20px rgba(231, 76, 60, 0.5);
-        }
-
-        .game-message {
-            margin: 20px 0;
-            padding: 15px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.9);
-            font-size: 1.1rem;
-        }
-
-        .game-message i {
-            margin-right: 10px;
-        }
-
-        .next-btn,
-        .restart-btn {
-            background: linear-gradient(45deg, var(--gold), var(--dark-gold));
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 10px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .next-btn:hover,
-        .restart-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .result-container {
-            animation: fadeIn 0.5s ease;
-        }
-
-        .result-content {
-            padding: 30px;
-        }
-
-        .result-title {
-            font-size: 2.5rem;
-            margin: 20px 0;
-            color: var(--dark-pink);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .result-text {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-
-        .result-subtext {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            color: var(--dark-pink);
-        }
-
-        .special-gift {
-            margin: 30px 0;
-        }
-
-        .gift-frame {
-            position: relative;
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 15px;
-            background: linear-gradient(45deg, var(--gold), var(--dark-gold));
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .gift-img {
-            width: 100%;
-            border-radius: 10px;
-            display: block;
-        }
-
-        .gift-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-            color: white;
-            padding: 15px;
-            font-size: 1.2rem;
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-        }
-
-        .final-message {
-            font-size: 1.1rem;
-            margin: 30px 0;
-            color: var(--text-color);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
-
 </body>
 
 </html>
