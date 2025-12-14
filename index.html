@@ -219,6 +219,101 @@
             text-align: center;
         }
 
+        /* Styling untuk Greeting Message */
+        .greeting-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1001;
+            width: auto;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .greeting-message {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.95), rgba(255, 142, 83, 0.95));
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: greetingFloat 3s ease-in-out infinite;
+        }
+
+        .greeting-message i {
+            font-size: 18px;
+            animation: greetingPulse 2s ease-in-out infinite;
+        }
+
+        .greeting-time {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: normal;
+        }
+
+        /* Animations */
+        @keyframes greetingFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes greetingPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .greeting-message {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+
+            .playlist-panel {
+                width: 280px;
+                right: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .greeting-message {
+                font-size: 12px;
+                padding: 8px 15px;
+            }
+
+            .greeting-time {
+                font-size: 11px;
+            }
+        }
+
         /* Scrollbar styling */
         .playlist-items::-webkit-scrollbar {
             width: 5px;
@@ -240,6 +335,11 @@
     <!-- Loading Screen -->
     <div class="loading" id="loading">
         <div class="loader"></div>
+    </div>
+
+    <!-- Greeting Message -->
+    <div class="greeting-container" id="greetingContainer">
+        <!-- Greeting akan ditampilkan di sini -->
     </div>
 
     <!-- Music Player -->
@@ -435,7 +535,7 @@
                 <div class="royal-frame">
                     <div class="galeri-item">
                         <img src="galeri/12.jpg" class="galeri-img" alt="Potret Cantik"
-                            onerror="this.onerror=null;this.src='https://images.unsplash.com/icon-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80'">
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80'">
                         <div class="galeri-caption">Potret Cantik</div>
                     </div>
                 </div>
@@ -848,6 +948,168 @@
             }, 1000);
         });
 
+        // ============= GREETING MESSAGE FUNCTIONALITY =============
+        function updateGreeting() {
+            const now = new Date();
+
+            // Convert to WIB (UTC+7)
+            const wibOffset = 7 * 60 * 60 * 1000; // 7 hours in milliseconds
+            const wibTime = new Date(now.getTime() + wibOffset);
+
+            const hour = wibTime.getUTCHours();
+            const minute = wibTime.getUTCMinutes();
+
+            let greeting = "";
+            let icon = "";
+
+            // Determine greeting based on time
+            if (hour >= 5 && hour < 10) {
+                // Morning (5:00 - 9:59)
+                greeting = "Selamat Pagi, Ratu Cantikku!";
+                icon = "fas fa-sun";
+            } else if (hour >= 10 && hour < 15) {
+                // Late Morning (10:00 - 14:59)
+                greeting = "Selamat Siang, Sayangku!";
+                icon = "fas fa-sun";
+            } else if (hour >= 15 && hour < 18) {
+                // Afternoon (15:00 - 17:59)
+                greeting = "Selamat Sore, Manis!";
+                icon = "fas fa-cloud-sun";
+            } else if (hour >= 18 && hour < 21) {
+                // Evening (18:00 - 20:59)
+                greeting = "Selamat Malam, Cintaku!";
+                icon = "fas fa-moon";
+            } else {
+                // Night (21:00 - 4:59)
+                greeting = "Selamat Malam, Sayangku!";
+                icon = "fas fa-moon";
+            }
+
+            // Format time
+            const formattedHour = hour.toString().padStart(2, '0');
+            const formattedMinute = minute.toString().padStart(2, '0');
+            const timeString = `${formattedHour}:${formattedMinute} WIB`;
+
+            // Update greeting element
+            const greetingContainer = document.getElementById('greetingContainer');
+
+            // Create greeting message with animation
+            greetingContainer.innerHTML = `
+                <div class="greeting-message">
+                    <i class="${icon}"></i>
+                    <span>${greeting}</span>
+                </div>
+                <div class="greeting-time">${timeString}</div>
+            `;
+
+            // Random position for greeting (not too close to edges)
+            const containerWidth = greetingContainer.offsetWidth;
+            const windowWidth = window.innerWidth;
+
+            // Ensure greeting stays within bounds
+            let leftPosition = 50; // Default center
+
+            if (containerWidth < windowWidth) {
+                // Random position between 10% and 90%
+                leftPosition = 10 + Math.random() * 80;
+            }
+
+            greetingContainer.style.left = `${leftPosition}%`;
+            greetingContainer.style.transform = 'translateX(-50%)';
+
+            // Add random color variation based on time of day
+            const greetingElement = greetingContainer.querySelector('.greeting-message');
+
+            // Color variations based on time
+            let color1, color2;
+            if (hour >= 5 && hour < 12) {
+                // Morning colors
+                color1 = '#ff6b9d';
+                color2 = '#ff8e53';
+            } else if (hour >= 12 && hour < 17) {
+                // Afternoon colors
+                color1 = '#3498db';
+                color2 = '#9b59b6';
+            } else {
+                // Evening/Night colors
+                color1 = '#8e44ad';
+                color2 = '#3498db';
+            }
+
+            greetingElement.style.background = `linear-gradient(135deg, ${color1}, ${color2})`;
+
+            // Random animation delay for floating effect
+            const animationDelay = Math.random() * 2;
+            greetingElement.style.animationDelay = `${animationDelay}s`;
+
+            // Random message variations
+            const messageVariations = {
+                morning: [
+                    "Semoga harimu penuh berkah, Cantik!",
+                    "Pagi yang cerah untuk ratu hatiku!",
+                    "Bangun dengan senyuman ya, Sayang!",
+                    "Hari baru, semangat baru untukmu!"
+                ],
+                afternoon: [
+                    "Semoga siangmu menyenangkan, Manis!",
+                    "Istirahat yang cukup ya, Sayang!",
+                    "Jangan lupa makan siang, Cantik!",
+                    "Tetap semangat menjalani hari!"
+                ],
+                evening: [
+                    "Sore yang indah untuk wanita tercantik!",
+                    "Sudah minum cukup hari ini?",
+                    "Istirahat sebentar setelah seharian beraktivitas",
+                    "Sore yang penuh warna untukmu!"
+                ],
+                night: [
+                    "Selamat beristirahat, Cintaku!",
+                    "Mimpi indah untuk ratu hatiku",
+                    "Jangan tidur terlalu larut ya",
+                    "Istirahat yang cukup untuk hari esok"
+                ]
+            };
+
+            // Add random message occasionally (30% chance)
+            if (Math.random() > 0.7) {
+                let messages;
+                if (hour >= 5 && hour < 10) messages = messageVariations.morning;
+                else if (hour >= 10 && hour < 15) messages = messageVariations.afternoon;
+                else if (hour >= 15 && hour < 18) messages = messageVariations.evening;
+                else messages = messageVariations.night;
+
+                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
+                // Show additional message temporarily
+                const additionalMessage = document.createElement('div');
+                additionalMessage.className = 'greeting-time';
+                additionalMessage.textContent = randomMessage;
+                additionalMessage.style.marginTop = '5px';
+                additionalMessage.style.animation = 'fadeInOut 5s ease-in-out';
+                additionalMessage.style.opacity = '0.8';
+
+                greetingContainer.appendChild(additionalMessage);
+
+                // Remove after 5 seconds
+                setTimeout(() => {
+                    if (additionalMessage.parentNode === greetingContainer) {
+                        greetingContainer.removeChild(additionalMessage);
+                    }
+                }, 5000);
+            }
+        }
+
+        // Update greeting every minute and on page load
+        setInterval(updateGreeting, 60000);
+        window.addEventListener('load', updateGreeting);
+
+        // Also update when user comes back to tab
+        document.addEventListener('visibilitychange', function () {
+            if (!document.hidden) {
+                updateGreeting();
+            }
+        });
+
         // ============= MUSIC PLAYER FUNCTIONALITY =============
         let currentAudio = document.getElementById('bgm');
         let isPlaying = true;
@@ -855,7 +1117,7 @@
 
         // Playlist data
         const playlist = [
-            {
+             {
                 title: "ntuk Laysa",
                 artist: "Special Song",
                 src: "123456.mp3",
@@ -873,12 +1135,6 @@
                 src: "favoritegirl.mp3",
                 duration: "4:14"
             },
-            // {
-            //     title: "Kenangan Manis",
-            //     artist: "Sweet Memory",
-            //     src: "music/lagu4.mp3",
-            //     duration: "2:50"
-            // }
         ];
 
         // Initialize music player
@@ -1751,6 +2007,16 @@
             createHearts();
             updateGameStats();
             initMusicPlayer(); // Initialize music player
+
+            // Add CSS animation for fade in/out
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInOut {
+                    0%, 100% { opacity: 0; }
+                    10%, 90% { opacity: 0.8; }
+                }
+            `;
+            document.head.appendChild(style);
         });
 
         window.addEventListener('click', e => {
