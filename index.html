@@ -13,12 +13,271 @@
         rel="stylesheet">
     <link rel="icon" type="image/png" href="/galeri/logo.png">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Styling untuk Music Player */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b9d, #ff8e53);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .music-player i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .playlist-panel {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 300px;
+            max-height: 400px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            display: none;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .playlist-header {
+            background: linear-gradient(135deg, #ff6b9d, #ff8e53);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .playlist-header h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .playlist-header .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .playlist-header .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .playlist-items {
+            max-height: 350px;
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+
+        .playlist-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .playlist-item:hover {
+            background: rgba(255, 107, 157, 0.1);
+        }
+
+        .playlist-item.active {
+            background: rgba(255, 107, 157, 0.2);
+            border-left: 3px solid #ff6b9d;
+        }
+
+        .playlist-item .play-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #ff6b9d;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 12px;
+        }
+
+        .playlist-item .song-info {
+            flex: 1;
+        }
+
+        .playlist-item .song-title {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .playlist-item .song-artist {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .playlist-item .song-duration {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .player-controls {
+            padding: 10px 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .player-controls button {
+            background: none;
+            border: none;
+            color: #ff6b9d;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .player-controls button:hover {
+            background: rgba(255, 107, 157, 0.1);
+            transform: scale(1.1);
+        }
+
+        .player-controls .play-pause {
+            width: 40px;
+            height: 40px;
+            background: #ff6b9d;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .player-controls .play-pause:hover {
+            background: #ff5588;
+        }
+
+        .progress-container {
+            flex: 1;
+            margin: 0 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: #ff6b9d;
+            border-radius: 2px;
+            transition: width 0.1s;
+        }
+
+        .current-time {
+            font-size: 11px;
+            color: #666;
+            margin-top: 5px;
+            display: block;
+            text-align: center;
+        }
+
+        /* Scrollbar styling */
+        .playlist-items::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .playlist-items::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+        }
+
+        .playlist-items::-webkit-scrollbar-thumb {
+            background: #ff6b9d;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 
 <body>
     <!-- Loading Screen -->
     <div class="loading" id="loading">
         <div class="loader"></div>
+    </div>
+
+    <!-- Music Player -->
+    <div class="music-player" id="musicPlayer">
+        <i class="fas fa-music"></i>
+    </div>
+
+    <!-- Playlist Panel -->
+    <div class="playlist-panel" id="playlistPanel">
+        <div class="playlist-header">
+            <h3>Laysa's Playlist</h3>
+            <button class="close-btn" onclick="togglePlaylist()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="playlist-items" id="playlistItems">
+            <!-- Playlist items will be loaded here -->
+        </div>
+
+        <div class="player-controls">
+            <button onclick="previousSong()">
+                <i class="fas fa-step-backward"></i>
+            </button>
+            <button class="play-pause" onclick="togglePlay()">
+                <i class="fas fa-play" id="playPauseIcon"></i>
+            </button>
+            <button onclick="nextSong()">
+                <i class="fas fa-step-forward"></i>
+            </button>
+
+            <div class="progress-container">
+                <div class="progress-bar" onclick="seekSong(event)">
+                    <div class="progress" id="songProgress"></div>
+                </div>
+                <span class="current-time" id="currentTime">0:00</span>
+            </div>
+        </div>
     </div>
 
     <!-- Musik latar -->
@@ -176,7 +435,7 @@
                 <div class="royal-frame">
                     <div class="galeri-item">
                         <img src="galeri/12.jpg" class="galeri-img" alt="Potret Cantik"
-                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80'">
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/icon-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80'">
                         <div class="galeri-caption">Potret Cantik</div>
                     </div>
                 </div>
@@ -588,6 +847,164 @@
                 }, 500);
             }, 1000);
         });
+
+        // ============= MUSIC PLAYER FUNCTIONALITY =============
+        let currentAudio = document.getElementById('bgm');
+        let isPlaying = true;
+        let currentSongIndex = 0;
+
+        // Playlist data
+        const playlist = [
+            {
+                title: "ntuk Laysa",
+                artist: "Special Song",
+                src: "123456.mp3",
+                duration: "3:45"
+            },
+            {
+                title: "baby angel",
+                artist: "siapaaja",
+                src: "angelbaby.mp3",
+                duration: "4:20"
+            },
+            {
+                title: "Favoritegirl",
+                artist: "Justin Bieber",
+                src: "favoritegirl.mp3",
+                duration: "4:14"
+            },
+            // {
+            //     title: "Kenangan Manis",
+            //     artist: "Sweet Memory",
+            //     src: "music/lagu4.mp3",
+            //     duration: "2:50"
+            // }
+        ];
+
+        // Initialize music player
+        function initMusicPlayer() {
+            const musicPlayer = document.getElementById('musicPlayer');
+            const playlistPanel = document.getElementById('playlistPanel');
+            const playlistItems = document.getElementById('playlistItems');
+
+            // Load playlist items
+            playlist.forEach((song, index) => {
+                const item = document.createElement('div');
+                item.className = 'playlist-item';
+                if (index === currentSongIndex) {
+                    item.classList.add('active');
+                }
+
+                item.innerHTML = `
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="song-info">
+                        <div class="song-title">${song.title}</div>
+                        <div class="song-artist">${song.artist}</div>
+                    </div>
+                    <div class="song-duration">${song.duration}</div>
+                `;
+
+                item.onclick = () => playSong(index);
+                playlistItems.appendChild(item);
+            });
+
+            // Music player click event
+            musicPlayer.onclick = togglePlaylist;
+
+            // Update progress bar
+            currentAudio.addEventListener('timeupdate', updateProgressBar);
+            currentAudio.addEventListener('ended', nextSong);
+
+            // Set initial progress
+            updateProgressBar();
+        }
+
+        function togglePlaylist() {
+            const playlistPanel = document.getElementById('playlistPanel');
+            playlistPanel.style.display = playlistPanel.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function togglePlay() {
+            const playPauseIcon = document.getElementById('playPauseIcon');
+
+            if (isPlaying) {
+                currentAudio.pause();
+                playPauseIcon.classList.remove('fa-pause');
+                playPauseIcon.classList.add('fa-play');
+            } else {
+                currentAudio.play();
+                playPauseIcon.classList.remove('fa-play');
+                playPauseIcon.classList.add('fa-pause');
+            }
+
+            isPlaying = !isPlaying;
+        }
+
+        function playSong(index) {
+            // Update active song
+            document.querySelectorAll('.playlist-item').forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+
+            currentSongIndex = index;
+            const song = playlist[index];
+
+            // Change audio source
+            currentAudio.src = song.src;
+            currentAudio.load();
+            currentAudio.play();
+
+            // Update play/pause button
+            document.getElementById('playPauseIcon').classList.remove('fa-play');
+            document.getElementById('playPauseIcon').classList.add('fa-pause');
+            isPlaying = true;
+
+            // Update current time
+            updateProgressBar();
+        }
+
+        function nextSong() {
+            let nextIndex = currentSongIndex + 1;
+            if (nextIndex >= playlist.length) {
+                nextIndex = 0;
+            }
+            playSong(nextIndex);
+        }
+
+        function previousSong() {
+            let prevIndex = currentSongIndex - 1;
+            if (prevIndex < 0) {
+                prevIndex = playlist.length - 1;
+            }
+            playSong(prevIndex);
+        }
+
+        function updateProgressBar() {
+            const progress = document.getElementById('songProgress');
+            const currentTime = document.getElementById('currentTime');
+
+            if (currentAudio.duration) {
+                const percentage = (currentAudio.currentTime / currentAudio.duration) * 100;
+                progress.style.width = percentage + '%';
+
+                // Format time
+                const minutes = Math.floor(currentAudio.currentTime / 60);
+                const seconds = Math.floor(currentAudio.currentTime % 60);
+                currentTime.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+
+        function seekSong(event) {
+            const progressBar = event.currentTarget;
+            const rect = progressBar.getBoundingClientRect();
+            const percentage = (event.clientX - rect.left) / rect.width;
+
+            if (currentAudio.duration) {
+                currentAudio.currentTime = percentage * currentAudio.duration;
+            }
+        }
 
         // Game Data untuk Tebak Gambar
         const gameData = [
@@ -1184,25 +1601,134 @@
         }
 
         // ============= FUNGSI UMUM =============
+        // Di fungsi initGaleri(), ganti dengan kode berikut:
+        // ============= FUNGSI GALERI YANG SUDAH DIPERBAIKI =============
         function initGaleri() {
             const modal = document.getElementById('imageModal');
-            const modalImg = document.querySelector('.modal-img');
+            const modalContent = document.querySelector('.modal-content');
+            const closeModalBtn = document.querySelector('.close-modal');
             const items = document.querySelectorAll('.galeri-item img, .galeri-item video');
 
+            // Fungsi untuk menutup modal
+            function closeModal() {
+                modal.style.display = 'none';
+
+                // Stop semua video di modal
+                const modalVideos = modalContent.querySelectorAll('video');
+                modalVideos.forEach(video => {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+
+                // Kosongkan modal content
+                modalContent.innerHTML = '';
+            }
+
+            // Event listener untuk menutup modal
+            closeModalBtn.onclick = closeModal;
+
+            // Tutup modal saat klik di luar konten
+            modal.onclick = function (event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            };
+
+            // Tutup modal dengan Escape key
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape' && modal.style.display === 'flex') {
+                    closeModal();
+                }
+            });
+
+            // Event listener untuk setiap item galeri
             items.forEach(item => {
-                item.onclick = () => {
-                    modal.style.display = 'flex';
+                item.onclick = function (event) {
+                    // Mencegah event bubbling
+                    event.stopPropagation();
+
+                    // Kosongkan modal content terlebih dahulu
+                    modalContent.innerHTML = '';
+
                     if (item.tagName === 'VIDEO') {
-                        modalImg.src = item.poster || item.src;
+                        // Untuk video
+                        const video = document.createElement('video');
+                        video.src = item.src;
+                        video.controls = true;
+                        video.autoplay = true;
+                        video.className = 'modal-img';
+                        video.style.width = '100%';
+                        video.style.height = '100%';
+                        video.style.objectFit = 'contain';
+
+                        modalContent.appendChild(video);
                     } else {
-                        modalImg.src = item.src;
+                        // Untuk gambar
+                        const img = document.createElement('img');
+                        img.src = item.src;
+                        img.alt = item.alt || 'Galeri Image';
+                        img.className = 'modal-img';
+                        img.style.width = '100%';
+                        img.style.height = '100%';
+                        img.style.objectFit = 'contain';
+
+                        modalContent.appendChild(img);
                     }
+
+                    // Tambahkan tombol close ke modal content
+                    const closeBtn = document.createElement('span');
+                    closeBtn.className = 'close-modal';
+                    closeBtn.innerHTML = '&times;';
+                    closeBtn.onclick = closeModal;
+                    modalContent.appendChild(closeBtn);
+
+                    // Tampilkan modal
+                    modal.style.display = 'flex';
                 };
             });
         }
 
+        // Panggil initGaleri saat halaman galeri ditampilkan
+        function showGaleri() {
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('ucapanPage').style.display = 'none';
+            document.getElementById('galeriPage').style.display = 'block';
+            document.getElementById('gameMenuPage').style.display = 'none';
+            document.getElementById('tebakGambarPage').style.display = 'none';
+            document.getElementById('tebakKataPage').style.display = 'none';
+            document.getElementById('tebakAngkaPage').style.display = 'none';
+
+            // Inisialisasi galeri
+            initGaleri();
+        }
+
+        // Tambahkan juga event listener untuk DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inisialisasi event listener untuk galeri saat pertama kali load
+            initGaleri();
+
+            // Juga inisialisasi ketika kembali ke halaman utama
+            document.querySelector('button[onclick="showMain()"]')?.addEventListener('click', function () {
+                // Reset modal jika terbuka
+                const modal = document.getElementById('imageModal');
+                if (modal.style.display === 'flex') {
+                    modal.style.display = 'none';
+                    const modalContent = document.querySelector('.modal-content');
+                    modalContent.innerHTML = '';
+                }
+            });
+        });
+
+        // Fungsi closeModal tetap sama
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
+
+            // Stop semua video di modal
+            const modalVideos = document.querySelectorAll('.modal-content video');
+            modalVideos.forEach(video => {
+                video.pause();
+                video.currentTime = 0;
+            });
         }
 
         function createHearts() {
@@ -1224,6 +1750,7 @@
             showMain();
             createHearts();
             updateGameStats();
+            initMusicPlayer(); // Initialize music player
         });
 
         window.addEventListener('click', e => {

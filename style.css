@@ -308,7 +308,8 @@ body {
     filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.5));
 }
 
-/* Halaman Galeri */
+/* ============= GALERI YANG SUDAH DIPERBAIKI ============= */
+/* ============= GALERI YANG SUDAH DIPERBAIKI ============= */
 .galeri-page {
     display: none;
     min-height: 100vh;
@@ -393,28 +394,61 @@ body {
     transition: opacity 0.3s ease;
 }
 
-.galeri-item:hover::before {
-    opacity: 1;
-}
 
-.galeri-item:hover {
-    transform: translateY(-15px) scale(1.03);
-    box-shadow: 
-        0 25px 50px rgba(0, 0, 0, 0.25),
-        0 15px 25px rgba(0, 0, 0, 0.15);
-    border-color: var(--gold);
-}
+
+/* PERBAIKAN: Hapus efek scale pada hover item */
 
 .galeri-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    /* PERBAIKAN: Hapus semua transisi */
+    transition: none !important;
+}
+
+/* PERBAIKAN: Hapus efek zoom pada gambar saat hover */
+/* .galeri-item:hover .galeri-img {
+    transform: scale(1.08);
+} */
+
+/* Styling untuk video di galeri */
+.galeri-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: #000;
+    transition: none !important;
+}
+
+/* Indikator video (play icon) */
+.video-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    opacity: 0.8;
     transition: var(--transition);
 }
 
-.galeri-item:hover .galeri-img {
-    transform: scale(1.08);
+.galeri-item:hover .video-indicator {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.video-indicator i {
+    color: white;
+    font-size: 24px;
+    margin-left: 5px;
 }
 
 .galeri-caption {
@@ -424,12 +458,13 @@ body {
     width: 100%;
     background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
     color: white;
-    padding: 20px;
-    font-size: 1.1rem;
+    padding: 15px;
+    font-size: 1rem;
     transform: translateY(100%);
     transition: var(--transition);
     font-weight: 500;
     letter-spacing: 0.5px;
+    z-index: 2;
 }
 
 .galeri-item:hover .galeri-caption {
@@ -448,7 +483,7 @@ body {
 }
 
 .royal-frame:hover {
-    transform: rotate(3deg) scale(1.02);
+    transform: rotate(2deg);
     box-shadow: 
         0 25px 40px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -472,7 +507,7 @@ body {
     opacity: 1;
 }
 
-/* Modal untuk gambar galeri */
+/* ============= MODAL GALERI YANG SUDAH DIPERBAIKI ============= */
 .modal {
     display: none;
     position: fixed;
@@ -484,13 +519,13 @@ body {
     z-index: 1000;
     justify-content: center;
     align-items: center;
-    animation: fadeIn 0.4s ease;
+    animation: fadeIn 0.3s ease;
     backdrop-filter: blur(10px);
 }
 
 .modal-content {
     max-width: 90%;
-    max-height: 85%;
+    max-height: 90%;
     border-radius: 15px;
     overflow: hidden;
     position: relative;
@@ -498,15 +533,40 @@ body {
     box-shadow: 
         0 0 50px rgba(212, 175, 55, 0.6),
         0 20px 60px rgba(0, 0, 0, 0.4);
-    animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: modalZoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     background: black;
+}
+
+/* PERBAIKAN: Animasi modal tanpa translateY dan scale minimal */
+@keyframes modalZoomIn {
+    from { 
+        transform: scale(0.9); 
+        opacity: 0; 
+    }
+    to { 
+        transform: scale(1); 
+        opacity: 1; 
+    }
 }
 
 .modal-img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: contain; /* PERBAIKAN: contain agar foto full terlihat */
     display: block;
+    max-width: 100%;
+    max-height: 100%;
+    /* PERBAIKAN: Pastikan tidak ada transform di modal */
+    transform: none !important;
+}
+
+/* Styling untuk video di modal */
+.modal-content video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* PERBAIKAN: contain agar video full terlihat */
+    display: block;
+    transform: none !important;
 }
 
 .close-modal {
@@ -532,6 +592,145 @@ body {
     background: rgba(0, 0, 0, 0.8);
     transform: scale(1.15) rotate(90deg);
     border-color: var(--gold);
+}
+
+/* Loading untuk modal */
+.modal-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.2rem;
+}
+
+/* Kontrol untuk video modal */
+.video-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+}
+
+.modal-content:hover .video-controls {
+    opacity: 1;
+}
+
+.video-control-btn {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: var(--transition);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.video-control-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: scale(1.1);
+    border-color: var(--gold);
+}
+
+/* Responsive untuk Galeri */
+@media (max-width: 1200px) {
+    .galeri-container {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .galeri-page {
+        padding: 20px 15px;
+    }
+    
+    .galeri-title {
+        font-size: 2.2rem;
+        margin-bottom: 30px;
+    }
+    
+    .galeri-container {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        padding: 5px;
+    }
+    
+    .galeri-item:hover {
+        transform: translateY(-5px);
+    }
+    
+    .royal-frame {
+        padding: 8px;
+    }
+    
+    .galeri-caption {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+    
+    .modal-content {
+        max-width: 95%;
+        max-height: 85%;
+        border-width: 4px;
+    }
+    
+    .close-modal {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .galeri-title {
+        font-size: 1.8rem;
+    }
+    
+    .galeri-container {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+        margin: 0 auto 30px;
+    }
+    
+    .video-indicator {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .video-indicator i {
+        font-size: 20px;
+    }
+    
+    .modal-content {
+        border-width: 3px;
+        border-radius: 10px;
+    }
+    
+    .video-controls {
+        bottom: 10px;
+        gap: 10px;
+    }
+    
+    .video-control-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
 }
 
 /* Animasi */
@@ -611,8 +810,6 @@ body {
 .fade-in {
     animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
-
-/* CSS untuk Menu Games */
 
 /* ============= GAME 1: TEBAK GAMBAR ============= */
 .game-page .game-subtitle {
@@ -1870,4 +2067,4 @@ body {
         -webkit-text-fill-color: black !important;
         text-shadow: none !important;
     }
-}    
+}
