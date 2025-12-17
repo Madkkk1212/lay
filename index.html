@@ -13,144 +13,6 @@
         rel="stylesheet">
     <link rel="icon" type="image/png" href="galeri/logo.png">
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Tambahan styling untuk galeri */
-        .galeri-img {
-            transition: transform 0.3s ease;
-        }
-
-        .galeri-item:hover .galeri-img {
-            transform: scale(1.05);
-        }
-
-        /* Styling untuk modal */
-        #imageModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            position: relative;
-            max-width: 90%;
-            max-height: 90%;
-        }
-
-        #modalImage {
-            width: 100%;
-            height: auto;
-            max-height: 80vh;
-            object-fit: contain;
-            border-radius: 10px;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            color: white;
-            font-size: 40px;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-
-        /* ================ ANIMASI LOVE BACKGROUND ================ */
-        .love-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .animated-love {
-            position: absolute;
-            font-size: 20px;
-            opacity: 0;
-            animation: loveFloat 20s linear infinite;
-        }
-
-        .love-red {
-            color: #ff4081;
-            text-shadow: 0 0 10px rgba(255, 64, 129, 0.7);
-        }
-
-        .love-blue {
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.7);
-        }
-
-        .love-pink {
-            color: #ff6b9d;
-            text-shadow: 0 0 10px rgba(255, 107, 157, 0.7);
-        }
-
-        @keyframes loveFloat {
-            0% {
-                transform: translateY(100vh) translateX(-50px) rotate(0deg) scale(0.3);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 0.8;
-                transform: scale(1);
-            }
-
-            90% {
-                opacity: 0.6;
-            }
-
-            100% {
-                transform: translateY(-100px) translateX(50px) rotate(360deg) scale(0.3);
-                opacity: 0;
-            }
-        }
-
-        /* Efek khusus untuk beberapa love */
-        .love-blink {
-            animation: loveFloat 20s linear infinite, blink 3s ease-in-out infinite;
-        }
-
-        .love-pulse {
-            animation: loveFloat 20s linear infinite, pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes blink {
-
-            0%,
-            100% {
-                opacity: 0.8;
-            }
-
-            50% {
-                opacity: 0.3;
-            }
-        }
-
-        /* Responsif */
-        @media (max-width: 768px) {
-            .animated-love {
-                font-size: 16px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .animated-love {
-                font-size: 14px;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -159,12 +21,12 @@
         <div class="loader"></div>
     </div>
 
-    <!-- Animasi Love Background -->
-    <div class="love-background" id="loveBackground">
+    <!-- Animasi Love Background untuk Main Page -->
+    <div class="main-page-bg" id="mainPageBg">
         <!-- Love akan di-generate oleh JavaScript -->
     </div>
 
-    <!-- Floating Hearts -->
+    <!-- Floating Hearts untuk semua halaman -->
     <div class="floating-hearts">
         <div class="heart">❤️</div>
         <div class="heart">💖</div>
@@ -259,9 +121,7 @@
                 </a>
             </div>
 
-            <p style="margin-top: 30px; color: #ff6b9d; font-style: italic;">
-                Made with <span class="heart-pulse">❤️</span> by madk
-            </p>
+            <p class="made-with-love">Made with <span class="heart-pulse">❤️</span> by madk</p>
         </div>
     </section>
 
@@ -299,9 +159,7 @@
                     madk <span class="heart-pulse">❤️❤️❤️</span>
                 </p>
 
-                <p style="font-size: 12px; opacity: 0.6; margin-top: -10px;">
-                    *Untuk wanita tercantik di hidupku*
-                </p>
+                <p class="ucapan-footer">*Untuk wanita cantik*</p>
             </div>
         </div>
     </section>
@@ -313,20 +171,16 @@
         </button>
         <div class="galeri-content">
             <h2 class="galeri-title">Galeri Sang Ratu <span class="heart-pulse">👑</span></h2>
-            <p style="text-align: center; color: white; margin-bottom: 30px; font-style: italic;">
-                Koleksi momen-momen indah yang abadi dalam hati <span class="heart-pulse">💕</span>
-            </p>
+            <p class="galeri-subtitle">Koleksi momen-momen indah yang abadi dalam hati <span
+                    class="heart-pulse">💕</span></p>
 
             <div class="galeri-container">
                 <!-- Gambar akan ditampilkan di sini -->
             </div>
 
-            <div style="text-align: center; margin-top: 40px; color: white;">
-                <p><i class="fas fa-heart" style="color: #ff6b9d;"></i> Setiap foto memiliki cerita tersendiri
-                    <i class="fas fa-heart" style="color: #ff6b9d;"></i>
-                </p>
-                <p style="font-size: 14px; opacity: 0.8; margin-top: 10px;">Scroll untuk melihat lebih banyak foto...
-                </p>
+            <div class="galeri-footer">
+                <p><i class="fas fa-heart"></i> Setiap foto memiliki cerita tersendiri <i class="fas fa-heart"></i></p>
+                <p class="scroll-hint">Scroll untuk melihat lebih banyak foto...</p>
             </div>
         </div>
     </section>
@@ -401,9 +255,8 @@
                 </div>
             </div>
 
-            <div style="text-align: center; margin-top: 30px; color: white;">
-                <p><i class="fas fa-heart" style="color: #ff6b9d;"></i> Semoga kamu suka dengan game-game ini! <i
-                        class="fas fa-heart" style="color: #ff6b9d;"></i></p>
+            <div class="game-footer">
+                <p><i class="fas fa-heart"></i> Semoga kamu suka dengan game-game ini! <i class="fas fa-heart"></i></p>
             </div>
         </div>
     </section>
@@ -443,6 +296,65 @@
             });
         }
 
+        // ================ ANIMASI LOVE BACKGROUND UNTUK MAIN PAGE ================
+        function createMainPageLove() {
+            const mainPageBg = document.getElementById('mainPageBg');
+            if (!mainPageBg) return;
+
+            // Array emoji love untuk main page
+            const loveEmojis = ['❤️', '💖', '💗', '💓', '💕', '💞', '💘', '💝', '💙', '🧡', '💛', '💚', '💜'];
+
+            // Buat 50 love particles untuk main page
+            for (let i = 0; i < 50; i++) {
+                const love = document.createElement('div');
+                love.className = 'main-page-love';
+
+                // Pilih warna
+                let colorClass;
+                if (i % 3 === 0) {
+                    colorClass = 'love-red';
+                } else if (i % 3 === 1) {
+                    colorClass = 'love-blue';
+                } else {
+                    colorClass = 'love-pink';
+                }
+                love.classList.add(colorClass);
+
+                // Tambah efek khusus untuk beberapa love
+                if (i % 4 === 0) love.classList.add('main-love-blink');
+                if (i % 5 === 0) love.classList.add('main-love-pulse');
+                if (i % 7 === 0) love.classList.add('main-love-spin');
+
+                // Pilih emoji (biasanya merah/pink, tapi juga biru untuk variasi)
+                let emojiIndex;
+                if (colorClass === 'love-blue') {
+                    // Untuk love biru, gunakan emoji biru atau netral
+                    emojiIndex = Math.floor(Math.random() * 3) + 8; // Indeks 8-10 untuk warna netral/biru
+                } else {
+                    emojiIndex = Math.floor(Math.random() * 8); // Indeks 0-7 untuk merah/pink
+                }
+                love.textContent = loveEmojis[emojiIndex];
+
+                // Random position dan animation properties
+                const left = Math.random() * 100;
+                const delay = Math.random() * 10;
+                const duration = 10 + Math.random() * 10;
+
+                love.style.left = `${left}%`;
+                love.style.animationDelay = `${delay}s`;
+                love.style.animationDuration = `${duration}s`;
+
+                // Random size
+                const size = 20 + Math.random() * 30;
+                love.style.fontSize = `${size}px`;
+
+                // Random starting opacity
+                love.style.opacity = 0.5 + Math.random() * 0.5;
+
+                mainPageBg.appendChild(love);
+            }
+        }
+
         // ================ FUNGSI GALERI ================
         function openModal(imageSrc, imageTitle) {
             const modal = document.getElementById('imageModal');
@@ -465,47 +377,6 @@
                 modal.style.display = 'none';
                 document.getElementById('modalImage').src = '';
             }, 300);
-        }
-
-        // ================ ANIMASI LOVE BACKGROUND ================
-        function createLoveBackground() {
-            const loveBackground = document.getElementById('loveBackground');
-            if (!loveBackground) return;
-
-            // Array emoji love
-            const loveEmojis = ['❤️', '💙', '💗', '💖', '💕', '💞', '💓', '💘', '💝'];
-
-            // Buat 40 love particles
-            for (let i = 0; i < 40; i++) {
-                const love = document.createElement('div');
-                love.className = 'animated-love';
-
-                // Pilih warna secara bergantian
-                const colorClass = i % 3 === 0 ? 'love-red' : (i % 3 === 1 ? 'love-blue' : 'love-pink');
-                love.classList.add(colorClass);
-
-                // Tambah efek khusus untuk beberapa love
-                if (i % 5 === 0) love.classList.add('love-blink');
-                if (i % 7 === 0) love.classList.add('love-pulse');
-
-                // Pilih emoji
-                love.textContent = loveEmojis[Math.floor(Math.random() * loveEmojis.length)];
-
-                // Position dan animation properties
-                const left = Math.random() * 100;
-                const delay = Math.random() * 15;
-                const duration = 15 + Math.random() * 10;
-
-                love.style.left = `${left}%`;
-                love.style.animationDelay = `${delay}s`;
-                love.style.animationDuration = `${duration}s`;
-
-                // Random size
-                const size = 16 + Math.random() * 24;
-                love.style.fontSize = `${size}px`;
-
-                loveBackground.appendChild(love);
-            }
         }
 
         // ================ FUNGSI GAME STATS ================
@@ -569,7 +440,7 @@
 
                 const caption = document.createElement('div');
                 caption.className = 'galeri-caption';
-                caption.innerHTML = img.caption + ' <span class="heart-pulse">' + img.caption.split(' ').pop() + '</span>';
+                caption.innerHTML = img.caption;
 
                 galeriItem.appendChild(image);
                 galeriItem.appendChild(caption);
@@ -582,7 +453,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             showMain();
             updateGameStats();
-            createLoveBackground();
+            createMainPageLove();
             initializeGallery();
 
             // Paksa audio play setelah klik pertama
