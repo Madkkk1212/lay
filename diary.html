@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buku Harian Laysa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@600&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" href="galeri/logo.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Styling khusus untuk buku harian */
+        .diary-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 20px;
+            padding-top: 80px;
+        }
+
+        .diary-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-btn-diary {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 107, 157, 0.9);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+        }
+
+        .back-btn-diary:hover {
+            background: rgba(255, 107, 157, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+        }
+
+        .diary-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .diary-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: #ff6b9d;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(255, 107, 157, 0.3);
+        }
+
+        .diary-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+
+        .password-container {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .password-input-container {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .password-icon {
+            font-size: 20px;
+            color: #ff6b9d;
+            margin-right: 15px;
+        }
+
+        #notePasswordInput {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 18px;
+            outline: none;
+        }
+
+        .reveal-btn {
+            background: transparent;
+            border: none;
+            color: #ff6b9d;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .reveal-btn:hover {
+            color: white;
+        }
+
+        .unlock-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .unlock-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+        }
+
+        .password-hint {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .hint-text {
+            color: #ff6b9d;
+            font-weight: bold;
+        }
+
+        .password-message {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+            min-height: 24px;
+        }
+
+        /* Note Section */
+        .note-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .note-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .note-action-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .note-action-btn:hover {
+            background: rgba(255, 107, 157, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .note-action-btn.primary {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+        }
+
+        /* Note Editor */
+        .note-editor {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .note-input-container {
+            margin-bottom: 20px;
+        }
+
+        .note-title-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        .note-content-input {
+            width: 100%;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Playfair Display', serif;
+            resize: vertical;
+            outline: none;
+        }
+
+        .note-content-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .note-editor-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .save-note-btn,
+        .cancel-note-btn {
+            padding: 12px 25px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .save-note-btn {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+        }
+
+        .save-note-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+
+        .cancel-note-btn {
+            background: rgba(231, 76, 60, 0.8);
+            color: white;
+        }
+
+        .cancel-note-btn:hover {
+            background: rgba(231, 76, 60, 1);
+            transform: translateY(-2px);
+        }
+
+        /* Notes List */
+        .notes-list {
+            margin-top: 30px;
+        }
+
+        .notes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .notes-title {
+            font-size: 1.8rem;
+            color: #ff6b9d;
+        }
+
+        .notes-count {
+            background: rgba(255, 107, 157, 0.2);
+            color: #ff6b9d;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .note-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .note-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .note-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ff6b9d, #ff8fab);
+        }
+
+        .note-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .note-card-title {
+            font-size: 1.3rem;
+            color: white;
+            margin: 0;
+        }
+
+        .note-card-date {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .note-card-content {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            /* -webkit-line-clamp: 3; */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .note-card-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .note-card-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .note-card-btn:hover {
+            background: rgba(255, 107, 157, 0.3);
+        }
+
+        .note-card-btn.delete {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+
+        .note-card-btn.delete:hover {
+            background: rgba(231, 76, 60, 0.3);
+        }
+
+        /* Empty State */
+        .empty-notes {
+            text-align: center;
+            padding: 50px 20px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .empty-notes-icon {
+            font-size: 60px;
+            color: #ff6b9d;
+            margin-bottom: 20px;
+        }
+
+        .empty-notes-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        /* Modal Styles */
+        .note-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .note-modal.active {
+            opacity: 1;
+        }
+
+        .note-modal-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .note-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .note-modal-title {
+            font-size: 2rem;
+            color: #ff6b9d;
+            margin: 0;
+        }
+
+        .note-modal-date {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .note-modal-body {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 107, 157, 0.2);
+            color: #ff6b9d;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal-btn:hover {
+            background: rgba(255, 107, 157, 0.4);
+            transform: rotate(90deg);
+        }
+
+        /* Loading */
+        .diary-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+        }
+
+        .diary-loader {
+            border: 4px solid rgba(255, 107, 157, 0.2);
+            border-top: 4px solid #ff6b9d;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .diary-container {
+                padding: 20px;
+            }
+
+            .diary-title {
+                font-size: 2.5rem;
+            }
+
+            .notes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .note-controls {
+                flex-direction: column;
+            }
+
+            .note-editor-buttons {
+                flex-direction: column;
+            }
+
+            .note-modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="diary-loading" id="diaryLoading">
+        <div class="diary-loader"></div>
+    </div>
+
+    <!-- Back Button -->
+    <button class="back-btn-diary" onclick="goBackToMain()">
+        <i class="fas fa-arrow-left"></i> Kembali ke Halaman Utama
+    </button>
+
+    <!-- Main Diary Content -->
+    <section class="diary-page">
+        <div class="diary-container">
+            <div class="diary-header">
+                <h1 class="diary-title">Buku Harian Rahasia <span class="heart-pulse">📖</span></h1>
+                <p class="diary-subtitle">Tempat untuk menulis dan menyimpan catatan pribadimu</p>
+            </div>
+
+            <!-- Password Section -->
+            <div class="password-container" id="passwordSection">
+                <div class="password-input-container">
+                    <i class="fas fa-key password-icon"></i>
+                    <input type="password" id="notePasswordInput" placeholder="Masukkan password (6 digit angka)"
+                        maxlength="6" oninput="checkNotePasswordInput()">
+                    <button class="reveal-btn" onclick="toggleNotePasswordVisibility()">
+                        <i class="fas fa-eye" id="noteEyeIcon"></i>
+                    </button>
+                </div>
+                <!-- <p class="password-hint">Password: <span class="hint-text">123123</span></p> -->
+                <button class="unlock-btn" onclick="unlockNoteSection()">
+                    <i class="fas fa-unlock"></i> Buka Buku Harian
+                </button>
+                <p class="password-message" id="notePasswordMessage"></p>
+            </div>
+
+            <!-- Note Section (Hidden by Default) -->
+            <div class="note-section" id="noteSection" style="display:none;">
+                <!-- Note Controls -->
+                <div class="note-controls">
+                    <button class="note-action-btn" onclick="createNewNote()">
+                        <i class="fas fa-plus"></i> Catatan Baru
+                    </button>
+                    <button class="note-action-btn" onclick="showAllNotes()">
+                        <i class="fas fa-list"></i> Lihat Semua Catatan
+                    </button>
+                    <button class="note-action-btn primary" onclick="exportNotes()">
+                        <i class="fas fa-download"></i> Export Catatan
+                    </button>
+                </div>
+
+                <!-- Note Editor (Hidden by Default) -->
+                <div class="note-editor" id="noteEditor" style="display:none;">
+                    <div class="note-input-container">
+                        <input type="text" id="noteTitleInput" class="note-title-input" placeholder="Judul Catatan"
+                            maxlength="100">
+                        <textarea id="noteContentInput" class="note-content-input"
+                            placeholder="Tulis isi catatan di sini..."></textarea>
+                    </div>
+                    <div class="note-editor-buttons">
+                        <button class="save-note-btn" onclick="saveNote()">
+                            <i class="fas fa-save"></i> Simpan Catatan
+                        </button>
+                        <button class="cancel-note-btn" onclick="cancelNote()">
+                            <i class="fas fa-times"></i> Batal
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notes List -->
+                <div class="notes-list" id="notesList">
+                    <div class="notes-header">
+                        <h2 class="notes-title">Catatan Saya</h2>
+                        <span class="notes-count" id="notesCount">0 catatan</span>
+                    </div>
+
+                    <div id="notesContainer">
+                        <!-- Notes will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Note View Modal -->
+    <div class="note-modal" id="noteViewModal">
+        <div class="note-modal-content">
+            <button class="close-modal-btn" onclick="closeNoteModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="note-modal-header">
+                <h2 class="note-modal-title" id="modalNoteTitle"></h2>
+                <span class="note-modal-date" id="modalNoteDate"></span>
+            </div>
+            <div class="note-modal-body" id="modalNoteContent"></div>
+        </div>
+    </div>
+
+    <script src="scripts/diary.js"></script>
+
+    <script>
+        // ================ PASSWORD FUNCTIONS ================
+        function checkNotePasswordInput() {
+            const input = document.getElementById('notePasswordInput');
+            const message = document.getElementById('notePasswordMessage');
+
+            // Hanya izinkan angka
+            input.value = input.value.replace(/\D/g, '');
+
+            if (input.value.length === 6) {
+                if (input.value === '123123') {
+                    message.textContent = 'Password benar! Klik "Buka Buku Harian"';
+                    message.style.color = '#2ecc71';
+                } else {
+                    message.textContent = 'Password salah. Coba lagi!';
+                    message.style.color = '#e74c3c';
+                }
+            } else {
+                message.textContent = '';
+            }
+        }
+
+        function toggleNotePasswordVisibility() {
+            const input = document.getElementById('notePasswordInput');
+            const eyeIcon = document.getElementById('noteEyeIcon');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+
+        function unlockNoteSection() {
+            const password = document.getElementById('notePasswordInput').value;
+            const message = document.getElementById('notePasswordMessage');
+
+            if (password === '123123') {
+                // Password benar
+                document.getElementById('passwordSection').style.display = 'none';
+                document.getElementById('noteSection').style.display = 'block';
+                message.textContent = 'Akses berhasil! Selamat menulis.';
+                message.style.color = '#2ecc71';
+
+                // Load notes
+                loadNotes();
+            } else {
+                // Password salah
+                message.textContent = 'Password salah! Coba lagi.';
+                message.style.color = '#e74c3c';
+
+                // Efek shake
+                const passwordInput = document.getElementById('notePasswordInput');
+                passwordInput.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    passwordInput.style.animation = '';
+                }, 500);
+            }
+        }
+
+        function goBackToMain() {
+            window.location.href = 'index.html';
+        }
+
+        // ================ NOTE MANAGEMENT FUNCTIONS ================
+        let notes = [];
+        let currentNoteId = null;
+        let isEditing = false;
+
+        function loadNotes() {
+            try {
+                const savedNotes = localStorage.getItem('laysaNotes');
+                if (savedNotes) {
+                    notes = JSON.parse(savedNotes);
+                }
+                displayNotes();
+            } catch (e) {
+                console.log('Error loading notes:', e);
+                notes = [];
+            }
+        }
+
+        function saveNote() {
+            const title = document.getElementById('noteTitleInput').value.trim();
+            const content = document.getElementById('noteContentInput').value.trim();
+
+            if (!title || !content) {
+                alert('Judul dan isi catatan tidak boleh kosong!');
+                return;
+            }
+
+            const note = {
+                id: currentNoteId || Date.now().toString(),
+                title: title,
+                content: content,
+                date: new Date().toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }),
+                timestamp: Date.now()
+            };
+
+            if (isEditing) {
+                // Update existing note
+                const index = notes.findIndex(n => n.id === currentNoteId);
+                if (index !== -1) {
+                    notes[index] = note;
+                }
+            } else {
+                // Add new note
+                notes.unshift(note);
+            }
+
+            saveNotesToStorage();
+            displayNotes();
+            cancelNote();
+        }
+
+        function cancelNote() {
+            document.getElementById('noteEditor').style.display = 'none';
+            document.getElementById('noteTitleInput').value = '';
+            document.getElementById('noteContentInput').value = '';
+            currentNoteId = null;
+            isEditing = false;
+        }
+
+        function createNewNote() {
+            document.getElementById('noteEditor').style.display = 'block';
+            document.getElementById('notesList').style.display = 'none';
+            document.getElementById('noteTitleInput').focus();
+            isEditing = false;
+        }
+
+        function displayNotes() {
+            const container = document.getElementById('notesContainer');
+            const countElement = document.getElementById('notesCount');
+
+            if (notes.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-notes">
+                        <div class="empty-notes-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <p class="empty-notes-text">Belum ada catatan</p>
+                        <p>Mulailah menulis dengan klik tombol "Catatan Baru"</p>
+                    </div>
+                `;
+                countElement.textContent = '0 catatan';
+                return;
+            }
+
+            countElement.textContent = `${notes.length} catatan`;
+
+            // Sort notes by date (newest first)
+            const sortedNotes = [...notes].sort((a, b) => b.timestamp - a.timestamp);
+
+            container.innerHTML = '';
+            sortedNotes.forEach(note => {
+                const noteCard = document.createElement('div');
+                noteCard.className = 'note-card';
+                noteCard.innerHTML = `
+                    <div class="note-card-header">
+                        <h3 class="note-card-title">${note.title}</h3>
+                        <span class="note-card-date">${note.date}</span>
+                    </div>
+                    <div class="note-card-content">${note.content.substring(0, 200)}${note.content.length > 200 ? '...' : ''}</div>
+                    <div class="note-card-footer">
+                        <button class="note-card-btn" onclick="viewNote('${note.id}')">
+                            <i class="fas fa-eye"></i> Lihat
+                        </button>
+                        <button class="note-card-btn" onclick="editNote('${note.id}')">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="note-card-btn delete" onclick="deleteNote('${note.id}')">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </div>
+                `;
+                container.appendChild(noteCard);
+            });
+        }
+
+        function viewNote(noteId) {
+            const note = notes.find(n => n.id === noteId);
+            if (!note) return;
+
+            document.getElementById('modalNoteTitle').textContent = note.title;
+            document.getElementById('modalNoteDate').textContent = note.date;
+            document.getElementById('modalNoteContent').textContent = note.content;
+
+            const modal = document.getElementById('noteViewModal');
+            modal.classList.add('active');
+            modal.style.display = 'flex';
+
+            setTimeout(() => {
+                modal.style.opacity = '1';
+            }, 10);
+        }
+
+        function closeNoteModal() {
+            const modal = document.getElementById('noteViewModal');
+            modal.style.opacity = '0';
+
+            setTimeout(() => {
+                modal.classList.remove('active');
+                modal.style.display = 'none';
+            }, 300);
+        }
+
+        function editNote(noteId) {
+            const note = notes.find(n => n.id === noteId);
+            if (!note) return;
+
+            document.getElementById('noteTitleInput').value = note.title;
+            document.getElementById('noteContentInput').value = note.content;
+            document.getElementById('noteEditor').style.display = 'block';
+            document.getElementById('notesList').style.display = 'none';
+
+            currentNoteId = noteId;
+            isEditing = true;
+            document.getElementById('noteTitleInput').focus();
+        }
+
+        function deleteNote(noteId) {
+            if (confirm('Apakah Anda yakin ingin menghapus catatan ini?')) {
+                notes = notes.filter(note => note.id !== noteId);
+                saveNotesToStorage();
+                displayNotes();
+            }
+        }
+
+        function saveNotesToStorage() {
+            try {
+                localStorage.setItem('laysaNotes', JSON.stringify(notes));
+            } catch (e) {
+                console.log('Error saving notes:', e);
+            }
+        }
+
+        function showAllNotes() {
+            document.getElementById('noteEditor').style.display = 'none';
+            document.getElementById('notesList').style.display = 'block';
+        }
+
+        function exportNotes() {
+            if (notes.length === 0) {
+                alert('Tidak ada catatan untuk diexport!');
+                return;
+            }
+
+            let exportText = '===== BUKU HARIAN LAYSA =====\n\n';
+            notes.forEach((note, index) => {
+                exportText += `CATATAN ${index + 1}\n`;
+                exportText += `Judul: ${note.title}\n`;
+                exportText += `Tanggal: ${note.date}\n`;
+                exportText += `Isi:\n${note.content}\n\n`;
+                exportText += '─'.repeat(50) + '\n\n';
+            });
+
+            const blob = new Blob([exportText], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `laysa-diary-${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // ================ INITIALIZATION ================
+        document.addEventListener('DOMContentLoaded', function () {
+            // Hide loading screen
+            setTimeout(() => {
+                document.getElementById('diaryLoading').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('diaryLoading').style.display = 'none';
+                }, 300);
+            }, 500);
+
+            // Set initial focus
+            document.getElementById('notePasswordInput').focus();
+
+            // Add event listener for Escape key
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    if (document.getElementById('noteViewModal').style.display === 'flex') {
+                        closeNoteModal();
+                    } else if (document.getElementById('noteEditor').style.display === 'block') {
+                        cancelNote();
+                    }
+                }
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function (event) {
+                const modal = document.getElementById('noteViewModal');
+                if (event.target === modal) {
+                    closeNoteModal();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

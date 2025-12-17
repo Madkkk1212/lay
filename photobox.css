@@ -492,7 +492,6 @@ body {
 .timer-slider {
     flex: 1;
     height: 8px;
-    -webkit-appearance: none;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 4px;
     outline: none;
@@ -1065,7 +1064,7 @@ body {
 .style-control input[type="range"] {
     flex: 1;
     height: 6px;
-    -webkit-appearance: none;
+    /* -webkit-appearance: none; */
     background: rgba(255, 255, 255, 0.1);
     border-radius: 3px;
     outline: none;
