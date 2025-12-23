@@ -4,88 +4,478 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laysa</title>
+    <title>Laysa - For My Love</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@600;700&display=swap"
         rel="stylesheet">
     <link rel="icon" type="image/png" href="galeri/logo.png">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <!-- Loading Screen -->
-    <div class="loading" id="loading">
-        <div class="loader"></div>
-    </div>
-
-    <!-- Animasi Love Background untuk Main Page -->
-    <div class="main-page-bg" id="mainPageBg">
-        <!-- Love akan di-generate oleh JavaScript -->
-    </div>
-
-    <!-- Floating Hearts untuk semua halaman -->
-    <div class="floating-hearts">
-        <div class="heart">❤️</div>
-        <div class="heart">💖</div>
-        <div class="heart">💗</div>
-        <div class="heart">💓</div>
-        <div class="heart">💕</div>
-        <div class="heart">💞</div>
-        <div class="heart">💘</div>
-        <div class="heart">💝</div>
-        <div class="heart">❤️</div>
-        <div class="heart">💖</div>
-        <div class="heart">💗</div>
-        <div class="heart">💓</div>
-        <div class="heart">💕</div>
-        <div class="heart">💞</div>
-        <div class="heart">💘</div>
-    </div>
-
-    <!-- Greeting Message -->
-    <div class="greeting-container" id="greetingContainer">
-        <!-- Greeting akan diisi oleh JavaScript -->
-    </div>
-
-    <!-- Music Player -->
-    <div class="music-player" id="musicPlayer">
-        <i class="fas fa-music"></i>
-    </div>
-
-    <!-- Playlist Panel -->
-    <div class="playlist-panel" id="playlistPanel">
-        <div class="playlist-header">
-            <h3>Laysa's Playlist</h3>
-            <button class="close-btn" onclick="togglePlaylist()">
-                <i class="fas fa-times"></i>
-            </button>
+    <!-- Loading Screen dengan Gelembung -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="bubbles-container">
+            <!-- Bubbles akan digenerate oleh JavaScript -->
         </div>
-        <div class="playlist-items" id="playlistItems">
-            <!-- Playlist akan diisi oleh JavaScript -->
-        </div>
-        <div class="player-controls">
-            <button onclick="previousSong()"><i class="fas fa-step-backward"></i></button>
-            <button class="play-pause" onclick="togglePlay()"><i class="fas fa-play" id="playPauseIcon"></i></button>
-            <button onclick="nextSong()"><i class="fas fa-step-forward"></i></button>
-            <div class="progress-container">
-                <div class="progress-bar" onclick="seekSong(event)">
-                    <div class="progress" id="songProgress"></div>
+        <div class="loading-content">
+            <div class="loading-text">
+                <h1>Wait</h1>
+                <div class="dots">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
                 </div>
-                <span class="current-time" id="currentTime">0:00</span>
+                <p class="loading-subtitle">Preparing something special for you...</p>
             </div>
         </div>
     </div>
 
-    <!-- Musik latar -->
-    <audio id="bgm" autoplay loop style="display:none;">
-        <source src="audio/123456.mp3" type="audio/mpeg">
-        Browser Anda tidak mendukung elemen audio.
-    </audio>
+    <!-- Floating Hearts -->
+    <div class="floating-hearts">
+        <!-- Hearts akan digenerate oleh JavaScript -->
+    </div>
 
-    <!-- Modal untuk Galeri -->
+    <!-- Main Content Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="music-toggle" id="musicToggle" onclick="toggleMusicPlayer()">
+                <i class="fas fa-music"></i>
+                <span>Music</span>
+            </div>
+            <div class="greeting" id="greeting">
+                <!-- Greeting akan diisi oleh JavaScript -->
+            </div>
+            <div class="time-display" id="timeDisplay">
+                <!-- Waktu akan diisi oleh JavaScript -->
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Hero Section -->
+            <section class="hero" id="mainPage">
+                <div class="hero-content">
+                    <div class="name-container">
+                        <h1 class="main-name">Laysa</h1>
+                        <h2 class="sub-name">Zuyyina Putri Pradana</h2>
+                    </div>
+
+                    <div class="tagline">
+                        <span class="heart-icon">❤️</span>
+                        <p>A special place created with love</p>
+                        <span class="heart-icon">❤️</span>
+                    </div>
+
+                    <div class="menu-grid">
+                        <button class="menu-card" onclick="showPage('ucapan')">
+                            <div class="menu-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h3>Love Letter</h3>
+                            <p>Read my message for you</p>
+                        </button>
+
+                        <button class="menu-card" onclick="showPage('galeri')">
+                            <div class="menu-icon">
+                                <i class="fas fa-images"></i>
+                            </div>
+                            <h3>Memories</h3>
+                            <p>Our beautiful moments</p>
+                        </button>
+
+                        <button class="menu-card" onclick="showPage('games')">
+                            <div class="menu-icon">
+                                <i class="fas fa-gamepad"></i>
+                            </div>
+                            <h3>Fun Games</h3>
+                            <p>Let's play together</p>
+                        </button>
+
+                        <button class="menu-card" onclick="showPage('morse')">
+                            <div class="menu-icon">
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <h3>Secret Code</h3>
+                            <p>Decode my message</p>
+                        </button>
+
+                        <!-- Tambah di menu-grid di hero section -->
+                        <button class="menu-card" onclick="showPage('garden')">
+                            <div class="menu-icon">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <h3>Flower Garden</h3>
+                            <p>Grow our virtual flowers</p>
+                        </button>
+                    </div>
+
+                    <div class="footer-text">
+                        <p>Made with <span class="pulse">❤️</span> by madk</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tambah di main-content, setelah morsePage -->
+            <section class="page" id="gardenPage" style="display: none;">
+                <div class="page-header">
+                    <button class="back-btn" onclick="showPage('main')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <h2 class="page-title">Our Flower Garden</h2>
+                </div>
+            
+                <div class="page-content">
+                    <div class="garden-container">
+                        <!-- Garden Stats -->
+                        <!-- Update garden stats section -->
+                        <div class="garden-stats">
+                            <div class="stat-card">
+                                <i class="fas fa-leaf"></i>
+                                <div>
+                                    <span class="stat-value" id="totalFlowers">0</span>
+                                    <span class="stat-label">Total Flowers</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-star"></i>
+                                <div>
+                                    <span class="stat-value" id="gardenLevel">1</span>
+                                    <span class="stat-label">Garden Level</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-calendar-day"></i>
+                                <div>
+                                    <span class="stat-value" id="daysStreak">0</span>
+                                    <span class="stat-label">Days Streak</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-gem"></i>
+                                <div>
+                                    <span class="stat-value" id="specialFlowers">0</span>
+                                    <span class="stat-label">Flower Types</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Garden Action -->
+                        <div class="garden-action">
+                            <button class="grow-btn" onclick="growRandomFlower()" id="growBtn">
+                                <i class="fas fa-magic"></i>
+                                <span>Grow a Flower</span>
+                            </button>
+                            <p class="action-hint">Click to grow a beautiful flower for Laysa</p>
+                            <div class="action-count">
+                                <span>Today's growth: </span>
+                                <span class="count" id="todayGrowth">0/3</span>
+                            </div>
+                        </div>
+            
+                        <!-- Garden Display -->
+                        <div class="garden-display" id="gardenDisplay">
+                            <!-- Flowers will be generated here -->
+                        </div>
+            
+                        <!-- Flower Collection -->
+                        <div class="collection-container">
+                            <h3 class="collection-title">
+                                <i class="fas fa-book"></i> Flower Collection
+                            </h3>
+                            <div class="collection-grid" id="collectionGrid">
+                                <!-- Collection items will be generated here -->
+                            </div>
+                        </div>
+            
+                        <!-- Flower Meaning Modal -->
+                        <div class="flower-modal" id="flowerModal">
+                            <div class="modal-content">
+                                <span class="close-modal" onclick="closeFlowerModal()">&times;</span>
+                                <div class="flower-modal-header">
+                                    <span class="flower-emoji" id="modalEmoji">🌸</span>
+                                    <h3 id="modalTitle">Cherry Blossom</h3>
+                                </div>
+                                <div class="flower-modal-body">
+                                    <p id="modalDescription">A beautiful flower that symbolizes...</p>
+                                    <div class="flower-stats">
+                                        <div class="flower-stat">
+                                            <i class="fas fa-hashtag"></i>
+                                            <span>Collected: <strong id="modalCount">0</strong></span>
+                                        </div>
+                                        <div class="flower-stat">
+                                            <i class="fas fa-calendar"></i>
+                                            <span>Last grown: <strong id="modalLastGrown">Never</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="special-message">
+                                        <i class="fas fa-heart"></i>
+                                        <p id="modalMessage">This flower represents the beauty of our moments together</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ucapan Page -->
+            <section class="page" id="ucapanPage" style="display: none;">
+                <div class="page-header">
+                    <button class="back-btn" onclick="showPage('main')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <h2 class="page-title">For My Queen</h2>
+                </div>
+
+                <div class="page-content">
+                    <div class="letter-container">
+                        <div class="letter-header">
+                            <div class="stamp">❤️</div>
+                            <div class="letter-date" id="letterDate"></div>
+                        </div>
+
+                        <div class="letter-content">
+                            <p class="greeting-text">My Dearest Laysa,</p>
+
+                            <p>Every day with you feels like a beautiful dream. Your smile brightens my world, your
+                                laughter is my favorite melody, and your presence makes everything better.</p>
+
+                            <p>Thank you for being the amazing person you are - strong, kind, beautiful, and full of
+                                love. Watching you grow and achieve your dreams fills my heart with pride and joy.</p>
+
+                            <p>No matter where life takes us, remember that you have someone who believes in you,
+                                supports you, and loves you more than words can express.</p>
+
+                            <p>Keep shining, keep smiling, and know that you are deeply cherished.</p>
+
+                            <div class="letter-footer">
+                                <p class="signature">Forever yours,<br><span>madk</span></p>
+                                <div class="seal">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Galeri Page -->
+            <section class="page" id="galeriPage" style="display: none;">
+                <div class="page-header">
+                    <button class="back-btn" onclick="showPage('main')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <h2 class="page-title">Beautiful Memories</h2>
+                </div>
+
+                <div class="page-content">
+                    <div class="gallery-controls">
+                        <button class="filter-btn active" onclick="filterGallery('all')">All</button>
+                        <button class="filter-btn" onclick="filterGallery('photo')">Photos</button>
+                        <button class="filter-btn" onclick="filterGallery('video')">Videos</button>
+                    </div>
+
+                    <div class="gallery-container" id="galleryContainer">
+                        <!-- Konten gallery akan diisi oleh JavaScript -->
+                    </div>
+
+                    <div class="gallery-hint">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Click on photos to view larger | Click on videos to play</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Games Page -->
+            <section class="page" id="gamesPage" style="display: none;">
+                <div class="page-header">
+                    <button class="back-btn" onclick="showPage('main')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <h2 class="page-title">Fun & Games</h2>
+                </div>
+
+                <div class="page-content">
+                    <div class="games-grid">
+                        <a href="games/tebak-gambar.html" class="game-card">
+                            <div class="game-icon">
+                                <i class="fas fa-images"></i>
+                            </div>
+                            <h3>Guess The Picture</h3>
+                            <p>Can you guess the hidden picture?</p>
+                            <span class="difficulty easy">Easy</span>
+                        </a>
+
+                        <a href="games/tebak-kata.html" class="game-card">
+                            <div class="game-icon">
+                                <i class="fas fa-font"></i>
+                            </div>
+                            <h3>Word Puzzle</h3>
+                            <p>Solve the secret word</p>
+                            <span class="difficulty medium">Medium</span>
+                        </a>
+
+                        <a href="games/tebak-angka.html" class="game-card">
+                            <div class="game-icon">
+                                <i class="fas fa-hashtag"></i>
+                            </div>
+                            <h3>Number Game</h3>
+                            <p>Guess the right number</p>
+                            <span class="difficulty hard">Hard</span>
+                        </a>
+
+                        <a href="games/code-breaker.html" class="game-card">
+                            <div class="game-icon">
+                                <i class="fas fa-user-secret"></i>
+                            </div>
+                            <h3>Code Breaker</h3>
+                            <p>Crack the secret code</p>
+                            <span class="difficulty expert">Expert</span>
+                        </a>
+                    </div>
+
+                    <div class="games-stats">
+                        <div class="stat">
+                            <i class="fas fa-trophy"></i>
+                            <div>
+                                <span class="stat-label">Total Score</span>
+                                <span class="stat-value" id="totalScore">0</span>
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-gamepad"></i>
+                            <div>
+                                <span class="stat-label">Games Played</span>
+                                <span class="stat-value" id="gamesPlayed">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Morse Code Page -->
+            <section class="page" id="morsePage" style="display: none;">
+                <div class="page-header">
+                    <button class="back-btn" onclick="showPage('main')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <h2 class="page-title">Secret Message</h2>
+                </div>
+
+                <div class="page-content">
+                    <div class="morse-container">
+                        <div class="morse-intro">
+                            <p>Decode this secret message just for you:</p>
+                            <div class="secret-code">KICPBWSKYPCBYSKTKMINAYSKU</div>
+                        </div>
+
+                        <div class="morse-display" id="morseDisplay">
+                            <!-- Morse code akan ditampilkan di sini -->
+                        </div>
+
+                        <div class="morse-controls">
+                            <button class="control-btn" onclick="startMorse()" id="playBtn">
+                                <i class="fas fa-play"></i> Play
+                            </button>
+                            <button class="control-btn" onclick="pauseMorse()" id="pauseBtn" disabled>
+                                <i class="fas fa-pause"></i> Pause
+                            </button>
+                            <button class="control-btn" onclick="resetMorse()" id="resetBtn">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+
+                        <div class="morse-info">
+                            <div class="info-box">
+                                <i class="fas fa-lightbulb"></i>
+                                <p>Each character will show its Morse code when active</p>
+                            </div>
+                        </div>
+
+                        <div class="message-reveal" id="messageReveal" style="display: none;">
+                            <div class="reveal-box">
+                                <h4><i class="fas fa-heart"></i> Secret Message <i class="fas fa-heart"></i></h4>
+                                <p class="secret-message">"kamu itu cantik pake banget woi sayang kamu ya pasti cantik
+                                    banget ya sayangku"</p>
+                                <div class="confetti"></div>
+                            </div>
+                        </div>
+
+                        <div class="morse-guide">
+                            <h4>Morse Code Guide:</h4>
+                            <div class="guide-items">
+                                <div class="guide-item">
+                                    <span class="dot">•</span>
+                                    <span>Short beep (dot)</span>
+                                </div>
+                                <div class="guide-item">
+                                    <span class="dash">-</span>
+                                    <span>Long beep (dash)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Music Player Panel -->
+        <div class="music-player-panel" id="musicPlayerPanel">
+            <div class="player-header">
+                <h3><i class="fas fa-music"></i> Laysa's Playlist</h3>
+                <button class="close-player" onclick="toggleMusicPlayer()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="playlist" id="playlist">
+                <!-- Playlist items akan diisi oleh JavaScript -->
+            </div>
+
+            <div class="player-controls">
+                <div class="song-info" id="nowPlaying">
+                    <span class="song-title">No song playing</span>
+                    <span class="song-artist">Select a song</span>
+                </div>
+
+                <div class="control-buttons">
+                    <button class="ctrl-btn" onclick="previousSong()">
+                        <i class="fas fa-step-backward"></i>
+                    </button>
+                    <button class="ctrl-btn play-pause" onclick="togglePlay()" id="playPauseBtn">
+                        <i class="fas fa-play" id="playPauseIcon"></i>
+                    </button>
+                    <button class="ctrl-btn" onclick="nextSong()">
+                        <i class="fas fa-step-forward"></i>
+                    </button>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar" onclick="seekSong(event)">
+                        <div class="progress" id="songProgress"></div>
+                    </div>
+                    <div class="time-display">
+                        <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+                    </div>
+                </div>
+
+                <div class="volume-control">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" min="0" max="100" value="70" id="volumeSlider"
+                        oninput="changeVolume(this.value)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Audio Player (hidden) -->
+        <audio id="audioPlayer"></audio>
+    </div>
+
+    <!-- Modal untuk Gambar -->
     <div class="modal" id="imageModal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
@@ -93,409 +483,17 @@
         </div>
     </div>
 
-    <!-- Halaman Utama -->
-    <section class="main-page fade-in" id="mainPage">
-        <div class="main-content">
-            <div class="crown-icon">
-                <i class="fas fa-crown"></i>
-            </div>
-            <h1 class="main-title">laysa zuyyina putri pradana</h1>
-            <p class="main-subtitle">Hadiah kecil untukmu <span class="heart-pulse">❤️</span></p>
-
-            <div class="button-container">
-                <button class="main-btn" onclick="showUcapan()">
-                    <i class="fas fa-heart btn-icon"></i>
-                    <span>Baca Ucapan</span>
-                </button>
-                <button class="main-btn" onclick="showGaleri()">
-                    <i class="fas fa-images btn-icon"></i>
-                    <span>Memory</span>
-                </button>
-                <button class="main-btn" onclick="showGameMenu()">
-                    <i class="fas fa-gamepad btn-icon"></i>
-                    <span>Mini Games</span>
-                </button>
-                <a href="diary.html" class="main-btn" style="text-decoration: none;">
-                    <i class="fas fa-book btn-icon"></i>
-                    <span>Buku Harian</span>
-                </a>
-            </div>
-
-            <p class="made-with-love">Made with <span class="heart-pulse">❤️</span> by madk</p>
+    <!-- Modal untuk Video -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeVideoModal()">&times;</span>
+            <video id="modalVideo" controls>
+                Your browser does not support the video tag.
+            </video>
         </div>
-    </section>
+    </div>
 
-    <!-- Halaman Ucapan -->
-    <section class="ucapan-page" id="ucapanPage" style="display:none;">
-        <button class="back-btn" onclick="showMain()">
-            <i class="fas fa-arrow-left"></i> Kembali
-        </button>
-        <div class="ucapan-content">
-            <div class="crown-icon">
-                <i class="fas fa-crown"></i>
-            </div>
-            <h1 class="main-title">Untuk <span>Ratu</span> Hatiku</h1>
-            <div class="ucapan-text">
-                <p>Sayangku yang cantik <span class="heart-pulse">💖</span>,</p>
-
-                <p>
-                    Terima kasih sudah tetap berusaha dan berjalan sejauh ini.
-                    Kamu orang yang kuat dan aku menghargai setiap langkahmu.
-                    Semoga apa yang kamu kerjakan ke depan bisa lancar dan membawa kebaikan.
-                </p>
-
-                <p>
-                    Setiap hari bersamamu adalah anugerah yang tak ternilai.
-                    Senyumanmu menghangatkan hatiku, tatapanmu memberi kekuatan.
-                    Teruslah bersinar seperti bintang yang selalu menerangi langit malam.
-                </p>
-
-                <p>
-                    Aku bersyukur bisa mengenalmu, menemani setiap langkahmu,
-                    dan melihatmu tumbuh menjadi wanita hebat yang selalu kupuja.
-                </p>
-
-                <p class="signature">
-                    madk <span class="heart-pulse">❤️❤️❤️</span>
-                </p>
-
-                <p class="ucapan-footer">*Untuk wanita cantik*</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Halaman Galeri -->
-    <section class="galeri-page" id="galeriPage" style="display:none;">
-        <button class="back-btn" onclick="showMain()">
-            <i class="fas fa-arrow-left"></i> Kembali
-        </button>
-        <div class="galeri-content">
-            <h2 class="galeri-title">Galeri Sang Ratu <span class="heart-pulse">👑</span></h2>
-            <p class="galeri-subtitle">Koleksi momen-momen indah yang abadi dalam hati <span
-                    class="heart-pulse">💕</span></p>
-
-            <div class="galeri-container">
-                <!-- Gambar akan ditampilkan di sini -->
-            </div>
-
-            <div class="galeri-footer">
-                <p><i class="fas fa-heart"></i> Setiap foto memiliki cerita tersendiri <i class="fas fa-heart"></i></p>
-                <p class="scroll-hint">Scroll untuk melihat lebih banyak foto...</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Halaman Menu Games -->
-    <section class="game-menu-page" id="gameMenuPage" style="display:none;">
-        <button class="back-btn" onclick="showMain()">
-            <i class="fas fa-arrow-left"></i> Kembali
-        </button>
-        <div class="game-menu-content">
-            <div class="crown-icon">
-                <i class="fas fa-crown"></i>
-            </div>
-            <h1 class="main-title">Mini Games <span class="heart-pulse">🎮</span></h1>
-            <p class="game-subtitle">Pilih salah satu game untuk bermain!</p>
-
-            <div class="games-menu-container">
-                <a href="games/tebak-gambar.html" class="game-card">
-                    <div class="game-card-icon">
-                        <i class="fas fa-images"></i>
-                    </div>
-                    <h3>Game 1: Tebak Gambar <span class="heart-pulse">🖼️</span></h3>
-                    <p>Tebak gambar yang sesuai dengan petunjuk</p>
-                    <div class="game-card-footer">
-                        <span class="difficulty easy"><i class="fas fa-star"></i> Mudah</span>
-                    </div>
-                </a>
-
-                <a href="games/tebak-kata.html" class="game-card">
-                    <div class="game-card-icon">
-                        <i class="fas fa-font"></i>
-                    </div>
-                    <h3>Game 2: Tebak Kata <span class="heart-pulse">🔤</span></h3>
-                    <p>Tebak kata rahasia dari petunjuk yang diberikan</p>
-                    <div class="game-card-footer">
-                        <span class="difficulty medium"><i class="fas fa-star"></i> Sedang</span>
-                    </div>
-                </a>
-
-                <a href="games/tebak-angka.html" class="game-card">
-                    <div class="game-card-icon">
-                        <i class="fas fa-hashtag"></i>
-                    </div>
-                    <h3>Game 3: Tebak Angka <span class="heart-pulse">🔢</span></h3>
-                    <p>Tebak angka rahasia antara 1-100</p>
-                    <div class="game-card-footer">
-                        <span class="difficulty hard"><i class="fas fa-star"></i> Sulit</span>
-                    </div>
-                </a>
-
-                <!-- Game 4: Code Breaker -->
-                <a href="games/code-breaker.html" class="game-card">
-                    <div class="game-card-icon">
-                        <i class="fas fa-user-secret"></i>
-                    </div>
-                    <h3>Game 4: Code Breaker <span class="heart-pulse">🔐</span></h3>
-                    <p>Pecahkan kode rahasia 4 digit sebelum waktu habis!</p>
-                    <div class="game-card-footer">
-                        <span class="difficulty hard"><i class="fas fa-star"></i> Expert</span>
-                    </div>
-                </a>
-            </div>
-
-            <div class="game-stats">
-                <div class="stat-item">
-                    <i class="fas fa-trophy"></i>
-                    <span>Total Skor: <span id="totalScore">0</span></span>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-gamepad"></i>
-                    <span>Game Dimainkan: <span id="gamesPlayed">0</span></span>
-                </div>
-            </div>
-
-            <div class="game-footer">
-                <p><i class="fas fa-heart"></i> Semoga kamu suka dengan game-game ini! <i class="fas fa-heart"></i></p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Scripts -->
-    <script src="scripts/main.js"></script>
-    <script src="scripts/greeting.js"></script>
-    <script src="scripts/music-player.js"></script>
-
-    <script>
-        // ================ FUNGSI NAVIGASI ================
-        function showMain() {
-            hideAllPages();
-            document.getElementById('mainPage').style.display = 'flex';
-        }
-
-        function showUcapan() {
-            hideAllPages();
-            document.getElementById('ucapanPage').style.display = 'block';
-        }
-
-        function showGaleri() {
-            hideAllPages();
-            document.getElementById('galeriPage').style.display = 'block';
-        }
-
-        function showGameMenu() {
-            hideAllPages();
-            document.getElementById('gameMenuPage').style.display = 'block';
-            updateGameStats();
-        }
-
-        function hideAllPages() {
-            const pages = ['mainPage', 'ucapanPage', 'galeriPage', 'gameMenuPage'];
-            pages.forEach(page => {
-                document.getElementById(page).style.display = 'none';
-            });
-        }
-
-        // ================ ANIMASI LOVE BACKGROUND UNTUK MAIN PAGE ================
-        function createMainPageLove() {
-            const mainPageBg = document.getElementById('mainPageBg');
-            if (!mainPageBg) return;
-
-            // Array emoji love untuk main page
-            const loveEmojis = ['❤️', '💖', '💗', '💓', '💕', '💞', '💘', '💝', '💙', '🧡', '💛', '💚', '💜'];
-
-            // Buat 50 love particles untuk main page
-            for (let i = 0; i < 50; i++) {
-                const love = document.createElement('div');
-                love.className = 'main-page-love';
-
-                // Pilih warna
-                let colorClass;
-                if (i % 3 === 0) {
-                    colorClass = 'love-red';
-                } else if (i % 3 === 1) {
-                    colorClass = 'love-blue';
-                } else {
-                    colorClass = 'love-pink';
-                }
-                love.classList.add(colorClass);
-
-                // Tambah efek khusus untuk beberapa love
-                if (i % 4 === 0) love.classList.add('main-love-blink');
-                if (i % 5 === 0) love.classList.add('main-love-pulse');
-                if (i % 7 === 0) love.classList.add('main-love-spin');
-
-                // Pilih emoji (biasanya merah/pink, tapi juga biru untuk variasi)
-                let emojiIndex;
-                if (colorClass === 'love-blue') {
-                    // Untuk love biru, gunakan emoji biru atau netral
-                    emojiIndex = Math.floor(Math.random() * 3) + 8; // Indeks 8-10 untuk warna netral/biru
-                } else {
-                    emojiIndex = Math.floor(Math.random() * 8); // Indeks 0-7 untuk merah/pink
-                }
-                love.textContent = loveEmojis[emojiIndex];
-
-                // Random position dan animation properties
-                const left = Math.random() * 100;
-                const delay = Math.random() * 10;
-                const duration = 10 + Math.random() * 10;
-
-                love.style.left = `${left}%`;
-                love.style.animationDelay = `${delay}s`;
-                love.style.animationDuration = `${duration}s`;
-
-                // Random size
-                const size = 20 + Math.random() * 30;
-                love.style.fontSize = `${size}px`;
-
-                // Random starting opacity
-                love.style.opacity = 0.5 + Math.random() * 0.5;
-
-                mainPageBg.appendChild(love);
-            }
-        }
-
-        // ================ FUNGSI GALERI ================
-        function openModal(imageSrc, imageTitle) {
-            const modal = document.getElementById('imageModal');
-            const modalImage = document.getElementById('modalImage');
-
-            modalImage.src = imageSrc;
-            modalImage.alt = imageTitle;
-            modal.style.display = 'flex';
-
-            setTimeout(() => {
-                modal.style.opacity = '1';
-            }, 10);
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('imageModal');
-            modal.style.opacity = '0';
-
-            setTimeout(() => {
-                modal.style.display = 'none';
-                document.getElementById('modalImage').src = '';
-            }, 300);
-        }
-
-        // ================ FUNGSI GAME STATS ================
-        function updateGameStats() {
-            try {
-                let totalScore = localStorage.getItem('totalScore') ? parseInt(localStorage.getItem('totalScore')) : 0;
-                let gamesPlayed = localStorage.getItem('gamesPlayed') ? parseInt(localStorage.getItem('gamesPlayed')) : 0;
-
-                document.getElementById('totalScore').textContent = totalScore;
-                document.getElementById('gamesPlayed').textContent = gamesPlayed;
-            } catch (e) {
-                console.log('Error loading game stats:', e);
-            }
-        }
-
-        // ================ INISIALISASI GALERI ================
-        function initializeGallery() {
-            const galeriContainer = document.querySelector('.galeri-container');
-            if (!galeriContainer) return;
-
-            const images = [
-                { src: 'galeri/1.jpg', title: 'Bunga Indah', caption: 'Bunga Indah 🌸' },
-                { src: 'galeri/2.jpg', title: 'Kebersamaan', caption: 'Kebersamaan 👫' },
-                { src: 'galeri/3.jpg', title: 'Senyuman Menawan', caption: 'Senyuman Menawan 😊' },
-                { src: 'galeri/4.jpg', title: 'Momen Spesial', caption: 'Momen Spesial 🌟' },
-                { src: 'galeri/5.png', title: 'Hadiah Spesial', caption: 'Hadiah Spesial 🎁' },
-                { src: 'galeri/8.jpg', title: 'Kenangan Indah', caption: 'Kenangan Indah 📸' },
-                { src: 'galeri/9.jpg', title: 'Cantik Menawan', caption: 'Cantik Menawan 💖' },
-                { src: 'galeri/10.jpg', title: 'Momen Bahagia', caption: 'Momen Bahagia 😄' },
-                { src: 'galeri/12.jpg', title: 'Potret Cantik', caption: 'Potret Cantik 📷' },
-                { src: 'galeri/14.jpg', title: 'Senyum Manis', caption: 'Senyum Manis 😊' },
-                { src: 'galeri/16.jpg', title: 'Pose Cantik', caption: 'Pose Cantik 💃' },
-                { src: 'galeri/17.jpg', title: 'Kenangan Terindah', caption: 'Kenangan Terindah 💕' }
-            ];
-
-            const fallbackImages = [
-                'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=500&q=80',
-                'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=500&q=80',
-                'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=80',
-                'https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=500&q=80',
-                'https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=500&q=80'
-            ];
-
-            images.forEach((img, index) => {
-                const fallbackIndex = index % fallbackImages.length;
-
-                const royalFrame = document.createElement('div');
-                royalFrame.className = 'royal-frame';
-
-                const galeriItem = document.createElement('div');
-                galeriItem.className = 'galeri-item';
-                galeriItem.onclick = () => openModal(img.src, img.title);
-
-                const image = document.createElement('img');
-                image.className = 'galeri-img';
-                image.src = img.src;
-                image.alt = img.title;
-                image.onerror = function () {
-                    this.src = fallbackImages[fallbackIndex];
-                };
-
-                const caption = document.createElement('div');
-                caption.className = 'galeri-caption';
-                caption.innerHTML = img.caption;
-
-                galeriItem.appendChild(image);
-                galeriItem.appendChild(caption);
-                royalFrame.appendChild(galeriItem);
-                galeriContainer.appendChild(royalFrame);
-            });
-        }
-
-        // ================ INISIALISASI ================
-        document.addEventListener('DOMContentLoaded', function () {
-            showMain();
-            updateGameStats();
-            createMainPageLove();
-            initializeGallery();
-
-            // Paksa audio play setelah klik pertama
-            document.addEventListener("click", function () {
-                const audio = document.getElementById("bgm");
-                if (audio) {
-                    audio.play().catch(() => {
-                        console.log("Audio autoplay blocked. User must interact first.");
-                    });
-                }
-            }, { once: true });
-
-            // Inisialisasi greeting message
-            if (typeof updateGreeting === 'function') {
-                updateGreeting();
-                setInterval(updateGreeting, 60000);
-            }
-
-            // Inisialisasi music player
-            if (typeof initMusicPlayer === 'function') {
-                initMusicPlayer();
-            }
-
-            // Close modal dengan Escape key
-            document.addEventListener('keydown', function (event) {
-                if (event.key === 'Escape') {
-                    const modal = document.getElementById('imageModal');
-                    if (modal.style.display === 'flex') {
-                        closeModal();
-                    }
-                }
-            });
-
-            // Close modal dengan klik di luar gambar
-            window.addEventListener('click', function (event) {
-                const modal = document.getElementById('imageModal');
-                if (event.target === modal) {
-                    closeModal();
-                }
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>
