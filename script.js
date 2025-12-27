@@ -977,6 +977,7 @@ function initializeGallery() {
     { type: "photo", name: "17.jpg", caption: "Sweet Day" },
     { type: "video", name: "13.mp4", caption: "Fun Video" },
     { type: "video", name: "11.mp4", caption: "Memory Video" },
+    { type: "video", name: "new.mp4", caption: "Memory Video" },
   ];
 
   // Fallback images if local images don't exist
