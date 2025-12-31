@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game 4: Catch the Love</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .game-page {
+            min-height: 100vh;
+            padding: 80px 20px 40px;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            text-align: center;
+        }
+
+        canvas {
+            background: #fff0f5;
+            border-radius: 15px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            max-width: 100%;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(255, 107, 139, 0.2);
+        }
+
+        .score-item {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .controls-hint {
+            margin-top: 15px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .mobile-controls {
+            display: none;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 20px;
+        }
+
+        .control-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(255, 107, 139, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-controls {
+                display: flex;
+            }
+        }
+
+        /* Result Modal Overlay */
+        .result-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            z-index: 10;
+        }
+
+        .result-content {
+            text-align: center;
+            padding: 20px;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .result-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .start-btn {
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(255, 107, 139, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 107, 139, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+    <section class="game-page">
+        <a href="../index.html#gamesPage" class="back-btn"
+            style="position: absolute; top: 20px; left: 20px; z-index: 10;">
+            <i class="fas fa-arrow-left"></i> Back to Games
+        </a>
+
+        <div class="game-content">
+            <div class="game-container">
+                <div class="score-board">
+                    <div class="score-item">
+                        <i class="fas fa-heart"></i> <span id="score">0</span>
+                    </div>
+                    <div class="score-item">
+                        <span id="level">Level 1</span>
+                    </div>
+                    <div class="score-item">
+                        <i class="fas fa-heart-broken"></i> <span id="lives">3</span>
+                    </div>
+                </div>
+
+                <div style="position: relative;">
+                    <canvas id="gameCanvas" width="600" height="400"></canvas>
+
+                    <div id="startScreen" class="result-overlay">
+                        <div class="result-content">
+                            <h1 class="result-title">Catch the Love</h1>
+                            <p style="margin-bottom: 20px; font-size: 1.1rem; color: #666;">
+                                Move the basket to catch the falling hearts! <br>
+                                Avoid the black broken hearts.
+                            </p>
+                            <button class="start-btn" onclick="startGame()">
+                                <i class="fas fa-play"></i> Start
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="gameOverScreen" class="result-overlay" style="display: none;">
+                        <div class="result-content">
+                            <h1 class="result-title">Game Over</h1>
+                            <p style="margin-bottom: 10px; font-size: 1.2rem;">Your Score: <strong
+                                    id="finalScore">0</strong></p>
+                            <p style="margin-bottom: 20px; color: #666;">Don't worry, my love for you is infinite!</p>
+                            <button class="start-btn" onclick="startGame()">
+                                <i class="fas fa-redo"></i> Try Again
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mobile-controls">
+                    <button class="control-btn" ontouchstart="moveLeft(true)" ontouchend="moveLeft(false)"
+                        onmousedown="moveLeft(true)" onmouseup="moveLeft(false)">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <button class="control-btn" ontouchstart="moveRight(true)" ontouchend="moveRight(false)"
+                        onmousedown="moveRight(true)" onmouseup="moveRight(false)">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="controls-hint">
+                    Use <strong>Left/Right Arrow Keys</strong> or <strong>Touch Buttons</strong> to move.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Game State
+        let isPlaying = false;
+        let score = 0;
+        let lives = 3;
+        let level = 1;
+        let animationId;
+
+        // Player
+        const player = {
+            x: canvas.width / 2 - 40,
+            y: canvas.height - 70,
+            width: 80,
+            height: 60,
+            speed: 7,
+            dx: 0
+        };
+
+        // Items
+        let hearts = [];
+        let enemies = [];
+        let particles = [];
+
+        // Controls
+        let rightPressed = false;
+        let leftPressed = false;
+
+        // Assets (using emojis for simplicity/performance/no external depend)
+        const heartEmojis = ['❤️', '💖', '💝', '💗', '💓'];
+
+        function startGame() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('gameOverScreen').style.display = 'none';
+
+            // Reset state
+            score = 0;
+            lives = 3;
+            level = 1;
+            hearts = [];
+            enemies = [];
+            particles = [];
+            isPlaying = true;
+
+            updateScoreUI();
+
+            // Start Loop
+            if (animationId) cancelAnimationFrame(animationId);
+            gameLoop();
+
+            // Spawner
+            spawnInterval = setInterval(spawnItems, 1000);
+        }
+
+        function spawnItems() {
+            if (!isPlaying) return;
+
+            // Increase difficulty based on level
+            const speedMultiplier = 1 + (level * 0.2);
+
+            // Spawn Heart
+            if (Math.random() < 0.7) {
+                hearts.push({
+                    x: Math.random() * (canvas.width - 30),
+                    y: -30,
+                    size: 30,
+                    speed: (2 + Math.random() * 2) * speedMultiplier,
+                    emoji: heartEmojis[Math.floor(Math.random() * heartEmojis.length)]
+                });
+            }
+
+            // Spawn Broken Heart (Enemy)
+            // Higher level = more enemies
+            if (Math.random() < 0.3 + (level * 0.05)) {
+                enemies.push({
+                    x: Math.random() * (canvas.width - 30),
+                    y: -30,
+                    size: 30,
+                    speed: (3 + Math.random() * 2) * speedMultiplier,
+                    emoji: '💔'
+                });
+            }
+        }
+
+        function createParticles(x, y, color) {
+            for (let i = 0; i < 8; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    radius: Math.random() * 3 + 2,
+                    color: color,
+                    velocity: {
+                        x: (Math.random() - 0.5) * 6,
+                        y: (Math.random() - 0.5) * 6
+                    },
+                    alpha: 1
+                });
+            }
+        }
+
+        function drawPlayer() {
+            // Draw a cute basket or character (using text/emoji for now for simplicity)
+            ctx.font = "50px Arial";
+            ctx.fillText("🧺", player.x, player.y + 45);
+        }
+
+        function drawItems() {
+            ctx.font = "30px Arial";
+
+            hearts.forEach(heart => {
+                ctx.fillText(heart.emoji, heart.x, heart.y);
+            });
+
+            enemies.forEach(enemy => {
+                ctx.fillText(enemy.emoji, enemy.x, enemy.y);
+            });
+        }
+
+        function drawParticles() {
+            particles.forEach((p, index) => {
+                ctx.save();
+                ctx.globalAlpha = p.alpha;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+                ctx.restore();
+
+                p.x += p.velocity.x;
+                p.y += p.velocity.y;
+                p.alpha -= 0.02;
+
+                if (p.alpha <= 0) particles.splice(index, 1);
+            });
+        }
+
+        function update() {
+            // Move Player
+            if (rightPressed && player.x < canvas.width - player.width) {
+                player.x += player.speed;
+            } else if (leftPressed && player.x > 0) {
+                player.x -= player.speed;
+            }
+
+            // Move Hearts
+            hearts.forEach((heart, index) => {
+                heart.y += heart.speed;
+
+                // Collision with Player
+                if (
+                    heart.x < player.x + player.width &&
+                    heart.x + heart.size > player.x &&
+                    heart.y < player.y + player.height &&
+                    heart.y + heart.size > player.y
+                ) {
+                    hearts.splice(index, 1);
+                    score += 10;
+                    createParticles(heart.x, heart.y, '#ff4081');
+                    updateScoreUI();
+                }
+
+                // Remove if off screen
+                if (heart.y > canvas.height) {
+                    hearts.splice(index, 1);
+                    // Penalize missed heart? Maybe no for casual
+                }
+            });
+
+            // Move Enemies
+            enemies.forEach((enemy, index) => {
+                enemy.y += enemy.speed;
+
+                // Collision
+                if (
+                    enemy.x < player.x + player.width &&
+                    enemy.x + enemy.size > player.x &&
+                    enemy.y < player.y + player.height &&
+                    enemy.y + enemy.size > player.y
+                ) {
+                    enemies.splice(index, 1);
+                    lives--;
+                    createParticles(enemy.x, enemy.y, '#333');
+                    updateScoreUI();
+
+                    if (lives <= 0) gameOver();
+                }
+
+                if (enemy.y > canvas.height) enemies.splice(index, 1);
+            });
+        }
+
+        function updateScoreUI() {
+            // Logic Level Up: Every 100 points
+            const newLevel = Math.floor(score / 100) + 1;
+
+            if (newLevel > level) {
+                level = newLevel;
+            }
+
+            document.getElementById('score').innerText = score;
+            document.getElementById('lives').innerText = lives;
+            document.getElementById('level').innerText = "Level " + level;
+        }
+
+        function gameOver() {
+            isPlaying = false;
+            clearInterval(spawnInterval);
+            document.getElementById('finalScore').innerText = score;
+            document.getElementById('gameOverScreen').style.display = 'flex';
+        }
+
+        function gameLoop() {
+            if (!isPlaying) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawPlayer();
+            drawItems();
+            drawParticles();
+
+            update();
+
+            animationId = requestAnimationFrame(gameLoop);
+        }
+
+        // Input Handling
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Right' || e.key === 'ArrowRight') rightPressed = true;
+            if (e.key === 'Left' || e.key === 'ArrowLeft') leftPressed = true;
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'Right' || e.key === 'ArrowRight') rightPressed = false;
+            if (e.key === 'Left' || e.key === 'ArrowLeft') leftPressed = false;
+        });
+
+        // Mobile Controls
+        window.moveLeft = (isPressed) => leftPressed = isPressed;
+        window.moveRight = (isPressed) => rightPressed = isPressed;
+
+    </script>
+</body>
+
+</html>

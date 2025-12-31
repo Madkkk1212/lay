@@ -96,7 +96,9 @@ function showPage(page) {
     "galeriPage",
     "gamesPage",
     "morsePage",
-    "gardenPage", // <-- Tambah ini
+    "gardenPage",
+    "giftPage",
+    "quizPage"
   ];
   pages.forEach((pageId) => {
     document.getElementById(pageId).style.display = "none";
@@ -1568,3 +1570,198 @@ document.addEventListener("DOMContentLoaded", function () {
     document.removeEventListener("click", initAudioOnce);
   });
 });
+
+// ================ VIRTUAL GIFT BOX ================
+// ================ VIRTUAL GIFT BOX ================
+// Ganti nama file foto sesuai dengan yang ada di folder galeri
+const giftItems = [
+    // === HADIAH BAGUS ===
+    { type: "image", src: "galeri/foto1.jpg", message: "Senyum kamu hari ini manis banget! 🥰" },
+    { type: "image", src: "galeri/foto2.jpg", message: "Semangat ya hari ini sayang! ❤️" },
+    
+    // === HADIAH ZONK (Varian Aneh/Lucu) ===
+    { type: "image", src: "galeri/zonk1.jpg", message: "ZONK! Hadiahnya dimakan kucing 🐈🤣" },
+    { type: "image", src: "galeri/zonk2.jpg", message: "Selamat! Anda mendapatkan... HIKMAHNYA SAJA �" },
+    { type: "image", src: "galeri/zonk3.jpg", message: "Maaf, hadiah sedang otw (on the way) tapi nyasar 🛵💨" },
+    { type: "image", src: "galeri/zonk4.jpg", message: "Ciee ngarep ya? Coba lagi besok! 😜" }
+];
+
+function openGift() {
+    const giftBox = document.getElementById('giftBox');
+    const giftReveal = document.getElementById('giftReveal');
+    const giftHint = document.getElementById('giftHint');
+    
+    // Cek apakah sudah buka kado hari ini
+    const today = new Date().toDateString();
+    const lastOpened = localStorage.getItem('lastGiftOpened');
+    
+    if (lastOpened === today) {
+        showNotification("Eits! Kado cuma bisa dibuka 1x sehari 😜");
+        return;
+    }
+
+    // Animate Box
+    giftBox.classList.add('open');
+    giftHint.style.display = 'none';
+    
+    // Pick Random Gift
+    const randomGift = giftItems[Math.floor(Math.random() * giftItems.length)];
+    
+    // Save state
+    localStorage.setItem('lastGiftOpened', today);
+    
+    // Wait for animation then show content
+    setTimeout(() => {
+        giftBox.style.display = 'none';
+        giftReveal.style.display = 'block';
+        
+        const giftIcon = document.getElementById('giftIcon');
+        
+        // Render Image instead of Icon
+        if (randomGift.type === "image") {
+            giftIcon.innerHTML = `<img src="${randomGift.src}" style="width: 100%; max-width: 300px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);" onerror="this.src='https://via.placeholder.com/300x400?text=Foto+Tidak+Ditemukan'">`;
+        } else {
+            giftIcon.textContent = randomGift.icon;
+        }
+        
+        document.getElementById('giftTitle').textContent = "Special For You ✨";
+        document.getElementById('giftMessage').textContent = randomGift.message;
+        
+        // Confetti
+        createConfetti();
+    }, 500);
+}
+
+function resetGift() {
+    const giftBox = document.getElementById('giftBox');
+    const giftReveal = document.getElementById('giftReveal');
+    const giftHint = document.getElementById('giftHint');
+    
+    giftReveal.style.display = 'none';
+    giftBox.style.display = 'block';
+    giftBox.classList.remove('open');
+    giftHint.style.display = 'block';
+}
+
+function createConfetti() {
+    for(let i=0; i<30; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.backgroundColor = ['#ff6b8b', '#ff8e53', '#ffd700', '#81c784'][Math.floor(Math.random()*4)];
+        confetti.style.animationDuration = (Math.random() * 2 + 1) + 's';
+        document.getElementById('giftPage').appendChild(confetti);
+        
+        setTimeout(() => confetti.remove(), 3000);
+    }
+}
+
+// ================ QUIZ ABOUT US ================
+const quizQuestions = [
+    {
+        question: "Musuh terbesar hubungan kita saat ini adalah...",
+        options: ["Orang ketiga", "Jarak & Waktu 🥺", "Kuota habis", "Tukang paket"],
+        correct: 1 // Index 1: Jarak & Waktu
+    },
+    {
+        question: "Kegiatan wajib sebelum tidur anak LDR?",
+        options: ["Sikat gigi", "Sleepcall sampe HP panas 🔥", "Nghayal doang", "Mimpiin dia"],
+        correct: 1 // Index 1: Sleepcall
+    },
+    {
+        question: "Kalimat paling horor saat lagi video call?",
+        options: ["'Aku mau ngomong sesuatu...'", "'Sinyal kamu merah yank...'", "'Baterai lemah 2%'", "'Kamu gemukan ya?'"],
+        correct: 1 // Index 1: Sinyal merah
+    },
+    {
+        question: "Kapan kita bakal ketemu ?",
+        options: ["Gak tau kapan 😭", "Tunggu liburan", "Secepatnya! (Aamiin)", "Nunggu tiket murah"],
+        correct: 2 // Index 2: Secepatnya
+    }
+];
+
+let currentQuestion = 0;
+let quizScore = 0;
+
+function startQuiz() {
+    currentQuestion = 0;
+    quizScore = 0;
+    
+    document.getElementById('quizIntro').style.display = 'none';
+    document.getElementById('quizResult').style.display = 'none';
+    document.getElementById('quizQuestion').style.display = 'block';
+    
+    loadQuestion();
+}
+
+function loadQuestion() {
+    if (currentQuestion >= quizQuestions.length) {
+        showQuizResult();
+        return;
+    }
+    
+    const q = quizQuestions[currentQuestion];
+    const qText = document.getElementById('qText');
+    const qOptions = document.getElementById('qOptions');
+    const progress = document.getElementById('quizProgress');
+    
+    qText.textContent = q.question;
+    qOptions.innerHTML = '';
+    
+    // Update progress
+    progress.style.width = ((currentQuestion) / quizQuestions.length * 100) + '%';
+    
+    q.options.forEach((opt, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-option';
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(index, btn);
+        qOptions.appendChild(btn);
+    });
+}
+
+function checkAnswer(selectedIndex, btnElement) {
+    const q = quizQuestions[currentQuestion];
+    const options = document.querySelectorAll('.quiz-option');
+    
+    // Disable all buttons
+    options.forEach(btn => btn.disabled = true);
+    
+    if (selectedIndex === q.correct) {
+        btnElement.classList.add('correct');
+        quizScore++;
+        // Play correct sound
+    } else {
+        btnElement.classList.add('wrong');
+        options[q.correct].classList.add('correct'); // Show correct one
+        // Play wrong sound
+    }
+    
+    setTimeout(() => {
+        currentQuestion++;
+        loadQuestion();
+    }, 1500);
+}
+
+function showQuizResult() {
+    document.getElementById('quizQuestion').style.display = 'none';
+    document.getElementById('quizResult').style.display = 'block';
+    
+    const scoreIcon = document.getElementById('scoreIcon');
+    const scoreText = document.getElementById('scoreText');
+    
+    // Final progress bar full
+    document.getElementById('quizProgress').style.width = '100%';
+
+    if (quizScore === quizQuestions.length) {
+        scoreIcon.textContent = "👮‍♂️";
+        scoreText.textContent = `Lolos Investigasi (${quizScore}/${quizQuestions.length})! Kamu bebas dari tuduhan tidak peka! ❤️`;
+        createConfetti();
+    } else if (quizScore >= quizQuestions.length / 2) {
+        scoreIcon.textContent = "👀";
+        scoreText.textContent = `Hmm Mencurigakan (${quizScore}/${quizQuestions.length})... Perlu diinterogasi lebih lanjut nih! 🤨`;
+    } else {
+        scoreIcon.textContent = "�";
+        scoreText.textContent = `DITAHAN! (${quizScore}/${quizQuestions.length})... Kamu harus dihukum traktir aku makan! 😤`;
+    }
+}

@@ -112,6 +112,22 @@
                             <h3>Flower Garden</h3>
                             <p>Grow our virtual flowers</p>
                         </button>
+
+                        <button class="menu-card" onclick="showPage('gift')">
+                            <div class="menu-icon">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <h3>Virtual Gift</h3>
+                            <p>A surprise for you</p>
+                        </button>
+
+                        <button class="menu-card" onclick="showPage('quiz')">
+                            <div class="menu-icon">
+                                <i class="fas fa-user-secret"></i>
+                            </div>
+                            <h3>Jangan Dibuka 🚫</h3>
+                            <p>Bahaya, ada razia...</p>
+                        </button>
                     </div>
 
                     <div class="footer-text">
@@ -128,7 +144,7 @@
                     </button>
                     <h2 class="page-title">Our Flower Garden</h2>
                 </div>
-            
+
                 <div class="page-content">
                     <div class="garden-container">
                         <!-- Garden Stats -->
@@ -175,12 +191,12 @@
                                 <span class="count" id="todayGrowth">0/3</span>
                             </div>
                         </div>
-            
+
                         <!-- Garden Display -->
                         <div class="garden-display" id="gardenDisplay">
                             <!-- Flowers will be generated here -->
                         </div>
-            
+
                         <!-- Flower Collection -->
                         <div class="collection-container">
                             <h3 class="collection-title">
@@ -190,7 +206,7 @@
                                 <!-- Collection items will be generated here -->
                             </div>
                         </div>
-            
+
                         <!-- Flower Meaning Modal -->
                         <div class="flower-modal" id="flowerModal">
                             <div class="modal-content">
@@ -213,7 +229,8 @@
                                     </div>
                                     <div class="special-message">
                                         <i class="fas fa-heart"></i>
-                                        <p id="modalMessage">This flower represents the beauty of our moments together</p>
+                                        <p id="modalMessage">This flower represents the beauty of our moments together
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -336,6 +353,15 @@
                             <p>Crack the secret code</p>
                             <span class="difficulty expert">Expert</span>
                         </a>
+
+                        <a href="games/catch-love.html" class="game-card">
+                            <div class="game-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h3>Catch the Love</h3>
+                            <p>Catch falling hearts!</p>
+                            <span class="difficulty medium">Medium</span>
+                        </a>
                     </div>
 
                     <div class="games-stats">
@@ -418,6 +444,104 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Gift Page -->
+            <section class="page" id="giftPage" style="display: none;">
+                <div class="page-header">
+                    <button class="back-btn" onclick="showPage('main')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <h2 class="page-title">Special Gift</h2>
+                </div>
+
+                <div class="page-content">
+                    <div class="gift-container" style="text-align: center; padding: 40px 0;">
+
+                        <div id="giftBox" class="gift-box" onclick="openGift()">
+                            <div class="gift-lid"></div>
+                            <div class="gift-body"></div>
+                            <div class="gift-bow"></div>
+                        </div>
+
+                        <div id="giftReveal"
+                            style="display: none; animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+                            <div class="revealed-item" style="font-size: 5rem; margin-bottom: 20px;" id="giftIcon">🌹
+                            </div>
+                            <h3 id="giftTitle"
+                                style="color: var(--primary); font-family: 'Dancing Script'; font-size: 2.5rem; margin-bottom: 10px;">
+                                A Beautiful Rose</h3>
+                            <p id="giftMessage"
+                                style="font-size: 1.2rem; color: #666; max-width: 500px; margin: 0 auto 30px;">For the
+                                most beautiful girl in the world.</p>
+
+                            <button class="action-btn" onclick="resetGift()"
+                                style="background: var(--light); color: var(--primary); border: none; padding: 10px 20px; border-radius: 50px; cursor: pointer; font-size: 1rem;">
+                                <i class="fas fa-redo"></i> Close Box
+                            </button>
+                        </div>
+
+                        <p class="gift-hint" id="giftHint" style="margin-top: 30px; color: #aaa; font-style: italic;">
+                            Tap the box to open!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz Page -->
+            <section class="page" id="quizPage" style="display: none;">
+                <div class="page-header">
+                    <button class="back-btn" onclick="showPage('main')">
+                        <i class="fas fa-arrow-left"></i> Kabur
+                    </button>
+                    <h2 class="page-title">Interogasi Sayang 👮‍♂️</h2>
+                </div>
+
+                <div class="page-content">
+                    <div class="quiz-container" style="max-width: 600px; margin: 0 auto;">
+
+                        <!-- Intro -->
+                        <div id="quizIntro" style="text-align: center;">
+                            <i class="fas fa-fingerprint"
+                                style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
+                            <h3>Anda Ditangkap! 🚨</h3>
+                            <p style="margin-bottom: 30px; color: #666;">Angkat tangan! Jawab jujur pertanyaan ini
+                                atau hatimu akan disita selamanya!</p>
+                            <button class="action-btn" onclick="startQuiz()"
+                                style="background: var(--primary); color: white; border: none; padding: 15px 40px; border-radius: 50px; cursor: pointer; font-size: 1.2rem; box-shadow: var(--shadow);">
+                                Saya Mengaku ✋
+                            </button>
+                        </div>
+
+                        <!-- Question -->
+                        <div id="quizQuestion" style="display: none;">
+                            <div class="progress-bar-quiz"
+                                style="width: 100%; height: 10px; background: #eee; border-radius: 10px; margin-bottom: 20px; overflow: hidden;">
+                                <div id="quizProgress"
+                                    style="width: 0%; height: 100%; background: var(--primary); transition: width 0.3s;">
+                                </div>
+                            </div>
+
+                            <h3 id="qText" style="font-size: 1.5rem; margin-bottom: 25px; color: var(--dark);">Question
+                                text here?</h3>
+
+                            <div class="options-grid" id="qOptions" style="display: grid; gap: 15px;">
+                                <!-- Options generated by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Result -->
+                        <div id="quizResult" style="display: none; text-align: center;">
+                            <div id="scoreIcon" style="font-size: 5rem; margin-bottom: 15px;">🏆</div>
+                            <h3 style="font-size: 2rem; color: var(--primary); margin-bottom: 10px;">Perfect Score!</h3>
+                            <p id="scoreText" style="font-size: 1.2rem; margin-bottom: 30px;">Wow, kamu ingat semuanya!
+                                Love you! ❤️</p>
+                            <button class="action-btn" onclick="startQuiz()"
+                                style="background: var(--light); color: var(--primary); border: none; padding: 10px 25px; border-radius: 50px; cursor: pointer;">
+                                <i class="fas fa-redo"></i> Play Again
+                            </button>
+                        </div>
+
                     </div>
                 </div>
             </section>
