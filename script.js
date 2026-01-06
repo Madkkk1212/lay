@@ -1,25 +1,27 @@
 // ================ LOADING SCREEN ================
 function createBubbles() {
   const container = document.querySelector(".bubbles-container");
-  const bubbleCount = 30;
+  const heartCount = 30;
+  const hearts = ["❤️", "💖", "💕", "💗"];
 
-  for (let i = 0; i < bubbleCount; i++) {
-    const bubble = document.createElement("div");
-    bubble.className = "bubble";
+  for (let i = 0; i < heartCount; i++) {
+    const heart = document.createElement("div");
+    heart.className = "bubble-heart";
+    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
 
     // Random properties
-    const size = Math.random() * 100 + 50;
+    const size = Math.random() * 20 + 20; // 20-40px
     const left = Math.random() * 100;
-    const delay = Math.random() * 15;
-    const duration = Math.random() * 20 + 15;
+    const delay = Math.random() * 5;
+    const duration = Math.random() * 10 + 5;
 
-    bubble.style.width = `${size}px`;
-    bubble.style.height = `${size}px`;
-    bubble.style.left = `${left}%`;
-    bubble.style.animationDelay = `${delay}s`;
-    bubble.style.animationDuration = `${duration}s`;
+    heart.style.fontSize = `${size}px`;
+    heart.style.left = `${left}%`;
+    heart.style.animationDelay = `${delay}s`;
+    heart.style.animationDuration = `${duration}s`;
+    heart.style.opacity = Math.random() * 0.5 + 0.3;
 
-    container.appendChild(bubble);
+    container.appendChild(heart);
   }
 }
 
@@ -97,6 +99,7 @@ function showPage(page) {
     "gamesPage",
     "morsePage",
     "gardenPage",
+    "giftPage",
     "giftPage",
     "quizPage"
   ];
@@ -960,26 +963,65 @@ function initializeGallery() {
   mediaItems.length = 0;
 
   // Define all possible media files in your galeri folder
+  // Define all possible media files in your galeri folder
   const mediaFiles = [
+    // Original numbered files
     { type: "photo", name: "1.jpg", caption: "Beautiful Moment" },
     { type: "photo", name: "2.jpg", caption: "Sweet Smile" },
     { type: "photo", name: "3.jpg", caption: "Lovely Memory" },
     { type: "photo", name: "4.jpg", caption: "Special Day" },
-    { type: "photo", name: "5.jpeg", caption: "Special Day" },
+    { type: "photo", name: "5.jpeg", caption: "Lovely Day" },
+    { type: "photo", name: "5.png", caption: "Beautiful Art" },
     { type: "photo", name: "6.jpeg", caption: "Special Day" },
-    { type: "photo", name: "7.jpeg", caption: "Special Day" },
+    { type: "photo", name: "7.jpeg", caption: "Sweet Memory" },
     { type: "photo", name: "8.jpg", caption: "Lovely Day" },
     { type: "photo", name: "9.jpg", caption: "Precious Memory" },
     { type: "photo", name: "10.jpg", caption: "Sweet Memory" },
-    { type: "photo", name: "11.jpeg", caption: "Sweet Memory" },
+    { type: "photo", name: "11.jpeg", caption: "Wonderful Time" },
     { type: "photo", name: "12.jpg", caption: "Special Moment" },
     { type: "photo", name: "13.jpeg", caption: "Lovely Smile" },
     { type: "photo", name: "14.jpg", caption: "Happy Day" },
     { type: "photo", name: "16.jpg", caption: "Sweet Day" },
-    { type: "photo", name: "17.jpg", caption: "Sweet Day" },
-    { type: "video", name: "13.mp4", caption: "Fun Video" },
+    { type: "photo", name: "17.jpg", caption: "Beautiful Day" },
+    { type: "photo", name: "18.jpg", caption: "Precious Day" },
+    { type: "photo", name: "19.jpg", caption: "Lovely Moment" },
+    
+    // Videos
     { type: "video", name: "11.mp4", caption: "Memory Video" },
-    { type: "video", name: "new.mp4", caption: "Memory Video" },
+    { type: "video", name: "13.mp4", caption: "Fun Video" },
+    { type: "video", name: "new.mp4", caption: "New Memory" },
+    { type: "video", name: "WhatsApp Video 2026-01-06 at 23.11.20.mp4", caption: "Special Video" },
+    { type: "video", name: "WhatsApp Video 2026-01-06 at 23.11.23.mp4", caption: "Lovely Video" },
+    { type: "video", name: "WhatsApp Video 2026-01-06 at 23.11.26.mp4", caption: "Sweet Video" },
+    { type: "video", name: "WhatsApp Video 2026-01-06 at 23.11.45.mp4", caption: "Fun Moment" },
+
+    // WhatsApp Images
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.10.58 (1).jpeg", caption: "Our Moment" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.10.58.jpeg", caption: "Sweet Photo" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.10.59.jpeg", caption: "Lovely Photo" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.11.jpeg", caption: "Beautiful Photo" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.15.jpeg", caption: "Nice Photo" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.16 (1).jpeg", caption: "Cute Photo" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.16.jpeg", caption: "Good Time" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.17.jpeg", caption: "Memory" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.18 (1).jpeg", caption: "Precious" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.18.jpeg", caption: "Smile" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.19 (1).jpeg", caption: "Happiness" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.19 (2).jpeg", caption: "Together" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.19.jpeg", caption: "Us" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.20.jpeg", caption: "Love" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.23.jpeg", caption: "Joy" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.24 (1).jpeg", caption: "Fun" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.24.jpeg", caption: "Moment" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.25.jpeg", caption: "Day out" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.26.jpeg", caption: "Date" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.27 (1).jpeg", caption: "Picnic" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.27.jpeg", caption: "Trip" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.28.jpeg", caption: "Holiday" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.29.jpeg", caption: "Vacation" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.30 (1).jpeg", caption: "Remember" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.30.jpeg", caption: "Forever" },
+    { type: "photo", name: "WhatsApp Image 2026-01-06 at 23.11.31.jpeg", caption: "Always" }
   ];
 
   // Fallback images if local images don't exist
@@ -1765,3 +1807,42 @@ function showQuizResult() {
         scoreText.textContent = `DITAHAN! (${quizScore}/${quizQuestions.length})... Kamu harus dihukum traktir aku makan! 😤`;
     }
 }
+
+// Ensure showNotification is available (if not defined elsewhere)
+if (typeof showNotification !== 'function') {
+    window.showNotification = function(msg) {
+        alert(msg); // Fallback
+    };
+}
+
+// Add simple confetti if not exists
+if (typeof createConfetti !== 'function') {
+    window.createConfetti = function() {
+        const colors = ['#ff6b8b', '#ff8e53', '#ffffff', '#FFD700'];
+        for (let i = 0; i < 50; i++) {
+            const p = document.createElement('div');
+            p.style.position = 'fixed';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.top = '-10px';
+            p.style.width = Math.random() * 10 + 5 + 'px';
+            p.style.height = p.style.width;
+            p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            p.style.borderRadius = '50%';
+            p.style.zIndex = '9999';
+            p.style.pointerEvents = 'none';
+            document.body.appendChild(p);
+
+            const duration = Math.random() * 2000 + 1500;
+            const anim = p.animate([
+                { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+                { transform: `translate(${Math.random() * 200 - 100}px, 100vh) rotate(720deg)`, opacity: 0 }
+            ], {
+                duration: duration,
+                easing: 'cubic-bezier(0.25, 1, 0.5, 1)'
+            });
+
+            anim.onfinish = () => p.remove();
+        }
+    };
+}
+
