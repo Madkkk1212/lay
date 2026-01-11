@@ -985,7 +985,11 @@ function initializeGallery() {
     { type: "photo", name: "17.jpg", caption: "Beautiful Day" },
     { type: "photo", name: "18.jpg", caption: "Precious Day" },
     { type: "photo", name: "19.jpg", caption: "Lovely Moment" },
+    { type: "photo", name: "Gemini_Generated_Image_789e7j789e7j789e.png", caption: "SUPERWOMAN" },
     
+    // ChatGPT Generated
+    { type: "photo", name: "ChatGPT Image Jan 11, 2026, 09_38_56 AM.png", caption: "AI Generated Art" },
+
     // Videos
     { type: "video", name: "11.mp4", caption: "Memory Video" },
     { type: "video", name: "13.mp4", caption: "Fun Video" },
