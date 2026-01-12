@@ -117,7 +117,7 @@
                             <div class="menu-icon">
                                 <i class="fas fa-gift"></i>
                             </div>
-                            <h3>Virtual Gift</h3>
+                            <h3>Special Gift</h3>
                             <p>A surprise for you</p>
                         </button>
 
@@ -466,32 +466,102 @@
 
                 <div class="page-content">
                     <div class="gift-container" style="text-align: center; padding: 40px 0;">
-
+                        <!-- Gift Box Animation -->
                         <div id="giftBox" class="gift-box" onclick="openGift()">
                             <div class="gift-lid"></div>
                             <div class="gift-body"></div>
                             <div class="gift-bow"></div>
+                            <p class="gift-hint" id="giftHint"
+                                style="margin-top: 30px; color: #aaa; font-style: italic;">
+                                Tap the box to open!</p>
                         </div>
 
+                        <!-- Revealed Content -->
                         <div id="giftReveal"
                             style="display: none; animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-                            <div class="revealed-item" style="font-size: 5rem; margin-bottom: 20px;" id="giftIcon">🌹
+
+                            <!-- VIEW 1: Birthday Message -->
+                            <div id="messageView">
+                                <div class="birthday-message"
+                                    style="text-align: center; margin-bottom: 30px; padding: 20px; background: rgba(255,255,255,0.9); border-radius: 15px; box-shadow: var(--shadow);">
+                                    <h3
+                                        style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary); margin-bottom: 20px;">
+                                        Selamat Ulang Tahun, Sayangku 🤍</h3>
+
+                                    <div
+                                        style="font-size: 1rem; line-height: 1.6; color: #444; text-align: left; max-width: 600px; margin: 0 auto;">
+                                        <p>Di usia kamu yang ke-22 ini, aku cuma mau bilang: terima kasih sudah lahir ke
+                                            dunia dan hadir dalam hidupku. Kamu adalah hadiah terindah yang pernah aku
+                                            terima.</p>
+
+                                        <h4 style="color: var(--primary); margin-top: 15px; margin-bottom: 10px;">✨
+                                            Doa-doa terbaikku untukmu:</h4>
+                                        <p>Semoga Allah selalu melimpahkan kesehatan untukmu, menjaga setiap langkahmu
+                                            ke mana pun kamu pergi, dan melindungimu dari segala hal yang
+                                            menyakitimu—baik yang terlihat maupun yang tidak.</p>
+
+                                        <h4 style="color: var(--primary); margin-top: 15px; margin-bottom: 10px;">Semoga
+                                            di umur 22 ini:</h4>
+                                        <ul style="list-style: none; padding-left: 0;">
+                                            <li>🌱 hatimu makin tenang</li>
+                                            <li>🌱 Sholatnya makin rajin</li>
+                                            <li>🌱 Lancar untuk kkn dan skripsinya</li>
+                                            <li>🌱 pikiranmu makin dewasa</li>
+                                            <li>🌱 mimpimu satu per satu terwujud</li>
+                                            <li>🌱 rezekimu lancar dan penuh keberkahan</li>
+                                            <li>🌱 setiap lelahmu diganti dengan kebahagiaan yang berlipat</li>
+                                        </ul>
+
+                                        <p style="margin-top: 15px;">Aku berdoa semoga kamu selalu dikelilingi
+                                            orang-orang baik, dipertemukan dengan kesempatan-kesempatan indah, dan
+                                            diberi kekuatan saat dunia terasa berat.</p>
+
+                                        <p>Semoga senyummu tidak pernah hilang, tawamu selalu tulus, dan hatimu selalu
+                                            merasa cukup—karena kamu pantas mendapatkan yang terbaik di dunia ini.</p>
+
+                                        <p>Terima kasih sudah menjadi dirimu yang luar biasa, dengan segala kelebihan
+                                            dan kekuranganmu yang tetap aku cintai. Semoga di usia baru ini kamu makin
+                                            bersinar, makin yakin dengan dirimu sendiri, dan makin bahagia—hari ini,
+                                            besok, dan selamanya 🤍</p>
+
+                                        <p
+                                            style="margin-top: 20px; font-weight: bold; color: var(--primary); text-align: center; font-size: 1.2rem;">
+                                            🎈 Happy 22nd Birthday, my love.</p>
+                                        <p style="text-align: center;">Aku selalu doakan kamu, selalu dukung kamu, dan
+                                            selalu ada untuk kamu. Semoga tahun ini menjadi tahun paling indah dalam
+                                            hidupmu 💫💞</p>
+                                    </div>
+                                </div>
+
+                                <!-- Button to Show Gallery -->
+                                <button class="action-btn" onclick="showGiftGallery()"
+                                    style="margin-top: 10px; background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 50px; cursor: pointer; font-size: 1.1rem; box-shadow: var(--shadow); margin-bottom: 15px;">
+                                    <i class="fas fa-images"></i> Lihat Foto & Video Spesial 👇
+                                </button>
+                                <br>
+
+                                <!-- Close Button -->
+                                <button class="action-btn" onclick="resetGift()"
+                                    style="margin-top: 10px; background: var(--light); color: var(--primary); border: none; padding: 10px 20px; border-radius: 50px; cursor: pointer; font-size: 1rem;">
+                                    <i class="fas fa-redo"></i> Close Box
+                                </button>
                             </div>
-                            <h3 id="giftTitle"
-                                style="color: var(--primary); font-family: 'Dancing Script'; font-size: 2.5rem; margin-bottom: 10px;">
-                                A Beautiful Rose</h3>
-                            <p id="giftMessage"
-                                style="font-size: 1.2rem; color: #666; max-width: 500px; margin: 0 auto 30px;">For the
-                                most beautiful girl in the world.</p>
 
-                            <button class="action-btn" onclick="resetGift()"
-                                style="background: var(--light); color: var(--primary); border: none; padding: 10px 20px; border-radius: 50px; cursor: pointer; font-size: 1rem;">
-                                <i class="fas fa-redo"></i> Close Box
-                            </button>
+                            <!-- VIEW 2: Gallery Container (Hidden Initially) -->
+                            <div id="galleryView" style="display: none;">
+                                <div class="page-header" style="margin-bottom: 20px;">
+                                    <button class="back-btn" onclick="showGiftMessage()"
+                                        style="position: static; transform: none;">
+                                        <i class="fas fa-arrow-left"></i> Kembali ke Ucapan
+                                    </button>
+                                </div>
+
+                                <div class="gallery-container" id="specialGiftContainer">
+                                    <!-- Special Gift Content will be populated by JavaScript -->
+                                </div>
+                            </div>
+
                         </div>
-
-                        <p class="gift-hint" id="giftHint" style="margin-top: 30px; color: #aaa; font-style: italic;">
-                            Tap the box to open!</p>
                     </div>
                 </div>
             </section>

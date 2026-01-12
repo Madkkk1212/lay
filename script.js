@@ -91,6 +91,28 @@ function updateGreeting() {
 
 // ================ PAGE NAVIGATION ================
 function showPage(page) {
+    // Time Lock for Special Gift
+    if (page === 'gift') {
+        const now = new Date();
+        const targetDate = new Date('2026-01-13T00:00:00');
+        
+        if (now < targetDate) {
+            // Show Locked Modal
+            const modal = document.getElementById('lockedModal');
+            const icon = modal.querySelector('.locked-icon');
+            const title = modal.querySelector('.locked-title');
+            const text = modal.querySelector('.locked-text');
+            
+            icon.textContent = "🥺";
+            title.textContent = "Tunggu ya sayang!";
+            text.innerHTML = "Kado ini baru bisa dibuka pada:<br><strong>13 Januari 2026 pukul 00:00</strong>";
+            
+            modal.style.display = 'flex';
+            setTimeout(() => modal.style.opacity = '1', 10);
+            return;
+        }
+    }
+
   // Hide all pages
   const pages = [
     "mainPage",
@@ -99,7 +121,6 @@ function showPage(page) {
     "gamesPage",
     "morsePage",
     "gardenPage",
-    "giftPage",
     "giftPage",
     "quizPage"
   ];
@@ -123,6 +144,11 @@ function showPage(page) {
   // Initialize gallery if on gallery page
   if (page === "galeri") {
     initializeGallery();
+  }
+
+  // Initialize special gift if on gift page
+  if (page === "gift") {
+    initializeSpecialGift();
   }
 
   // Initialize garden if on garden page
@@ -1617,89 +1643,120 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// ================ VIRTUAL GIFT BOX ================
-// ================ VIRTUAL GIFT BOX ================
-// Ganti nama file foto sesuai dengan yang ada di folder galeri
-const giftItems = [
-    // === HADIAH BAGUS ===
-    { type: "image", src: "galeri/foto1.jpg", message: "Senyum kamu hari ini manis banget! 🥰" },
-    { type: "image", src: "galeri/foto2.jpg", message: "Semangat ya hari ini sayang! ❤️" },
-    
-    // === HADIAH ZONK (Varian Aneh/Lucu) ===
-    { type: "image", src: "galeri/zonk1.jpg", message: "ZONK! Hadiahnya dimakan kucing 🐈🤣" },
-    { type: "image", src: "galeri/zonk2.jpg", message: "Selamat! Anda mendapatkan... HIKMAHNYA SAJA �" },
-    { type: "image", src: "galeri/zonk3.jpg", message: "Maaf, hadiah sedang otw (on the way) tapi nyasar 🛵💨" },
-    { type: "image", src: "galeri/zonk4.jpg", message: "Ciee ngarep ya? Coba lagi besok! 😜" }
+// ================ SPECIAL GIFT FUNCTIONS ================
+const specialGiftMedia = [
+    { type: "image", src: "galeri/hbd/WhatsApp Image 2026-01-12 at 22.26.41 (1).jpeg", caption: "Special Moment" },
+    { type: "image", src: "galeri/hbd/WhatsApp Image 2026-01-12 at 22.26.41.jpeg", caption: "Beautiful Memory" },
+    { type: "video", src: "galeri/hbd/WhatsApp Video 2026-01-12 at 22.26.20 (1).mp4", caption: "Special Video 1" },
+    { type: "video", src: "galeri/hbd/WhatsApp Video 2026-01-12 at 22.26.20.mp4", caption: "Special Video 2" },
+    { type: "video", src: "galeri/hbd/WhatsApp Video 2026-01-12 at 22.26.40 (1).mp4", caption: "Special Video 3" },
+    { type: "video", src: "galeri/hbd/WhatsApp Video 2026-01-12 at 22.26.40.mp4", caption: "Special Video 4" }
 ];
+
+function initializeSpecialGift() {
+    const container = document.getElementById("specialGiftContainer");
+    if (!container) return;
+
+    // Only populate if empty
+    if (container.children.length === 0) {
+        specialGiftMedia.forEach((media) => {
+            const item = document.createElement("div");
+            item.className = `gallery-item ${media.type}`;
+            
+            if (media.type === "image") {
+                const img = document.createElement("img");
+                img.src = media.src;
+                img.alt = media.caption;
+                img.loading = "lazy";
+                item.appendChild(img);
+                item.addEventListener("click", () => openImageModal(media.src, media.caption));
+            } else if (media.type === "video") {
+                const video = document.createElement("video");
+                video.src = media.src;
+                video.preload = "metadata";
+                item.appendChild(video);
+                item.addEventListener("click", () => openVideoModal(media.src));
+            }
+
+            const typeIndicator = document.createElement("div");
+            typeIndicator.className = `media-type ${media.type}`;
+            typeIndicator.textContent = media.type === "image" ? "PHOTO" : "VIDEO";
+            item.appendChild(typeIndicator);
+
+            container.appendChild(item);
+        });
+    }
+}
 
 function openGift() {
     const giftBox = document.getElementById('giftBox');
     const giftReveal = document.getElementById('giftReveal');
-    const giftHint = document.getElementById('giftHint');
+    const messageView = document.getElementById('messageView');
+    const galleryView = document.getElementById('galleryView');
     
-    // Cek apakah sudah buka kado hari ini
-    const today = new Date().toDateString();
-    const lastOpened = localStorage.getItem('lastGiftOpened');
-    
-    if (lastOpened === today) {
-        showNotification("Eits! Kado cuma bisa dibuka 1x sehari 😜");
-        return;
-    }
-
     // Animate Box
     giftBox.classList.add('open');
-    giftHint.style.display = 'none';
-    
-    // Pick Random Gift
-    const randomGift = giftItems[Math.floor(Math.random() * giftItems.length)];
-    
-    // Save state
-    localStorage.setItem('lastGiftOpened', today);
     
     // Wait for animation then show content
     setTimeout(() => {
         giftBox.style.display = 'none';
         giftReveal.style.display = 'block';
         
-        const giftIcon = document.getElementById('giftIcon');
-        
-        // Render Image instead of Icon
-        if (randomGift.type === "image") {
-            giftIcon.innerHTML = `<img src="${randomGift.src}" style="width: 100%; max-width: 300px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);" onerror="this.src='https://via.placeholder.com/300x400?text=Foto+Tidak+Ditemukan'">`;
-        } else {
-            giftIcon.textContent = randomGift.icon;
-        }
-        
-        document.getElementById('giftTitle').textContent = "Special For You ✨";
-        document.getElementById('giftMessage').textContent = randomGift.message;
+        // Show message first, hide gallery
+        if(messageView) messageView.style.display = 'block';
+        if(galleryView) galleryView.style.display = 'none';
         
         // Confetti
         createConfetti();
-    }, 500);
+        
+        // Play celebration sound if available
+        playLevelUpSound(); // Reuse existing sound function
+    }, 1000);
+}
+
+function showGiftGallery() {
+    const messageView = document.getElementById('messageView');
+    const galleryView = document.getElementById('galleryView');
+    
+    if(messageView) messageView.style.display = 'none';
+    if(galleryView) galleryView.style.display = 'block';
+    
+    // Smooth scroll to top
+    window.scrollTo(0, 0);
+}
+
+function showGiftMessage() {
+    const messageView = document.getElementById('messageView');
+    const galleryView = document.getElementById('galleryView');
+    
+    if(messageView) messageView.style.display = 'block';
+    if(galleryView) galleryView.style.display = 'none';
+    
+    // Smooth scroll to top
+    window.scrollTo(0, 0);
 }
 
 function resetGift() {
     const giftBox = document.getElementById('giftBox');
     const giftReveal = document.getElementById('giftReveal');
-    const giftHint = document.getElementById('giftHint');
+    const messageView = document.getElementById('messageView');
+    const galleryView = document.getElementById('galleryView');
     
     giftReveal.style.display = 'none';
     giftBox.style.display = 'block';
     giftBox.classList.remove('open');
-    giftHint.style.display = 'block';
+    
+    // Reset views
+    if(messageView) messageView.style.display = 'block';
+    if(galleryView) galleryView.style.display = 'none';
 }
 
-function createConfetti() {
-    for(let i=0; i<30; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + '%';
-        confetti.style.backgroundColor = ['#ff6b8b', '#ff8e53', '#ffd700', '#81c784'][Math.floor(Math.random()*4)];
-        confetti.style.animationDuration = (Math.random() * 2 + 1) + 's';
-        document.getElementById('giftPage').appendChild(confetti);
-        
-        setTimeout(() => confetti.remove(), 3000);
-    }
+function closeLockedModal() {
+    const modal = document.getElementById('lockedModal');
+    modal.style.opacity = '0';
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 300);
 }
 
 // ================ QUIZ ABOUT US ================
