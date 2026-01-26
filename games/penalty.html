@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game: Penalty Shootout</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .game-page {
+            min-height: 100vh;
+            padding: 80px 20px 40px;
+            background: linear-gradient(135deg, #a8e063 0%, #56ab2f 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .game-content {
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            text-align: center;
+        }
+
+        canvas {
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 50%, #4CAF50 50%, #388E3C 100%);
+            border-radius: 15px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+            cursor: crosshair;
+            max-width: 100%;
+            touch-action: none;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-item {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .controls-hint {
+            margin-top: 15px;
+            color: #333;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 15px;
+        }
+
+        /* Result Modal Overlay */
+        .result-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            z-index: 10;
+        }
+
+        .result-content {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 80%;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .result-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: #56ab2f;
+            margin-bottom: 15px;
+        }
+
+        .start-btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background: #56ab2f;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(86, 171, 47, 0.3);
+            margin-top: 20px;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+            background: #4a9e26;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="game-page">
+        <a href="../index.html#gamesPage" class="back-btn"
+            style="position: absolute; top: 20px; left: 20px; z-index: 10; text-decoration: none; color: white; background: rgba(0,0,0,0.2); padding: 10px 20px; border-radius: 20px; backdrop-filter: blur(5px);">
+            <i class="fas fa-arrow-left"></i> Back to Games
+        </a>
+
+        <div class="game-content">
+            <div class="game-container">
+                <div class="score-board">
+                    <div class="score-item">
+                        <span style="font-size: 1rem;">Level <span id="level"
+                                style="font-size: 1.4rem; color: #56ab2f;">1</span></span>
+                    </div>
+                    <div class="score-item">
+                        <i class="fas fa-bullseye"></i> <span id="target">0/0</span>
+                    </div>
+                    <div class="score-item">
+                        <span><i class="fas fa-clock"></i> <span id="attempts">0/0</span></span>
+                    </div>
+                    <div class="score-item">
+                        <i class="fas fa-star"></i> <span id="score">0</span>
+                    </div>
+                </div>
+
+                <div style="position: relative;">
+                    <canvas id="gameCanvas" width="600" height="400"></canvas>
+
+                    <div id="startScreen" class="result-overlay">
+                        <div class="result-content">
+                            <h1 class="result-title">Penalty Shootout</h1>
+                            <p style="margin-bottom: 20px; font-size: 1.1rem; color: #666;">
+                                Score goals to reach the target!<br>
+                                Difficulty increases every level.
+                            </p>
+                            <button class="start-btn" onclick="startGame()">
+                                <i class="fas fa-play"></i> Start Challenge
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="levelUpScreen" class="result-overlay" style="display: none;">
+                        <div class="result-content">
+                            <h1 class="result-title">Level Completed!</h1>
+                            <p id="levelUpMessage" style="margin-bottom: 20px; font-size: 1.1rem; color: #666;">
+                                Amazing skill!
+                            </p>
+                            <button class="start-btn" onclick="nextLevel()">
+                                <i class="fas fa-arrow-right"></i> Next Level
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="gameOverScreen" class="result-overlay" style="display: none;">
+                        <div class="result-content">
+                            <h1 class="result-title" style="color: #ff5252;">Game Over</h1>
+                            <p style="margin-bottom: 10px; font-size: 1.2rem;">Final Score: <strong
+                                    id="finalScore">0</strong></p>
+                            <p style="margin-bottom: 20px; color: #666;">The keeper was too good this time!</p>
+                            <button class="start-btn" onclick="startGame()">
+                                <i class="fas fa-redo"></i> Try Again
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="goalMessage" class="result-overlay"
+                        style="display: none; background: rgba(0,0,0,0.3); pointer-events: none;">
+                        <div class="result-content"
+                            style="background: transparent; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+                            <h1 style="font-size: 4rem; font-weight: bold; color: #fff;">GOAL!!! ⚽</h1>
+                        </div>
+                    </div>
+
+                    <div id="missMessage" class="result-overlay"
+                        style="display: none; background: rgba(0,0,0,0.3); pointer-events: none;">
+                        <div class="result-content"
+                            style="background: transparent; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+                            <h1 style="font-size: 4rem; font-weight: bold; color: #ff5252;">SAVED! 🧤</h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls-hint">
+                    Tap/Click on the goal area to shoot. Reach the target goals to advance!
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Game State
+        let isPlaying = false;
+        let score = 0; // Total Score
+        let level = 1;
+        let currentLevelScore = 0;
+        let attempts = 0;
+        let maxAttempts = 5;
+        let targetScore = 2; // Goals needed to pass level 1
+        let saves = 0;
+        let isShooting = false;
+
+        // Dimensions based on canvas
+        const goal = {
+            x: 100,
+            y: 100,
+            width: 400,
+            height: 150
+        };
+
+        const keeper = {
+            x: 275, // Center of width (600/2 - 50/2)
+            y: 150, // goal.y + goal.height - keeper.height
+            width: 50,
+            height: 100,
+            color: '#ffeb3b',
+            targetX: 275,
+            speed: 5
+        };
+
+        const ball = {
+            x: 300,
+            y: 350,
+            radius: 15,
+            color: '#fff',
+            targetX: 0,
+            targetY: 0,
+            speed: 15
+        };
+
+        let resetTimer = null;
+
+        function startGame() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('levelUpScreen').style.display = 'none';
+            document.getElementById('gameOverScreen').style.display = 'none';
+
+            score = 0;
+            level = 1;
+            resetLevelParams();
+
+            updateUI();
+            resetBall();
+            isPlaying = true;
+            gameLoop();
+        }
+
+        function nextLevel() {
+            document.getElementById('levelUpScreen').style.display = 'none';
+            level++;
+            // Important: Reset score for current level logic but keep total score
+            resetLevelParams();
+            resetBall();
+            updateUI();
+            isPlaying = true;
+            gameLoop(); // Restart the loop!
+
+            // Ensure no lingering result screens
+            document.getElementById('gameOverScreen').style.display = 'none';
+            document.getElementById('goalMessage').style.display = 'none';
+            document.getElementById('missMessage').style.display = 'none';
+        }
+
+        function resetLevelParams() {
+            currentLevelScore = 0;
+            attempts = 0;
+            saves = 0;
+
+            // Difficulty Calculation
+            // Level 1: Target 2/5, Keeper Speed 5
+            // Level 2: Target 3/6, Keeper Speed 7
+            // Level 3: Target 4/7, Keeper Speed 9
+            targetScore = 1 + level;
+            maxAttempts = 3 + level;
+
+            // Cap max attempts so it doesn't get too long
+            if (maxAttempts > 8) maxAttempts = 8;
+
+            // Keeper gets better
+            keeper.speed = 4 + (level * 1.5);
+            if (keeper.speed > 15) keeper.speed = 15;
+        }
+
+        function updateUI() {
+            document.getElementById('score').innerText = score;
+            document.getElementById('level').innerText = level;
+            document.getElementById('target').innerText = `${currentLevelScore}/${targetScore}`;
+            document.getElementById('attempts').innerText = `${attempts}/${maxAttempts}`;
+        }
+
+        function resetBall() {
+            ball.x = 300;
+            ball.y = 350;
+            ball.radius = 15; // Reset visual size
+            isShooting = false;
+
+            // Reset keeper
+            keeper.x = 275;
+            keeper.targetX = 275;
+        }
+
+        function drawField() {
+            // Field is drawn by CSS background, we just draw the goal posts
+
+            // Goal posts
+            ctx.fillStyle = 'white';
+            ctx.fillRect(goal.x - 10, goal.y - 10, 10, goal.height + 10); // Left post
+            ctx.fillRect(goal.x + goal.width, goal.y - 10, 10, goal.height + 10); // Right post
+            ctx.fillRect(goal.x - 10, goal.y - 10, goal.width + 20, 10); // Crossbar
+
+            // Net (simple lines)
+            ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+            ctx.lineWidth = 1;
+            for (let i = goal.x; i <= goal.x + goal.width; i += 20) {
+                ctx.beginPath();
+                ctx.moveTo(i, goal.y);
+                ctx.lineTo(i, goal.y + goal.height);
+                ctx.stroke();
+            }
+            for (let j = goal.y; j <= goal.y + goal.height; j += 20) {
+                ctx.beginPath();
+                ctx.moveTo(goal.x, j);
+                ctx.lineTo(goal.x + goal.width, j);
+                ctx.stroke();
+            }
+        }
+
+        function drawKeeper() {
+            // Simple keeper representation
+            ctx.fillStyle = keeper.color;
+            ctx.fillRect(keeper.x, keeper.y, keeper.width, keeper.height);
+
+            // Keeper eyes
+            ctx.fillStyle = 'black';
+            ctx.beginPath();
+            ctx.arc(keeper.x + 15, keeper.y + 20, 5, 0, Math.PI * 2);
+            ctx.arc(keeper.x + 35, keeper.y + 20, 5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Keeper gloves
+            ctx.fillStyle = 'orange';
+            ctx.beginPath();
+            ctx.arc(keeper.x - 5, keeper.y + 50, 10, 0, Math.PI * 2); // Left hand
+            ctx.arc(keeper.x + keeper.width + 5, keeper.y + 50, 10, 0, Math.PI * 2); // Right hand
+            ctx.fill();
+        }
+
+        function drawBall() {
+            // Shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.2)';
+            ctx.beginPath();
+            ctx.ellipse(ball.x + 2, ball.y + 2, ball.radius, ball.radius * 0.5, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Ball body
+            ctx.fillStyle = ball.color;
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Ball pattern (soccer ball style)
+            ctx.fillStyle = 'black';
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius / 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function update() {
+            if (!isPlaying) return;
+
+            if (isShooting) {
+                // Move ball towards target
+                const dx = ball.targetX - ball.x;
+                const dy = ball.targetY - ball.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist > ball.speed) {
+                    ball.x += (dx / dist) * ball.speed;
+                    ball.y += (dy / dist) * ball.speed;
+
+                    // Ball gets smaller as it goes away to simulate depth
+                    if (ball.radius > 8) {
+                        ball.radius -= 0.2;
+                    }
+                } else {
+                    // Ball reached target
+                    checkGoal();
+                    isShooting = false;
+                }
+
+                // Move keeper
+                const kDx = keeper.targetX - keeper.x;
+                if (Math.abs(kDx) > keeper.speed) {
+                    keeper.x += Math.sign(kDx) * keeper.speed;
+                }
+            }
+        }
+
+        function checkGoal() {
+            // Check collision with keeper
+            const ballLeft = ball.x - ball.radius;
+            const ballRight = ball.x + ball.radius;
+            const ballTop = ball.y - ball.radius;
+            const ballBottom = ball.y + ball.radius;
+
+            const keeperLeft = keeper.x;
+            const keeperRight = keeper.x + keeper.width;
+            const keeperTop = keeper.y;
+            const keeperBottom = keeper.y + keeper.height;
+
+            // Simple AABB collision
+            let hitKeeper = false;
+            if (ballRight > keeperLeft &&
+                ballLeft < keeperRight &&
+                ballBottom > keeperTop &&
+                ballTop < keeperBottom) {
+                hitKeeper = true;
+            }
+
+            // Check if ball is inside goal posts
+            let inGoal = false;
+            if (ball.x > goal.x && ball.x < goal.x + goal.width &&
+                ball.y > goal.y && ball.y < goal.y + goal.height) {
+                inGoal = true;
+            }
+
+            // Determine Outcome
+            let outcome = 'miss';
+            if (hitKeeper && inGoal) {
+                // Keeper saved it!
+                showResult('miss');
+                saves++;
+            } else if (inGoal) {
+                // GOAL!
+                showResult('goal');
+                score += 10;
+                currentLevelScore++;
+                outcome = 'goal';
+            } else {
+                // Missed the goal completely
+                showResult('miss');
+            }
+
+            attempts++;
+            updateUI();
+
+            // Check Progression
+            setTimeout(() => {
+                checkLevelStatus(outcome);
+            }, 1000);
+        }
+
+        function checkLevelStatus(lastOutcome) {
+            // Win Condition
+            if (currentLevelScore >= targetScore) {
+                isPlaying = false;
+                document.getElementById('levelUpMessage').innerText = `Level ${level} Complete!`;
+                document.getElementById('levelUpScreen').style.display = 'flex';
+                return;
+            }
+
+            // Lose Condition
+            // If remaining attempts are not enough to reach target
+            const remainingAttempts = maxAttempts - attempts;
+            const neededGoals = targetScore - currentLevelScore;
+
+            if (attempts >= maxAttempts || remainingAttempts < neededGoals) {
+                isPlaying = false;
+                document.getElementById('finalScore').innerText = score;
+                document.getElementById('gameOverScreen').style.display = 'flex';
+                return;
+            }
+
+            // Continue
+            resetBall();
+        }
+
+        function showResult(type) {
+            const el = type === 'goal' ? document.getElementById('goalMessage') : document.getElementById('missMessage');
+            el.style.display = 'flex';
+
+            setTimeout(() => {
+                el.style.display = 'none';
+            }, 1000);
+        }
+
+        function gameLoop() {
+            if (!isPlaying) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawField();
+
+            if (ball.y > keeper.y + 80) {
+                drawKeeper();
+                drawBall();
+            } else {
+                drawBall();
+                drawKeeper();
+            }
+
+            update();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Mouse/Touch Interaction
+        function handleInput(x, y) {
+            if (isShooting || !isPlaying) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+
+            const clickX = (x - rect.left) * scaleX;
+            const clickY = (y - rect.top) * scaleY;
+
+            // Logic to determine shot
+            ball.targetX = clickX;
+            ball.targetY = clickY;
+            isShooting = true;
+
+            // Keeper AI
+            // Difficulty increases with level (0.5 to 0.9)
+            const difficulty = Math.min(0.5 + (level * 0.1), 0.95);
+
+            if (Math.random() < difficulty) {
+                // Good read
+                keeper.targetX = clickX - keeper.width / 2;
+            } else {
+                // Bad read / Wrong way
+                keeper.targetX = Math.random() < 0.5 ? goal.x : goal.x + goal.width - keeper.width;
+            }
+
+            // Clamp keeper movement to goal area
+            if (keeper.targetX < goal.x) keeper.targetX = goal.x;
+            if (keeper.targetX + keeper.width > goal.x + goal.width) keeper.targetX = goal.x + goal.width - keeper.width;
+        }
+
+        canvas.addEventListener('mousedown', (e) => handleInput(e.clientX, e.clientY));
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // prevent scrolling
+            handleInput(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: false });
+
+    </script>
+</body>
+
+</html>
