@@ -1190,6 +1190,10 @@ const audioPlayer = document.getElementById("audioPlayer");
 // Playlist dengan lagu-lagu romantis
 const playlist = [
   {
+    title: "3000",
+    src: "audio/3000.mp3",
+  },
+  {
     title: "123456",
     src: "audio/123456.mp3",
   },
