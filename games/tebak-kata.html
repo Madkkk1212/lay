@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game 2: Tebak Kata</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .game-page {
+            min-height: 100vh;
+            padding: 80px 20px 40px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            position: relative;
+        }
+
+        .game-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .score-item {
+            background: linear-gradient(135deg, #ff6b9d, #ff8e53);
+            padding: 15px 25px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-item i {
+            font-size: 20px;
+        }
+
+        .game-instruction {
+            background: rgba(255, 107, 157, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #ff6b9d;
+        }
+
+        .hint-box {
+            background: linear-gradient(135deg, #3498db, #9b59b6);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .word-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .word-display {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .word-letter {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff6b9d, #ff8e53);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .word-letter.revealed {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            transform: scale(1.1);
+        }
+
+        .keyboard-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .keyboard-key {
+            padding: 15px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .keyboard-key:hover:not(.correct):not(.wrong) {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .keyboard-key.correct {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            cursor: default;
+        }
+
+        .keyboard-key.wrong {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            cursor: default;
+        }
+
+        .game-message {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .used-letters {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .next-btn,
+        .restart-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .next-btn:hover,
+        .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .result-container {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .result-content {
+            text-align: center;
+        }
+
+        .result-title {
+            font-size: 2.5rem;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #ff6b9d, #ff8e53);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .result-text {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .result-subtext {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .special-gift {
+            margin: 40px 0;
+        }
+
+        .gift-frame {
+            max-width: 400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(255, 107, 157, 0.2);
+        }
+
+        .gift-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .gift-caption {
+            color: #ff6b9d;
+            font-size: 1.2rem;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .game-action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .keyboard {
+                grid-template-columns: repeat(6, 1fr);
+            }
+
+            .word-letter {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .score-board {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .game-action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-container {
+                padding: 20px;
+            }
+
+            .keyboard {
+                grid-template-columns: repeat(5, 1fr);
+            }
+
+            .word-letter {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .keyboard-key {
+                padding: 10px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Halaman Game Tebak Kata -->
+    <section class="game-page" id="tebakKataPage">
+        <a href="../index.html#gameMenuPage" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Kembali ke Menu Games
+        </a>
+
+        <div class="game-content">
+            <div class="crown-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h1 class="main-title">Game 2: Tebak Kata</h1>
+            <p class="game-subtitle">Tebak kata rahasia dari petunjuk!</p>
+
+            <div class="game-container">
+                <div class="game-info">
+                    <div class="score-board">
+                        <div class="score-item">
+                            <i class="fas fa-star"></i>
+                            <span>Level: <span id="kataLevel">1</span>/5</span>
+                        </div>
+                        <div class="score-item">
+                            <i class="fas fa-heart"></i>
+                            <span>Kesempatan: <span id="kataChances">5</span></span>
+                        </div>
+                        <div class="score-item">
+                            <i class="fas fa-trophy"></i>
+                            <span>Skor: <span id="kataScore">0</span></span>
+                        </div>
+                    </div>
+
+                    <div class="game-instruction">
+                        <p><i class="fas fa-lightbulb"></i> <strong>Petunjuk:</strong> Tebak kata berdasarkan deskripsi!
+                        </p>
+                        <div class="hint-box" id="kataHint">Memuat petunjuk...</div>
+                    </div>
+
+                    <div class="word-container">
+                        <div class="word-display" id="wordDisplay">
+                            <!-- Huruf-huruf akan muncul di sini -->
+                        </div>
+                    </div>
+
+                    <div class="keyboard-container">
+                        <div class="keyboard" id="keyboard">
+                            <!-- Keyboard akan dimuat di sini -->
+                        </div>
+                    </div>
+
+                    <div class="game-message" id="kataMessage">
+                        <p>Pilih huruf untuk menebak kata!</p>
+                    </div>
+
+                    <div class="used-letters">
+                        <p>Huruf yang sudah digunakan: <span id="usedLetters"></span></p>
+                    </div>
+
+                    <div style="text-align: center;">
+                        <button class="next-btn" id="kataNextBtn" onclick="nextKataLevel()" style="display:none;">
+                            <i class="fas fa-arrow-right"></i> Level Berikutnya
+                        </button>
+
+                        <button class="restart-btn" id="kataRestartBtn" onclick="restartKataGame()"
+                            style="display:none;">
+                            <i class="fas fa-redo"></i> Main Lagi
+                        </button>
+                    </div>
+                </div>
+
+                <div class="result-container" id="kataResultContainer" style="display:none;">
+                    <div class="result-content">
+                        <div class="crown-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h2 class="result-title" id="kataResultTitle">Game Selesai!</h2>
+                        <p class="result-text" id="kataResultText"></p>
+                        <p class="result-subtext">Skor akhir: <span id="kataFinalScore">0</span></p>
+
+                        <div class="special-gift">
+                            <div class="gift-frame">
+                                <img src="../galeri/18.jpg" class="gift-img" alt="Hadiah Spesial"
+                                    onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?auto=format&fit=crop&w=500&q=80'">
+                                <div class="gift-caption">Kamu Hebat! ❤️</div>
+                            </div>
+                        </div>
+
+                        <div class="game-action-buttons">
+                            <a href="../index.html#gameMenuPage" class="back-btn">
+                                <i class="fas fa-gamepad"></i> Menu Games
+                            </a>
+                            <button class="next-btn" onclick="restartKataGame()">
+                                <i class="fas fa-redo"></i> Main Lagi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Game Data untuk Tebak Kata
+        const kataData = [
+            {
+                hint: "Nama panggilan sayang",
+                word: "LAYSA",
+                category: "Nama"
+            },
+            {
+                hint: "Sesuatu yang diberikan dengan penuh kasih sayang",
+                word: "HADIAH",
+                category: "Objek"
+            },
+            {
+                hint: "Perasaan yang indah",
+                word: "CINTA",
+                category: "Perasaan"
+            },
+            {
+                hint: "Momen yang terekam",
+                word: "MEMORI",
+                category: "Konsep"
+            },
+            {
+                hint: "Simbol kasih sayang",
+                word: "HATI",
+                category: "Simbol"
+            }
+        ];
+
+        // Variabel untuk game tebak kata
+        let kataLevel = 0;
+        let kataScore = 0;
+        let kataChances = 5;
+        let currentWord = "";
+        let guessedLetters = [];
+        let wrongLetters = [];
+
+        // Initialize game
+        function initKataGame() {
+            kataLevel = 0;
+            kataScore = 0;
+            kataChances = 5;
+            loadKataLevel(kataLevel);
+        }
+
+        function loadKataLevel(level) {
+            if (level >= kataData.length) {
+                showKataResult(true);
+                return;
+            }
+
+            const kataDataLevel = kataData[level];
+            currentWord = kataDataLevel.word;
+            guessedLetters = [];
+            wrongLetters = [];
+
+            // Reset tampilan
+            document.getElementById('kataResultContainer').style.display = 'none';
+            document.querySelector('.game-info').style.display = 'block';
+            document.getElementById('kataNextBtn').style.display = 'none';
+            document.getElementById('kataRestartBtn').style.display = 'none';
+            document.getElementById('kataMessage').innerHTML = '<p>Pilih huruf untuk menebak kata!</p>';
+            document.getElementById('kataMessage').style.color = '#333';
+            document.getElementById('usedLetters').textContent = '';
+
+            // Update info
+            document.getElementById('kataLevel').textContent = level + 1;
+            document.getElementById('kataScore').textContent = kataScore;
+            document.getElementById('kataChances').textContent = kataChances;
+            document.getElementById('kataHint').textContent = `${kataDataLevel.hint} (Kategori: ${kataDataLevel.category})`;
+
+            // Tampilkan kata dengan garis bawah
+            displayWord();
+
+            // Buat keyboard
+            createKeyboard();
+        }
+
+        function displayWord() {
+            const wordDisplay = document.getElementById('wordDisplay');
+            wordDisplay.innerHTML = '';
+
+            for (let letter of currentWord) {
+                const letterSpan = document.createElement('div');
+                letterSpan.className = 'word-letter';
+
+                if (guessedLetters.includes(letter)) {
+                    letterSpan.textContent = letter;
+                    letterSpan.classList.add('revealed');
+                } else {
+                    letterSpan.textContent = '_';
+                }
+
+                wordDisplay.appendChild(letterSpan);
+            }
+        }
+
+        function createKeyboard() {
+            const keyboard = document.getElementById('keyboard');
+            keyboard.innerHTML = '';
+
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+            for (let letter of alphabet) {
+                const key = document.createElement('div');
+                key.className = 'keyboard-key';
+                key.textContent = letter;
+                key.onclick = () => guessLetter(letter);
+
+                if (guessedLetters.includes(letter)) {
+                    key.classList.add('correct');
+                    key.onclick = null;
+                } else if (wrongLetters.includes(letter)) {
+                    key.classList.add('wrong');
+                    key.onclick = null;
+                }
+
+                keyboard.appendChild(key);
+            }
+        }
+
+        function guessLetter(letter) {
+            const usedLetters = document.getElementById('usedLetters');
+
+            if (guessedLetters.includes(letter) || wrongLetters.includes(letter)) {
+                return;
+            }
+
+            if (currentWord.includes(letter)) {
+                guessedLetters.push(letter);
+                document.getElementById('kataMessage').innerHTML = `<p><i class="fas fa-check-circle"></i> Benar! Huruf ${letter} ada dalam kata!</p>`;
+                document.getElementById('kataMessage').style.color = '#2ecc71';
+            } else {
+                wrongLetters.push(letter);
+                kataChances--;
+                document.getElementById('kataMessage').innerHTML = `<p><i class="fas fa-times-circle"></i> Salah! Huruf ${letter} tidak ada dalam kata.</p>`;
+                document.getElementById('kataMessage').style.color = '#e74c3c';
+
+                if (kataChances <= 0) {
+                    endKataLevel(false);
+                    return;
+                }
+            }
+
+            // Update used letters
+            usedLetters.textContent = [...guessedLetters, ...wrongLetters].join(', ');
+
+            // Update display
+            displayWord();
+            createKeyboard();
+            document.getElementById('kataChances').textContent = kataChances;
+
+            // Check if word is complete
+            if (currentWord.split('').every(l => guessedLetters.includes(l))) {
+                endKataLevel(true);
+            }
+        }
+
+        function endKataLevel(isWin) {
+            if (isWin) {
+                kataScore += 150;
+                document.getElementById('kataMessage').innerHTML = '<p><i class="fas fa-trophy"></i> Selamat! Kamu berhasil menebak kata!</p>';
+                document.getElementById('kataMessage').style.color = '#f1c40f';
+                document.getElementById('kataNextBtn').style.display = 'inline-block';
+
+                // Update localStorage
+                updateKataScore();
+            } else {
+                document.getElementById('kataMessage').innerHTML = '<p><i class="fas fa-times-circle"></i> Kesempatan habis! Kata yang benar adalah: ' + currentWord + '</p>';
+                document.getElementById('kataMessage').style.color = '#e74c3c';
+                document.getElementById('kataRestartBtn').style.display = 'inline-block';
+            }
+
+            document.getElementById('kataScore').textContent = kataScore;
+
+            // Reveal all letters
+            const keys = document.querySelectorAll('.keyboard-key');
+            keys.forEach(key => key.onclick = null);
+
+            // Reveal the word
+            const wordDisplay = document.getElementById('wordDisplay');
+            wordDisplay.innerHTML = '';
+            for (let letter of currentWord) {
+                const letterSpan = document.createElement('div');
+                letterSpan.className = 'word-letter revealed';
+                letterSpan.textContent = letter;
+                wordDisplay.appendChild(letterSpan);
+            }
+        }
+
+        function updateKataScore() {
+            try {
+                let totalScore = localStorage.getItem('totalScore') ? parseInt(localStorage.getItem('totalScore')) : 0;
+                totalScore += 150;
+                localStorage.setItem('totalScore', totalScore);
+
+                let gamesPlayed = localStorage.getItem('gamesPlayed') ? parseInt(localStorage.getItem('gamesPlayed')) : 0;
+                gamesPlayed++;
+                localStorage.setItem('gamesPlayed', gamesPlayed);
+            } catch (e) {
+                console.log('Gagal menyimpan skor:', e);
+            }
+        }
+
+        function nextKataLevel() {
+            kataLevel++;
+            kataChances = 5;
+            loadKataLevel(kataLevel);
+        }
+
+        function restartKataGame() {
+            initKataGame();
+        }
+
+        function showKataResult(isWin) {
+            document.getElementById('kataFinalScore').textContent = kataScore;
+            document.getElementById('kataResultTitle').textContent = isWin ? 'Selamat! 🎉' : 'Game Selesai!';
+            document.getElementById('kataResultText').textContent = isWin ?
+                'Kamu berhasil menyelesaikan semua level tebak kata!' :
+                'Terima kasih telah bermain!';
+
+            document.querySelector('.game-info').style.display = 'none';
+            document.getElementById('kataResultContainer').style.display = 'block';
+        }
+
+        // Initialize game on load
+        document.addEventListener('DOMContentLoaded', initKataGame);
+    </script>
+</body>
+
+</html>

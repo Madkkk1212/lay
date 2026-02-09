@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special for You</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f9f7fe 0%, #fff5f7 100%);
+        }
+
+        .center-container {
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="lockedSection" class="hidden center-container">
+        <div class="locked-icon" style="font-size: 6rem; animation: float 3s ease-in-out infinite;">🤫</div>
+        <h1 class="locked-title" style="font-size: 3.5rem; color: var(--primary);">Sstt... Belum saatnya</h1>
+        <p class="locked-text" style="font-size: 1.5rem; margin-top: 20px;">Sabar ya, tunggu tanggal mainnya...</p>
+        <a href="index.html" class="back-btn" style="display: inline-flex; margin-top: 40px; text-decoration: none;">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+
+    <div id="unlockedSection" class="hidden center-container">
+        <h1 class="value-title" style="font-size: 3rem;">Will you be mine?</h1>
+        <div class="value-buttons">
+            <button class="yes-btn" onclick="handleResponse(true)">
+                YES <i class="fas fa-heart"></i>
+            </button>
+            <button class="no-btn" onclick="handleResponse(false)">
+                NO <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="responseMessage" style="margin-top: 30px; font-size: 1.5rem; font-weight: bold; min-height: 50px;">
+        </div>
+
+        <a href="index.html" class="back-btn" style="display: inline-flex; margin-top: 50px; text-decoration: none;">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const now = new Date();
+            const month = now.getMonth(); // 0 = Jan, 1 = Feb
+            const day = now.getDate();
+
+            // Lock until Feb 10 (Month 1, Day 10)
+            const isUnlocked = (month > 1) || (month === 1 && day >= 10);
+
+            if (isUnlocked) {
+                document.getElementById('unlockedSection').classList.remove('hidden');
+                createFloatingHearts();
+            } else {
+                document.getElementById('lockedSection').classList.remove('hidden');
+            }
+        });
+
+        function handleResponse(isYes) {
+            const msgDiv = document.getElementById('responseMessage');
+            if (isYes) {
+                msgDiv.textContent = "I knew it! Love you! ❤️";
+                msgDiv.style.color = "var(--primary)";
+                createConfetti();
+            } else {
+                msgDiv.textContent = "Are you sure? Try again! 😜";
+                msgDiv.style.color = "#666";
+                const btn = document.querySelector('.no-btn');
+                btn.style.transform = 'translateX(10px)';
+                setTimeout(() => btn.style.transform = 'translateX(-10px)', 100);
+                setTimeout(() => btn.style.transform = 'none', 200);
+            }
+        }
+
+        function createFloatingHearts() {
+            // Simple floating hearts
+            const container = document.body;
+            for (let i = 0; i < 15; i++) {
+                const h = document.createElement('div');
+                h.innerHTML = '❤️';
+                h.style.position = 'fixed';
+                h.style.left = Math.random() * 100 + '%';
+                h.style.bottom = '-50px';
+                h.style.fontSize = Math.random() * 20 + 20 + 'px';
+                h.style.opacity = 0.6;
+                h.style.animation = `floatUp ${Math.random() * 5 + 5}s linear infinite`;
+                h.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(h);
+            }
+
+            const style = document.createElement('style');
+            style.innerHTML = `@keyframes floatUp { to { transform: translateY(-120vh) rotate(360deg); } }`;
+            document.head.appendChild(style);
+        }
+
+        function createConfetti() {
+            const colors = ['#ff6b8b', '#ff8e53', '#ffffff', '#FFD700'];
+            for (let i = 0; i < 50; i++) {
+                const p = document.createElement('div');
+                p.style.position = 'fixed';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = '-10px';
+                p.style.width = Math.random() * 10 + 5 + 'px';
+                p.style.height = p.style.width;
+                p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                p.style.borderRadius = '50%';
+                p.style.zIndex = '9999';
+                p.style.pointerEvents = 'none';
+                document.body.appendChild(p);
+
+                const duration = Math.random() * 2000 + 1500;
+                const anim = p.animate([
+                    { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+                    { transform: `translate(${Math.random() * 200 - 100}px, 100vh) rotate(720deg)`, opacity: 0 }
+                ], {
+                    duration: duration,
+                    easing: 'cubic-bezier(0.25, 1, 0.5, 1)'
+                });
+
+                anim.onfinish = () => p.remove();
+            }
+        }
+    </script>
+</body>
+
+</html>
